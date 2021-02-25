@@ -14,6 +14,8 @@ public class Main {
         drawP.setSize(frame.getSize());
         drawP.setLocation(0, 0);
         frame.add(drawP);
+
+        Map map = new Map(new Vector2Int(10, 10));
     }
 
 }
