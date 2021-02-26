@@ -3,6 +3,10 @@ import java.util.*;
 public class Map {
     enum Tile{ empty, wall, food; }
     
+    Vector2Int size;
+
+    Tile[] map;
+
     public Map(Vector2Int size){
         this.size = size;
         map = new Tile[size.x * size.y];
@@ -20,17 +24,13 @@ public class Map {
                        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                        1, 1, 1, 1, 1, 1, 1, 1, 1, 1
                     };
-        for (int i = 0; i < mapI.Length; i++) {
-            map[i] = Tile.getValues()[mapI[i]];
+        for (int i = 0; i < mapI.length; i++) {
+            map[i] = Tile.values()[mapI[i]];
         }
 
         printMap();
     }
 
-
-    Vector2Int size;
-
-    Tile[] map;
     public void SetTile(Vector2Int pos, Tile tile){ map[pos.x + pos.y * size.x] = tile; }
     public Tile GetTile(Vector2Int pos){ return map[pos.x + pos.y * size.x]; }
     public boolean IsCol  (Vector2Int pos){ return GetTile(pos).contains(Tile.wall); }
@@ -44,10 +44,10 @@ public class Map {
     static int[] Random_Order(Random rnd) {//Generates Random Order
         int[] order = new int[4];
         ArrayList<Integer> available = Arrays.asList(0, 1, 2, 3);
-        for (int i = 0; i < order.Length; i++) {
-            int pick = rnd.NextInt(available.Count);
+        for (int i = 0; i < order.length; i++) {
+            int pick = rnd.NextInt(available.size());
             order[i] = available.get(pick);
-            available.RemoveAt(pick);
+            available.remove(pick);
         }
 
         return order;
