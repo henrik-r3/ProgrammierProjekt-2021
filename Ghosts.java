@@ -1,9 +1,10 @@
 import javax.swing.ImageIcon;
 
+import jdk.internal.vm.compiler.word.Pointer;
 import jdk.tools.jmod.Main;
 
 public class Ghosts{
-     int followrange = Main.followrange;  //-> muss in main noch deklariert werden
+    
 
     public ghostOptics(){
         Image green, blue, yellow, red;
@@ -14,40 +15,58 @@ public class Ghosts{
       //red = new ImageIcon("*/Bilder/Ghost.gif").getImage();
     }
 
-
+    int followrange = Main.followrange;  //-> muss in main noch deklariert werden
 
     public void greenGhostMovement(){
-        if(calculateDistance() < followrange ){
+        int ghostRow = 1;
+        int ghostColumn = 1;
+
+        if(calculateDistance(ghostRow, ghostColumn) < followrange ){
             huntPacman();
         } else {
-            
+
         }
     }
     public void blueGhostMovement(){
-        if(calculateDistance() < followrange ){
+        int ghostRow = 1;
+        int ghostColumn = 1;
+        if(calculateDistance(ghostRow, ghostColumn) < followrange ){
             huntPacman();
         }
 
     }
     public void yellowGhostMovement(){
-        if(calculateDistance() < followrange ){
+        int ghostRow = 1;
+        int ghostColumn = 1;
+        if(calculateDistance(ghostRow, ghostColumn) < followrange ){
             huntPacman();
         }
 
     }
     public void redGhostMovement(){
-        if(calculateDistance() < followrange ){
+        int ghostRow = 1;
+        int ghostColumn = 1;
+        if(calculateDistance(ghostRow, ghostColumn) < followrange ){
             huntPacman();
+        } else {
+            int counter = 0;
+            
+
+
         }
 
     }
 
     public void huntPacman(){
-
+        
     }
 
-    public int calculateDistance(){
+    public int calculateDistance(int ghostRow, int ghostColumn){
+        int pacmanRow = Pacman.pacmanRow;
+        int pacmanColumn = Pacman.pacmanColumn;
 
+        return Math.abs(pacmanRow - ghostRow) + Math.abs(pacmanColumn - ghostColumn);
+         
     }
 
 }

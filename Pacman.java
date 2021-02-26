@@ -5,9 +5,10 @@ import javax.swing.ImageIcon;
 
 public class Pacman implements ActionListener{
 
+    //muss aus Main class bestimmt werden
     boolean playing = true;
 
-    public pacmanOptics(){
+    public void pacmanOptics(){
         //Pacman hat 4 Bilder für jede mögliche Richtung
         Image up, down, left, right;
 
@@ -42,6 +43,11 @@ public class Pacman implements ActionListener{
             }
 
         }
+    }
+
+    public void pacmanPosition(){
+        int pacmanRow = 0;
+        int pacmanColumn = 0;
     }
 
 }
