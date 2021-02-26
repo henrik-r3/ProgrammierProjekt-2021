@@ -7,19 +7,20 @@ import javax.swing.ImageIcon;
 public class Pacman implements ActionListener{
 
                             
-    boolean playing = true; //muss aus Main class bestimmt werden
+    boolean playing; //muss aus Main class bestimmt werden
+    String direction; //Speichert die Richtung, in die sich der Pacman bewegt
+    Image imgup, imgdown, imgleft, imgright;  //Pacman hat 4 Bilder für jede mögliche Richtung
+    Vector2Int position = new Vector2Int(); //Position des Pacman
 
     public void pacmanOptics(){
-        //Pacman hat 4 Bilder für jede mögliche Richtung
         //Hier werden die 4 Bilder geladen
-        Image pacup = new ImageIcon("*/Bilder/PacUp.gif").getImage();
-        Image pacdown = new ImageIcon("*/Bilder/PacDown.gif").getImage();
-        Image pacleft = new ImageIcon("*/Bilder/PacLeft.gif").getImage();
-        Image pacright = new ImageIcon("*/Bilder/PacRight.gif").getImage();
+         imgup = new ImageIcon("*/Bilder/PacUp.gif").getImage();
+         imgdown = new ImageIcon("*/Bilder/PacDown.gif").getImage();
+         imgleft = new ImageIcon("*/Bilder/PacLeft.gif").getImage();
+         imgright = new ImageIcon("*/Bilder/PacRight.gif").getImage();
     }
 
-    String pacdirection = "";
-    public class PacmanMovement extends KeyAdapter{
+    public class Movement extends KeyAdapter{
         //Wenn eine Taste gedrückt wird...
         public void keypressed(KeyEvent e){
             //... wird geguckt, welche Taste dies war...
@@ -28,13 +29,13 @@ public class Pacman implements ActionListener{
             if(playing){
                 //...bei passenden Tasten eine Aktion vorgenommen.
                 if(key == KeyEvent.VK_UP){
-                    pacdirection = "up";  
+                    direction = "up";  
                 }else if(key == KeyEvent.VK_DOWN){
-                    pacdirection = "down";     
+                    direction = "down";     
                 }else if(key == KeyEvent.VK_LEFT){
-                    pacdirection = "left";     
+                    direction = "left";     
                 }else if(key == KeyEvent.VK_RIGHT){
-                    pacdirection = "right"; 
+                    direction = "right"; 
                 }else if(key == KeyEvent.VK_ESCAPE){
                     //Stop the timer
                 }
@@ -42,16 +43,19 @@ public class Pacman implements ActionListener{
         }
 
     }
+    //Soll den PAcman zeichnen
     public void drawPacman(Graphics2D g2d){
-        if(pacdirection.equals("down")){
-            g2d.drawImage(pacDown, op, x, y);
+        if(direction.equals("down")){
+            g2d.drawImage(imgdown, position.x, position.y - 1, this);
+        }else if(direction.equals("up")){
+            g2d.drawImage(imgup, position.x, position.y + 1, this);
+        }else if(direction.equals("left")){
+            g2.drawImage(imgleft, position.x -1, position.y, this);
+        }else if(direction.equals("right")){
+            g2d.drawImage(imgright, position.x + 1, position.y, this);
         }
 
     }
 
-    public void pacmanPosition(){
-        int pacmanRow = 0;
-        int pacmanColumn = 0;
-    }
 
 }

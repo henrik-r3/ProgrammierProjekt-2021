@@ -62,8 +62,8 @@ public class Ghosts{
     }
 
     public int calculateDistance(int ghostRow, int ghostColumn){
-        int pacmanRow = Pacman.pacmanRow;
-        int pacmanColumn = Pacman.pacmanColumn;
+        Vector2Int pacmanRow = Pacman.pacmanposition.get
+
 
         return Math.abs(pacmanRow - ghostRow) + Math.abs(pacmanColumn - ghostColumn);
          
