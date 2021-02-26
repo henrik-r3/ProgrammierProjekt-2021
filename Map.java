@@ -7,6 +7,23 @@ public class Map {
         this.size = size;
         map = new Tile[size.x * size.y];
         //TODO generate map
+        
+        //TEST
+        int[] mapI = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+                       1, 0, 2, 2, 0, 0, 0, 0, 0, 1
+                       1, 0, 2, 2, 0, 0, 0, 0, 0, 1
+                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1
+                    };
+        for (int i = 0; i < mapI.Length; i++) {
+            map[i] = Tile.getValues()[mapI[i]];
+        }
+
         printMap();
     }
 
