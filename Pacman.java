@@ -8,16 +8,16 @@ import javax.swing.ImageIcon;
 public class Pacman implements ActionListener{
 
     private boolean playing; //muss aus Main class bestimmt werden
-    private String direction; //Speichert die Richtung, in die sich der Pacman bewegt
+    private Vector2Int direction; //Speichert die Richtung, in die sich der Pacman bewegt
     private Image imgup, imgdown, imgleft, imgright;  //Pacman hat 4 Bilder für jede mögliche Richtung
-    private Vector2Int position = new Vector2Int(x, y); //Position des Pacman
-    private Vector2Int startposition = new Vector2Int(x, y);
+    private Vector2Int position = new Vector2Int(); //Position des Pacman
+    private Vector2Int startposition = new Vector2Int();
     private int remaininglives;
 
     public void Pacman1(int startx, int starty, int lives){
         this.position.x = this.startposition.x = startx;
         this.position.y = this.startposition.y = starty;
-        this.direction = "down";
+        this.direction = Vector2Int.down;
         this.remaininglives = lives;
         this.imgup = new ImageIcon("*/Bilder/PacUp.gif").getImage();
         this.imgdown = new ImageIcon("*/Bilder/PacDown.gif").getImage();
@@ -30,13 +30,13 @@ public class Pacman implements ActionListener{
             int key = e.getKeyCode(); 
             if(playing){
                 if(key == KeyEvent.VK_UP){
-                    this.direction = "up";
+                    this.direction = Vector2Int.up;
                 }else if(key == KeyEvent.VK_DOWN){
-                    this.direction = "down";     
+                    this.direction = Vector2Int.down;     
                 }else if(key == KeyEvent.VK_LEFT){
-                    this.direction = "left";     
+                    this.direction = Vector2Int.left;     
                 }else if(key == KeyEvent.VK_RIGHT){
-                    this.direction = "right"; 
+                    this.direction = Vector2Int.right; 
                 }else if(key == KeyEvent.VK_ESCAPE){
                     //Stop the timer, der muss noch implementiert werden
                 }
@@ -46,14 +46,8 @@ public class Pacman implements ActionListener{
 
     public void calculatePosition(){
         if(playing){
-            if(this.direction.equals("down") && this.position.y + 1 != Map.Tile.wall){
-                this.position.y++;
-            }else if(this.direction.equals("up") && this.position.y - 1 != Map.Tile.wall){
-                this.position.y--;
-            }else if(this.direction.equals("right") && this.position.x + 1 != Map.Tile.wall){
-                this.position.x++;
-            }else if(this.direction.equals("left") && this.position.x - 1 != Map.Tile.wall){
-                this.position.x--;
+            if(!Map.instance.IsCol(position.Add(direction))){
+                position = position.Add(direction);
             }
             drawPacman();
         }
@@ -61,13 +55,13 @@ public class Pacman implements ActionListener{
 
     public void drawPacman(){
         Graphics g = new Graphics();
-        if(direction.equals("down")){
+        if(this.direction.equals(Vector2Int.down)){
             g.drawImage(this.imgdown, this.position.x, this.position.y, null);
-        }else if(this.direction.equals("up")){
+        }else if(this.direction.equals(Vector2Int.up)){
             g.drawImage(this.imgup, this.position.x, this.position.y, null);
-        }else if(this.direction.equals("left")){
+        }else if(this.direction.equals(Vector2Int.left)){
             g.drawImage(this.imgleft, this.position.x, this.position.y, null);
-        }else if(this.direction.equals("right")){
+        }else if(this.direction.equals(Vector2Int.right)){
             g.drawImage(this.imgright, this.position.x, this.position.y, null);
         }
     }
