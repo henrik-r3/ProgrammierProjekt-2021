@@ -1,8 +1,7 @@
 
 import java.awt.Graphics;
-import java.util.Random;
-
 import javax.swing.ImageIcon;
+
 
 
 public class Ghosts{
@@ -59,18 +58,16 @@ public class Ghosts{
 
     public Vector2Int greenGhostMovement(Vector2Int oldposition){
         int rand = 0;
-        int possibilities = 0;
+        int possibilities = determinepossiblities(oldposition);
 
         if(this.direction.equals(Vector2Int.down)){
-           possibilities = determinepossiblities(oldposition); 
+
 
            if(possibilities == 0){
                this.direction = Vector2Int.up;
-               oldposition.Add(direction);
-               
+
            }else if(possibilities == 1){
                 this.direction = Vector2Int.down;
-                oldposition.Add(direction);
 
            }else if(possibilities == 2){
                 rand = (int) (Math.Random() * possibilities - 1);
@@ -83,50 +80,216 @@ public class Ghosts{
                         this.direction = Vector2Int.left;
                     }
                 }
-                oldposition = oldposition.Add(this.direction);
 
            }else if(possibilities == 3){
                 rand = (int) (Math.Random() * possibilities - 1);
                 if(rand == 0){
                     this.direction = Vector2Int.down;
-                    oldposition = oldposition.Add(this.direction);
                 }else if(rand == 1){
                     this.direction = Vector2Int.right;
-                    oldposition = oldposition.Add(this.direction);
+                }else if(rand == 2){
+                    this.direction = Vector2Int.left;
                 }
 
            }
         }   
 
+
         if(this.direction.equals(Vector2Int.up)){
+            
+           if(possibilities == 0){
+                this.direction = Vector2Int.down;
 
+            }else if(possibilities == 1){
+                this.direction = Vector2Int.up;
+
+            }else if(possibilities == 2){
+                rand = (int) (Math.Random() * possibilities - 1);
+                if(rand == 0){
+                 this.direction = Vector2Int.up;
+                }else if(rand == 1){
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                     this.direction = Vector2Int.right;
+                    }else{
+                     this.direction = Vector2Int.left;
+                    }
+                }
+
+            }else if(possibilities == 3){
+                rand = (int) (Math.Random() * possibilities - 1);
+                if(rand == 0){
+                 this.direction = Vector2Int.up;
+                }else if(rand == 1){
+                 this.direction = Vector2Int.right;
+                }else if(rand == 2){
+                 this.direction = Vector2Int.left;
+                }
+
+            }   
         }
-        if(this.direction.equals(Vector2Int.left)){
 
+
+        if(this.direction.equals(Vector2Int.left)){
+            if(possibilities == 0){
+                this.direction = Vector2Int.right;
+
+            }else if(possibilities == 1){
+                this.direction = Vector2Int.left;
+
+            }else if(possibilities == 2){
+                rand = (int) (Math.Random() * possibilities - 1);
+                if(rand == 0){
+                 this.direction = Vector2Int.left;
+                }else if(rand == 1){
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                     this.direction = Vector2Int.up;
+                    }else{
+                     this.direction = Vector2Int.down;
+                    }
+                }
+
+            }else if(possibilities == 3){
+                rand = (int) (Math.Random() * possibilities - 1);
+                if(rand == 0){
+                 this.direction = Vector2Int.left;
+                }else if(rand == 1){
+                 this.direction = Vector2Int.up;
+                }else if(rand == 2){
+                 this.direction = Vector2Int.down;
+                }
+
+            }
         }
         if(this.direction.equals(Vector2Int.right)){
+            if(possibilities == 0){
+                this.direction = Vector2Int.left;
 
+            }else if(possibilities == 1){
+                this.direction = Vector2Int.right;
+
+            }else if(possibilities == 2){
+                rand = (int) (Math.Random() * possibilities - 1);
+                if(rand == 0){
+                 this.direction = Vector2Int.right;
+                }else if(rand == 1){
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                     this.direction = Vector2Int.up;
+                    }else{
+                     this.direction = Vector2Int.down;
+                    }
+                }
+
+            }else if(possibilities == 3){
+                rand = (int) (Math.Random() * possibilities - 1);
+                if(rand == 0){
+                 this.direction = Vector2Int.right;
+                }else if(rand == 1){
+                 this.direction = Vector2Int.up;
+                }else if(rand == 2){
+                 this.direction = Vector2Int.down;
+                }
+
+            }
         }
 
+        oldposition = oldposition.Add(direction);
         return oldposition;
     }
     
-    /*public Vector2Int yellowGhostMovement(Vector2Int oldposition){
-        Vector2Int newPosition = new Vector2Int(oldposition);
+    public Vector2Int yellowGhostMovement(Vector2Int oldposition){
+        int rnd;
+        int possibilities = determinepossiblities(oldposition); 
 
-        //Algortithmus der Geister muss noch erstellt werden
+        if (this.direction == Vector2Int.down){
+            if(Map.instance.IsCol(this.position.Add(this.direction))){
+                if(possibilities == 0){
+                    direction = Vector2Int.up;   
+                }else{
+                    rnd = (int) (Math.random()* (possibilities - 1));                    
+                    if(rnd == 0){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                            direction = Vector2Int.right;
+                        }else{
+                            direction = Vector2Int.left;
+                        }
+                    }else{
+                        direction = Vector2Int.left;
+                    }
+                    
+                }
+            }
 
-        return newPosition;
+
+        }else if (this.direction == Vector2Int.up){
+            if(Map.instance.IsCol(this.position.Add(this.direction))){
+                if(possibilities == 0){
+                    direction = Vector2Int.down;   
+                }else{
+                    rnd = (int) (Math.random()* (possibilities - 1));                    
+                    if(rnd == 0){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                            direction = Vector2Int.right;
+                        }else{
+                            direction = Vector2Int.left;
+                        }
+                    }else{
+                        direction = Vector2Int.left;
+                    }
+                    
+                }
+            }
+            
+
+        }else if (this.direction == Vector2Int.left){
+            if(Map.instance.IsCol(this.position.Add(this.direction))){
+                if(possibilities == 0){
+                    direction = Vector2Int.right;   
+                }else{
+                    rnd = (int) (Math.random()* (possibilities - 1));                    
+                    if(rnd == 0){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                            direction = Vector2Int.up;
+                        }else{
+                            direction = Vector2Int.down;
+                        }
+                    }else{
+                        direction = Vector2Int.down;
+                    }
+                    
+                }
+            }
+
+
+        }else if (this.direction == Vector2Int.right){
+            if(Map.instance.IsCol(this.position.Add(this.direction))){
+                if(possibilities == 0){
+                    direction = Vector2Int.left;   
+                }else{
+                    rnd = (int) (Math.random()* (possibilities - 1));                    
+                    if(rnd == 0){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                            direction = Vector2Int.up;
+                        }else{
+                            direction = Vector2Int.down;
+                        }
+                    }else{
+                        direction = Vector2Int.down;
+                    }
+                    
+                }
+            }
+        }
+
+        oldposition = oldposition.Add(direction);
+        return oldposition;
     }
 
     public Vector2Int redGhostMovement(Vector2Int oldposition){
-        Vector2Int newPosition = new Vector2Int(oldposition);
 
-        //Algortithmus der Geister muss noch erstellt werden
+        oldposition = huntPacman(oldposition.x, oldposition.y, this.color);
 
-        return newPosition;
+        return oldposition;
     }
-*/
     
     public int determinepossiblities(Vector2Int currentposition){
         int possibilities = 0;
@@ -178,7 +341,7 @@ public class Ghosts{
             }else if(color == 1){
                 ghostposition = yellowGhostMovement(ghostposition);
             }else if(color == 2){
-                ghostposition = redGhostMovement(ghostposition);
+                ghostposition = greenGhostMovement(ghostposition);
             }
         }
         return ghostposition;
@@ -197,6 +360,11 @@ public class Ghosts{
     public void gameactive(boolean isplaying){
 
         playing = isplaying;
+    }
+
+    public int getnumberGhosts(){
+
+        return numberGhosts;
     }
 
 }
