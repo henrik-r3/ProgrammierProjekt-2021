@@ -63,12 +63,15 @@ public class Ghosts{
 
         if(this.direction.equals(Vector2Int.down)){
            possibilities = determinepossiblities(oldposition); 
+
            if(possibilities == 0){
                this.direction = Vector2Int.up;
                oldposition.Add(direction);
+               
            }else if(possibilities == 1){
                 this.direction = Vector2Int.down;
                 oldposition.Add(direction);
+
            }else if(possibilities == 2){
                 rand = (int) (Math.Random() * possibilities - 1);
                 if(rand == 0){
@@ -81,6 +84,7 @@ public class Ghosts{
                     }
                 }
                 oldposition = oldposition.Add(this.direction);
+
            }else if(possibilities == 3){
                 rand = (int) (Math.Random() * possibilities - 1);
                 if(rand == 0){
@@ -88,16 +92,19 @@ public class Ghosts{
                     oldposition = oldposition.Add(this.direction);
                 }else if(rand == 1){
                     this.direction = Vector2Int.right;
-                    oldposition = oldposition
+                    oldposition = oldposition.Add(this.direction);
                 }
 
            }
+        }   
 
-        }else if(this.direction.equals(Vector2Int.up)){
+        if(this.direction.equals(Vector2Int.up)){
 
-        }else if(this.direction.equals(Vector2Int.left)){
+        }
+        if(this.direction.equals(Vector2Int.left)){
 
-        }else if(this.direction.equals(Vector2Int.right)){
+        }
+        if(this.direction.equals(Vector2Int.right)){
 
         }
 
