@@ -1,3 +1,4 @@
+
 import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 import jdk.tools.jmod.Main;
@@ -36,16 +37,17 @@ public class Ghosts{
             if(calculateDistance(this.position.x, this.position.y) < 2 ){
                 caught = true;
             }else if(calculateDistance(this.position.x, this.position.y) <= followrange){
-                huntPacman(this.position.x, this.position.y);
+                this.position = huntPacman(this.position.x, this.position.y);
+                drawGhosts(this.skin, this.position.x, this.position.y);
             }else{
                 if(this.color == 0){
                     this.position = greenGhostMovement(posiion.x, position.y);
                     drawGhosts(this.skin, this.position.x, this.position.y);
                 }else if(this.color == 1){
-                    yellowGhostMovement();
+                    this.position = yellowGhostMovement(position.x, position.y);
                     drawGhosts(this.skin, this.position.x, this.position.y);
-                }else if(this.color = 2){
-                    redGhostMovement();
+                }else if(this.color == 2){
+                    this.position = redGhostMovement(position.x, position.y);
                     drawGhosts(this.skin, this.position.x, this.position.y);
                 }    
             }
@@ -58,31 +60,51 @@ public class Ghosts{
         return newPosition;
     }
     
-    public void yellowGhostMovement(){
+    public Vector2Int yellowGhostMovement(int posx, int posy){
+        Vector2Int newPosition = new Vector2Int(posx, posy);
 
+        return newPosition;
     }
-    public void redGhostMovement(){
 
-     
+    public Vector2Int redGhostMovement(int posx, int posy){
+        Vector2Int newPosition = new Vector2Int(posx, posy);
+
+        return newPosition;
     }
 
     public void drawGhosts(Image skinImage, int posx, int posy){
 
         g2d.drawImage(skinImage,posx, posy);
-
     }
 
-    public int calculateDistance(int row, int column){
+    public int calculateDistance(int column, int row){
 
+        Vector2Int ghostposition = new Vector2Int(column, row);
         Vector2Int pacmanposition = new Vector2Int(Pacman.x, Pacman.y);
 
-        return Math.abs(packmanposition.x - row) + Math.abs(pacmanposition.y - column);
-         
+        return Math.abs(packmanposition.x - ghostposition.x) + Math.abs(pacmanposition.y - ghostposition.y);         
     }
 
-    public void huntPacman(int ghostx, int ghosty){
-    
+    public Vector2Int huntPacman(int ghostx, int ghosty){
+        Vector2Int newPosition = new Vector2Int(ghostx, ghosty);
             //Algorithmus zur Berechnung des Wegs zum Pacman  !!!! -> nur für den Roten, der dann die ganze Zeit folgt??? der Rest maht einfach sein Ding?
+
+        return newPosition;
+    }
+
+    public boolean hasbeencaught(){
+
+        if(caught){
+            caught = false;
+            return true;
+        } else{
+            return caught;
+        }
+    }
+
+    public void gameactive(boolean isplaying){
+
+        playing = isplaying;
     }
 
 }
