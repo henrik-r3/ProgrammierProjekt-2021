@@ -30,7 +30,7 @@ public class Game{
         while(run) {
             long deltaTime = lastTime - System.currentTimeMillis();
             lastTime += deltaTime;
-
+                                                    // Hier fehlen Klammern bei den for-Loops, außerdem ist die while loop endless, weshalb es einen Error gibt -> wann ist run = false?
             //Update all GameObjects
             for(int g = gameObjects.size()-1; g >= 0; g--)//loop runs backwards to prevent error on deletion
                 gameObjects.get(g).Update(deltaTime);
