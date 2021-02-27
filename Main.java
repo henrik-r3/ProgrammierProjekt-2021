@@ -17,6 +17,5 @@ public class Main {
 
         Map map = new Map(new Vector2Int(10, 10));
     }
-
-   
+    
 }
