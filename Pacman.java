@@ -14,7 +14,7 @@ public class Pacman implements ActionListener{
     private Vector2Int startposition = new Vector2Int();
     private int remaininglives;
 
-    public void Pacman1(int startx, int starty, int lives){
+    public Pacman(int startx, int starty, int lives){
         this.position.x = this.startposition.x = startx;
         this.position.y = this.startposition.y = starty;
         this.direction = Vector2Int.down;
