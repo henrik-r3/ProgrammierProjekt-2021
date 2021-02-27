@@ -14,7 +14,8 @@ public class Main {
         drawP.setLocation(0, 0);
         frame.add(drawP);
 
-        new Map(new Vector2Int(10, 10));
+        GameObject[] initGOs = {};
+        Game game = new Game(frame, initGOs);
     }
     
 }

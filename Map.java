@@ -58,7 +58,11 @@ public class Map {
     }
 
     void generateMap() {
-        //generate main loop
+        ArrayList<Vector2Int> loop;
+        boolean closed = false;
+        while(!closed){
+
+        }
         //generate connections within
     }
 
