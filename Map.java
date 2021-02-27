@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Map {
-    public static instance;
+    public static Map instance;
     
     enum Tile{ empty, wall, food; }
     
@@ -57,7 +57,11 @@ public class Map {
         return order;
     }
 
-    
+    void generateMap() {
+        //generate main loop
+        //generate connections within
+    }
+
 
     public void printMap(){
         for(int x = 0; x < size.x; x++){
