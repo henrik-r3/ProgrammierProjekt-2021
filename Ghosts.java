@@ -1,5 +1,7 @@
 
 import java.awt.Graphics;
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 
 
@@ -63,9 +65,32 @@ public class Ghosts{
            possibilities = determinepossiblities(oldposition); 
            if(possibilities == 0){
                this.direction = Vector2Int.up;
-               oldposition.add(direction);
+               oldposition.Add(direction);
            }else if(possibilities == 1){
-                
+                this.direction = Vector2Int.down;
+                oldposition.Add(direction);
+           }else if(possibilities == 2){
+                rand = (int) (Math.Random() * possibilities - 1);
+                if(rand == 0){
+                    this.direction = Vector2Int.down;
+                }else if(rand == 1){
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                        this.direction = Vector2Int.right;
+                    }else{
+                        this.direction = Vector2Int.left;
+                    }
+                }
+                oldposition = oldposition.Add(this.direction);
+           }else if(possibilities == 3){
+                rand = (int) (Math.Random() * possibilities - 1);
+                if(rand == 0){
+                    this.direction = Vector2Int.down;
+                    oldposition = oldposition.Add(this.direction);
+                }else if(rand == 1){
+                    this.direction = Vector2Int.right;
+                    oldposition = oldposition
+                }
+
            }
 
         }else if(this.direction.equals(Vector2Int.up)){
@@ -99,20 +124,20 @@ public class Ghosts{
     public int determinepossiblities(Vector2Int currentposition){
         int possibilities = 0;
         
-        if(!Map.instance.IsCol(currentposition.add(Vector2Int.down))){
+        if(!Map.instance.IsCol(currentposition.Add(Vector2Int.down))){
             possibilities++;
         }
-        if(!Map.instance.IsCol(currentposition.add(Vector2Int.up))){
+        if(!Map.instance.IsCol(currentposition.Add(Vector2Int.up))){
             possibilities++;
         }
-        if(!Map.instance.IsCol(currentposition.add(Vector2Int.left))){
+        if(!Map.instance.IsCol(currentposition.Add(Vector2Int.left))){
             possibilities++;
         }
-        if(!Map.instance.IsCol(currentposition.add(Vector2Int.right))){
+        if(!Map.instance.IsCol(currentposition.Add(Vector2Int.right))){
             possibilities++;
         }
 
-        return possibilities -1;
+        return possibilities - 1;
     }
 
     public void drawGhosts(Image skinImage, int posx, int posy){
