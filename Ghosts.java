@@ -1,77 +1,88 @@
 import java.awt.Graphics2D;
-
 import javax.swing.ImageIcon;
-import jdk.internal.vm.compiler.word.Pointer;
 import jdk.tools.jmod.Main;
 
 
 public class Ghosts{
 
-    boolean playing; //muss aus Main class bestimmt werden 
-    String direction; //Speichert die Richtung, in die sich der Geist bewegt
-    Image green, yellow, red;  //Pacman hat 4 Bilder für jede mögliche Richtung
-    int numberGhosts = 3; //Jetzt statisch, muss wenn varibel aus der main class bestimmt werden
-    Vector2Int positiongreen = new Vector2Int(x, y);
-    Vector2Int positionyellow = new Vector2Int(x, y); //Position der einzelnen Geister
-    Vector2Int positionred = new Vector2Int(x, y);
-    int followrange = Main.followrange;  //-> muss in main noch deklariert werden
-    
-    public void optics(){
-        //Farben für die 3 unterschiedlichen Geister     
-        green = new ImageIcon("*/Bilder/greenGhost.gif").getImage();      // Farben müssen noch erstellt werden
-        yellow = new ImageIcon("*/Bilder/yellowGhost.gif").getImage();
-        red = new ImageIcon("*/Bilder/redGhost.gif").getImage();
+    private boolean playing; //muss aus Main class bestimmt werden 
+    private boolean caught = false; //ob Ghost PAcman berühert hat
+    private String direction; //Speichert die Richtung, in die sich der Geist bewegt
+    private Image skin;  //Geister haben 3 Bilder für jede mögliche Farbe 0 = grün, 1 = gelb, 2 = rot; --> FArben müssen noch erstellt werden
+    private short color;
+    private int numberGhosts = 0; //Jetzt statisch, muss wenn varibel aus der main class bestimmt werden
+    private Vector2Int position = new Vector2Int(x, y); //Position der einzelnen Geister
+    private int followrange = Main.followrange;  //-> muss in main noch deklariert werden
+
+    public void Ghost(int startx, int starty, int range, int colorselected ){
+       this.position.x = startx;
+       this.position.y = starty;
+       this.followrange = range;
+       if(colorselected == 0){
+           this.skin = new ImageIcon("*/Bilder/greenGhost.gif").getImage();
+           color = 0;
+       }else if(colorselected == 1){
+           this.skin = new ImageIcon("*/Bilder/yellowGhost.gif").getImage();
+           color = 1;
+       }else if(colorselected == 2){
+           this.skin = new ImageIcon("*/Bilder/redGhost.gif").getImage();
+           color = 2;
+       }
+       numberGhosts += 1;
     }
 
-    public void greenGhostMovement(){
-        positiongreen.x = 0;
-        positiongreen.y = 0;
-
-        if(calculateDistance(positiongreen.x, positiongreen.y) < followrange ){
-            huntPacman();
-        } else {
-
+    public void selectGhostmovement(){
+        if(playing){
+            if(calculateDistance(this.position.x, this.position.y) < 2 ){
+                caught = true;
+            }else if(calculateDistance(this.position.x, this.position.y) <= followrange){
+                huntPacman(this.position.x, this.position.y);
+            }else{
+                if(this.color == 0){
+                    this.position = greenGhostMovement(posiion.x, position.y);
+                    drawGhosts(this.skin, this.position.x, this.position.y);
+                }else if(this.color == 1){
+                    yellowGhostMovement();
+                    drawGhosts(this.skin, this.position.x, this.position.y);
+                }else if(this.color = 2){
+                    redGhostMovement();
+                    drawGhosts(this.skin, this.position.x, this.position.y);
+                }    
+            }
         }
+    }
+
+    public Vector2Int greenGhostMovement(int posx, int posy){
+        Vector2Int newPosition = new Vector2Int(posx, posy);
+
+        return newPosition;
     }
     
     public void yellowGhostMovement(){
-        int ghostRow = 1;
-        int ghostColumn = 1;
-        if(calculateDistance(ghostRow, ghostColumn) < followrange ){
-            huntPacman();
-        }
 
     }
     public void redGhostMovement(){
-        int ghostRow = 1;
-        int ghostColumn = 1;
-        if(calculateDistance(ghostRow, ghostColumn) < 2 ){
-            huntPacman();
-        } else {
-            int counter = 0;
-            
-        }
 
+     
     }
 
-    public void drawGhosts(Graphics2D g2d){
+    public void drawGhosts(Image skinImage, int posx, int posy){
 
-        g2d.drawImage(green,positiongreen.x, positiongreen.y);
-        g2d.drawImage(yellow, positionyellow.x, positionyellow.y);
-        g2d.drawImage(red, positionred.x, positionrerd.y);
+        g2d.drawImage(skinImage,posx, posy);
 
-    }
-
-    public void huntPacman(){
-    
-            //Algorithmus zur Berechnung des Wegs zum Pacman  !!!! -> nur für den Roten, der dann die ganze Zeit folgt??? der Rest maht einfach sein Ding?
     }
 
     public int calculateDistance(int row, int column){
+
         Vector2Int pacmanposition = new Vector2Int(Pacman.x, Pacman.y);
 
         return Math.abs(packmanposition.x - row) + Math.abs(pacmanposition.y - column);
          
+    }
+
+    public void huntPacman(int ghostx, int ghosty){
+    
+            //Algorithmus zur Berechnung des Wegs zum Pacman  !!!! -> nur für den Roten, der dann die ganze Zeit folgt??? der Rest maht einfach sein Ding?
     }
 
 }
