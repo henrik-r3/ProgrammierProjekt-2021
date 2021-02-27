@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 //Handles GameObjects, causes Updates and Runs the Game in general (e.g. Pausing, etc.)
 public class Game{
+    public static Game instance;
 
     JFrame frame;
 
@@ -13,6 +14,7 @@ public class Game{
 
     public Game(JFrame frame, GameObject[] initialGameObjects){
         //INIT -------------------------------------------------
+        instance = this;
         this.frame = frame;
         gameObjects = new ArrayList<GameObject>(Arrays.asList(initialGameObjects));//add initial GameObjects
 
@@ -35,6 +37,10 @@ public class Game{
 
             frame.repaint();
         }
+    }
+
+    public void RemoveGO(GameObject go){
+        gameObjects.remove(go);
     }
 
 }
