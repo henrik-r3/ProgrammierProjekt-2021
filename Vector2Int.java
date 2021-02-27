@@ -24,4 +24,9 @@ public class Vector2Int {
     public String toString() {
         return "(" + x + " ; " + y + ")";
     }
+
+    @Override
+    public boolean equals(Vector2Int other){
+        return (x == other.x) && (y == other.y);
+    }
 }
