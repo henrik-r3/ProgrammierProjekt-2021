@@ -1,6 +1,8 @@
 import java.util.*;
 
 public class Map {
+    public static instance;
+    
     enum Tile{ empty, wall, food; }
     
     Vector2Int size;
@@ -29,6 +31,8 @@ public class Map {
         }
 
         printMap();
+
+        instance = this;
     }
 
     public void SetTile(Vector2Int pos, Tile tile){ map[pos.x + pos.y * size.x] = tile; }

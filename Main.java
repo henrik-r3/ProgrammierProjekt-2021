@@ -1,9 +1,6 @@
 import javax.swing.*;
 
 public class Main {
-    
-    public static map;
-
     public static void main(String[] args) {
         JFrame frame = new JFrame("advanced Pacman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -17,7 +14,7 @@ public class Main {
         drawP.setLocation(0, 0);
         frame.add(drawP);
 
-        map = new Map(new Vector2Int(10, 10));
+        new Map(new Vector2Int(10, 10));
     }
     
 }
