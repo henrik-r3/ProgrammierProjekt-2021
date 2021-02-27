@@ -45,16 +45,18 @@ public class Pacman implements ActionListener{
     }
 
     public void calculatePosition(){
-        if(this.direction.equals("down") && this.position.y + 1 != Map.Tile.wall){
-            this.position.y++;
-        }else if(this.direction.equals("up") && this.position.y - 1 != Map.Tile.wall){
-            this.position.y--;
-        }else if(this.direction.equals("right") && this.position.x + 1 != Map.Tile.wall){
-            this.position.x++;
-        }else if(this.direction.equals("left") && this.position.x - 1 != Map.Tile.wall){
-            this.position.x--;
+        if(playing){
+            if(this.direction.equals("down") && this.position.y + 1 != Map.Tile.wall){
+                this.position.y++;
+            }else if(this.direction.equals("up") && this.position.y - 1 != Map.Tile.wall){
+                this.position.y--;
+            }else if(this.direction.equals("right") && this.position.x + 1 != Map.Tile.wall){
+                this.position.x++;
+            }else if(this.direction.equals("left") && this.position.x - 1 != Map.Tile.wall){
+                this.position.x--;
+            }
+            drawPacman();
         }
-        drawPacman();
     }
 
     public void drawPacman(){
@@ -102,9 +104,8 @@ public class Pacman implements ActionListener{
         return this.position;
     }
 
-    public void setDirection(String newdirection){
+    public void gameactive(boolean isplaying){
 
-        this.direction = newdirection;
+        playing = isplaying;
     }
-
 }
