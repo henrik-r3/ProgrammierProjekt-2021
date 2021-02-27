@@ -1,76 +1,99 @@
+
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 
-
 public class Pacman implements ActionListener{
 
-                            
-    boolean playing; //muss aus Main class bestimmt werden
-    String direction; //Speichert die Richtung, in die sich der Pacman bewegt
-    Image imgup, imgdown, imgleft, imgright;  //Pacman hat 4 Bilder für jede mögliche Richtung
-    Vector2Int position = new Vector2Int(x, y); //Position des Pacman
+    private boolean playing; //muss aus Main class bestimmt werden
+    private String direction; //Speichert die Richtung, in die sich der Pacman bewegt
+    private Image imgup, imgdown, imgleft, imgright;  //Pacman hat 4 Bilder für jede mögliche Richtung
+    private Vector2Int position = new Vector2Int(x, y); //Position des Pacman
+    private int remaininglives;
 
+    public void Pacman1(int startx, int starty, int lives){
+        this.position.x = startx;
+        this.position.y = starty;
+        this.direction = "down";
+        this.remaininglives = lives;
+    }
 
     public void optics(){
         //Hier werden die 4 Bilder geladen
          imgup = new ImageIcon("*/Bilder/PacUp.gif").getImage();
          imgdown = new ImageIcon("*/Bilder/PacDown.gif").getImage();
          imgleft = new ImageIcon("*/Bilder/PacLeft.gif").getImage();
-         imgright = new ImageIcon("*/Bilder/PacRight.gif").getImage();
-         
+         imgright = new ImageIcon("*/Bilder/PacRight.gif").getImage();      
     }
 
     public class Movement extends KeyAdapter{
-        //Wenn eine Taste gedrückt wird...
         public void keypressed(KeyEvent e){
-            //... wird geguckt, welche Taste dies war...
-            int key = e.getKeyCode();
-            //....und wenn man spielt...    
+            int key = e.getKeyCode(); 
             if(playing){
-                //...bei passenden Tasten eine Aktion vorgenommen.
                 if(key == KeyEvent.VK_UP){
-                    direction = "up";  
+                    this.direction = "up";  
                 }else if(key == KeyEvent.VK_DOWN){
-                    direction = "down";     
+                    this.direction = "down";     
                 }else if(key == KeyEvent.VK_LEFT){
-                    direction = "left";     
+                    this.direction = "left";     
                 }else if(key == KeyEvent.VK_RIGHT){
-                    direction = "right"; 
+                    this.direction = "right"; 
                 }else if(key == KeyEvent.VK_ESCAPE){
-                    //Stop the timer
+                    //Stop the timer, der muss noch implementiert werden
                 }
             }
         }
-
     }
-    //Soll den PAcman zeichnen
-    public void drawPacman(Graphics2D g2d){
+
+    public void drawPacman(){
+        Graphics g = new Graphics();
         if(direction.equals("down")){
-            g2d.drawImage(imgdown, position.x, position.y - 1, this);
+            g.drawImage(imgdown, position.x, position.y - 1, this);
         }else if(direction.equals("up")){
-            g2d.drawImage(imgup, position.x, position.y + 1, this);
+            g.drawImage(imgup, position.x, position.y + 1, this);
         }else if(direction.equals("left")){
-            g2d.drawImage(imgleft, position.x -1, position.y, this);
+            g.drawImage(imgleft, position.x -1, position.y, this);
         }else if(direction.equals("right")){
-            g2d.drawImage(imgright, position.x + 1, position.y, this);
+            g.drawImage(imgright, position.x + 1, position.y, this);
         }
         int x = position.x;
         int y = position.y;
     }
 
-    public void lives(Graphics2D g2d){
+    public void calculatelives(){
+
+        Boolean caught = Ghosts.hasbeencaught;
+        if(caught){
+
+            this.remaininglives--;
+        }
+        if(this.remaininglives < 1){
+            //stop timer, Score screen
+        }else{
+            drawlives();
+        }
+    }
+
+    public void drawlives(){
 
         Image heart = new ImageIcon("*/Bilder/Heart.png").getImage();
-        int lives; //aus MAin bestimmen
     
-        for(int i = 0; i < lives; i++){
-            g2d.drawImage(heart, heart.getWidth(observer)*i + 20 , 300 - heart.getHeight(observer), this);
-    
+        for(int i = 0; i < this.remaininglives; i++){
+            Graphics g = new Graphics();
+            g.drawImage(heart, heart.getWidth(null)* i + 10 , 300 - (heart.getHeight(null) + 10) , null);   
         }
+    }
+
+    public Vector2Int getposition(){
+
+        return this.position;
+    }
+
+    public void setDirection(String newdirection){
+        this.direction = newdirection;
+
     }
 
 }
