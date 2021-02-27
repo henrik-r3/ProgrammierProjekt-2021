@@ -1,5 +1,7 @@
 
 import java.awt.Graphics;
+import java.util.Vector;
+
 import javax.swing.ImageIcon;
 
 
@@ -14,7 +16,7 @@ public class Ghosts{
     private Vector2Int position = new Vector2Int(x, y); 
     private int followrange;  //muss in main noch deklariert werden
 
-    public void Ghost(int startx, int starty, int range, int colorselected ){
+    public Ghost(int startx, int starty, int range, int colorselected ){
        this.position.x = startx;
        this.position.y = starty;
        this.followrange = range;
@@ -42,28 +44,38 @@ public class Ghosts{
                 drawGhosts(this.skin, this.position.x, this.position.y);
             }else{
                 if(this.color == 0){
-                    this.position = greenGhostMovement(this.position);
+                    this.position = greenGhostMovement(this.position, this.direction);
                     drawGhosts(this.skin, this.position.x, this.position.y);
                 }else if(this.color == 1){
-                    this.position = yellowGhostMovement(this.position);
+                    this.position = yellowGhostMovement(this.position, this.direction);
                     drawGhosts(this.skin, this.position.x, this.position.y);
                 }else if(this.color == 2){
-                    this.position = redGhostMovement(this.position);
+                    this.position = redGhostMovement(this.position, this.direction);
                     drawGhosts(this.skin, this.position.x, this.position.y);
                 } 
             }
         }
     }
 
-    public Vector2Int greenGhostMovement(Vector2Int oldposition){
-        Vector2Int newPosition = new Vector2Int(oldposition);
-        int rand;
-        int possibilities;
+    public Vector2Int greenGhostMovement(Vector2Int oldposition, String direction){
+        int rand = 0;
+        int possibilities = 0;
 
         //Algortithmus der Geister muss noch erstellt werden
         if(direction.equals("down")){
-
-        }else if(direction.equals("up")){
+            if(oldposition.y + 1 != Map.Tile.wall){
+                possibilities++;
+            }
+            if(oldposition.y + 1 != Map.Tile.wall){
+                possibilities++;
+            }
+            if(oldposition.y + 1 != Map.Tile.wall){
+                possibilities++;
+            }
+            if(oldposition.y + 1 != Map.Tile.wall){
+                possibilities++;
+            }
+        }else if(this.direction.equals("up")){
 
         }else if(direction.equals("left")){
 
@@ -71,7 +83,12 @@ public class Ghosts{
 
         }
 
-        return newPosition;
+        return oldposition;
+    }
+
+    public int determinpossiblities(Vector2Int currentposition){
+
+
     }
     
     public Vector2Int yellowGhostMovement(Vector2Int oldposition){
