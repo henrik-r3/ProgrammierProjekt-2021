@@ -10,7 +10,7 @@ public class Ghosts{
     private String direction; 
     private Image skin;
     private short color;
-    private int numberGhosts = 0; //Jetzt statisch, muss wenn varibel aus der main class bestimmt werden
+    private int numberGhosts = 0;
     private Vector2Int position = new Vector2Int(x, y); 
     private int followrange;  //muss in main noch deklariert werden
 
@@ -38,7 +38,7 @@ public class Ghosts{
             if(calculateDistance(this.position.x, this.position.y) < 2 ){
                 caught = true;
             }else if(calculateDistance(this.position.x, this.position.y) <= followrange){
-                this.position = huntPacman(this.position.x, this.position.y);
+                this.position = huntPacman(this.position.x, this.position.y, this.color);
                 drawGhosts(this.skin, this.position.x, this.position.y);
             }else{
                 if(this.color == 0){
@@ -63,7 +63,14 @@ public class Ghosts{
         //Algortithmus der Geister muss noch erstellt werden
         if(direction.equals("down")){
 
+        }else if(direction.equals("up")){
+
+        }else if(direction.equals("left")){
+
+        }else if(direction.equals("right")){
+
         }
+
         return newPosition;
     }
     
@@ -96,12 +103,28 @@ public class Ghosts{
         return Math.abs(packmanposition.x - ghostposition.x) + Math.abs(pacmanposition.y - ghostposition.y);         
     }
 
-    public Vector2Int huntPacman(int ghostx, int ghosty){
-        Vector2Int newPosition = new Vector2Int(ghostx, ghosty);
+    public Vector2Int huntPacman(int ghostx, int ghosty, short color){
+        Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
+        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition);
 
-            //Algorithmus zur Berechnung des Wegs zum Pacman  !!!! -> nur für den Roten, der dann die ganze Zeit folgt??? der Rest maht einfach sein Ding?
-
-        return newPosition;
+        if(ghostposition.x > pacmanposition.x && ghostposition.x - 1 != Map.Tile.wall){
+            ghostposition.x--;
+        }else if(ghostposition.x < pacmanposition.x && ghostposition.x + 1 != Map.Tile.wall){
+            ghostposition.x++;
+        }else if(ghostposition.y > pacmanposition.y && ghostposition.y - 1 != Map.Tile.wall){
+            ghostposition.y--;
+        }else if(ghostposition.y < pacmanposition.y && ghostposition.y + 1 != Map.Tile.wall){
+            ghostposition.y++;
+        }else{
+            if(color == 0){
+                ghostposition = greenGhostMovement(ghostposition);
+            }else if(color == 1){
+                ghostposition = yellowGhostMovement(ghostposition);
+            }else if(color == 2){
+                ghostposition = redGhostMovement(ghostposition);
+            }
+        }
+        return ghostposition;
     }
 
     public boolean hasbeencaught(){
