@@ -1,7 +1,5 @@
 
 import java.awt.Graphics;
-import java.util.Vector;
-
 import javax.swing.ImageIcon;
 
 
@@ -9,18 +7,18 @@ public class Ghosts{
 
     private boolean playing; 
     private boolean caught = false; 
-    private String direction; 
     private Image skin;
     private short color;
     private int numberGhosts = 0;
-    private Vector2Int position = new Vector2Int(x, y); 
+    private Vector2Int position = new Vector2Int(x, y);
+    private Vector2Int direction;  
     private int followrange;  //muss in main noch deklariert werden
 
     public Ghost(int startx, int starty, int range, int colorselected ){
        this.position.x = startx;
        this.position.y = starty;
        this.followrange = range;
-       this.direction = "down";
+       this.direction = Vector2Int.down;
        this.counter = 0;
        if(colorselected == 0){
            this.skin = new ImageIcon("*/Bilder/greenGhost.png").getImage();
@@ -44,54 +42,44 @@ public class Ghosts{
                 drawGhosts(this.skin, this.position.x, this.position.y);
             }else{
                 if(this.color == 0){
-                    this.position = greenGhostMovement(this.position, this.direction);
+                    this.position = greenGhostMovement(this.position);
                     drawGhosts(this.skin, this.position.x, this.position.y);
                 }else if(this.color == 1){
-                    this.position = yellowGhostMovement(this.position, this.direction);
+                    this.position = yellowGhostMovement(this.position);
                     drawGhosts(this.skin, this.position.x, this.position.y);
                 }else if(this.color == 2){
-                    this.position = redGhostMovement(this.position, this.direction);
+                    this.position = redGhostMovement(this.position);
                     drawGhosts(this.skin, this.position.x, this.position.y);
                 } 
             }
         }
     }
 
-    public Vector2Int greenGhostMovement(Vector2Int oldposition, String direction){
+    public Vector2Int greenGhostMovement(Vector2Int oldposition){
         int rand = 0;
         int possibilities = 0;
 
-        //Algortithmus der Geister muss noch erstellt werden
-        if(direction.equals("down")){
-            if(oldposition.y + 1 != Map.Tile.wall){
-                possibilities++;
-            }
-            if(oldposition.y + 1 != Map.Tile.wall){
-                possibilities++;
-            }
-            if(oldposition.y + 1 != Map.Tile.wall){
-                possibilities++;
-            }
-            if(oldposition.y + 1 != Map.Tile.wall){
-                possibilities++;
-            }
-        }else if(this.direction.equals("up")){
+        if(this.direction.equals(Vector2Int.down)){
+           possibilities = determinepossiblities(oldposition); 
+           if(possibilities == 0){
+               this.direction = Vector2Int.up;
+               oldposition.add(direction);
+           }else if(possibilities == 1){
+                
+           }
 
-        }else if(direction.equals("left")){
+        }else if(this.direction.equals(Vector2Int.up)){
 
-        }else if(direction.equals("right")){
+        }else if(this.direction.equals(Vector2Int.left)){
+
+        }else if(this.direction.equals(Vector2Int.right)){
 
         }
 
         return oldposition;
     }
-
-    public int determinpossiblities(Vector2Int currentposition){
-
-
-    }
     
-    public Vector2Int yellowGhostMovement(Vector2Int oldposition){
+    /*public Vector2Int yellowGhostMovement(Vector2Int oldposition){
         Vector2Int newPosition = new Vector2Int(oldposition);
 
         //Algortithmus der Geister muss noch erstellt werden
@@ -105,6 +93,26 @@ public class Ghosts{
         //Algortithmus der Geister muss noch erstellt werden
 
         return newPosition;
+    }
+*/
+    
+    public int determinepossiblities(Vector2Int currentposition){
+        int possibilities = 0;
+        
+        if(!Map.instance.IsCol(currentposition.add(Vector2Int.down))){
+            possibilities++;
+        }
+        if(!Map.instance.IsCol(currentposition.add(Vector2Int.up))){
+            possibilities++;
+        }
+        if(!Map.instance.IsCol(currentposition.add(Vector2Int.left))){
+            possibilities++;
+        }
+        if(!Map.instance.IsCol(currentposition.add(Vector2Int.right))){
+            possibilities++;
+        }
+
+        return possibilities -1;
     }
 
     public void drawGhosts(Image skinImage, int posx, int posy){
@@ -124,13 +132,13 @@ public class Ghosts{
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
         Vector2Int pacmanposition = new Vector2Int(Pacman.getposition);
 
-        if(ghostposition.x > pacmanposition.x && ghostposition.x - 1 != Map.Tile.wall){
+        if(ghostposition.x > pacmanposition.x && Map.instance.IsCol(position.Add(Vector2Int.left))){
             ghostposition.x--;
-        }else if(ghostposition.x < pacmanposition.x && ghostposition.x + 1 != Map.Tile.wall){
+        }else if(ghostposition.x < pacmanposition.x && Map.instance.IsCol(position.Add(Vector2Int.right))){
             ghostposition.x++;
-        }else if(ghostposition.y > pacmanposition.y && ghostposition.y - 1 != Map.Tile.wall){
+        }else if(ghostposition.y > pacmanposition.y && Map.instance.IsCol(position.Add(Vector2Int.up))){
             ghostposition.y--;
-        }else if(ghostposition.y < pacmanposition.y && ghostposition.y + 1 != Map.Tile.wall){
+        }else if(ghostposition.y < pacmanposition.y && Map.instance.IsCol(position.Add(Vector2Int.down))){
             ghostposition.y++;
         }else{
             if(color == 0){
