@@ -19,6 +19,7 @@ public class Ghosts{
        this.position.x = startx;
        this.position.y = starty;
        this.followrange = range;
+       this.direction = "down";
        if(colorselected == 0){
            this.skin = new ImageIcon("*/Bilder/greenGhost.gif").getImage();
            color = 0;
@@ -74,7 +75,7 @@ public class Ghosts{
 
     public void drawGhosts(Image skinImage, int posx, int posy){
 
-        g2d.drawImage(skinImage,posx, posy);
+        Graphics2D.drawImage(skinImage,posx, posy);
     }
 
     public int calculateDistance(int column, int row){
