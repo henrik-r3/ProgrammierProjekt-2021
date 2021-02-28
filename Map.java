@@ -11,6 +11,7 @@ public class Map {
 
     public Map(Vector2Int size){
         this.size = size;
+        instance = this;
         map = new Tile[size.x * size.y];
         //TODO generate map
         
@@ -31,15 +32,13 @@ public class Map {
         }
 
         printMap();
-
-        instance = this;
     }
 
     public void SetTile(Vector2Int pos, Tile tile){ map[pos.x + pos.y * size.x] = tile; }
     public Tile GetTile(Vector2Int pos){ return map[pos.x + pos.y * size.x]; }
-    public boolean IsCol  (Vector2Int pos){ return GetTile(pos).contains(Tile.wall); }
-    public boolean IsFood(Vector2Int pos){
-        if(GetTile(pos).contains(Tile.Food)){
+    public boolean IsCol  (Vector2Int pos){ return GetTile(pos).equals(Tile.wall); }
+    public boolean EatFood(Vector2Int pos){
+        if(GetTile(pos).equals(Tile.food)){
             SetTile(pos, Tile.empty);
             return true;
         }
@@ -50,7 +49,7 @@ public class Map {
         return (pos.x >= 0 && pos.x < size.x) && (pos.y >= 0 && pos.y < size.y);
     }
 
-
+    /*
     static int[] Random_Order(Random rnd) {//Generates Random Order
         int[] order = new int[4];
         ArrayList<Integer> available = Arrays.asList(0, 1, 2, 3);
@@ -61,7 +60,7 @@ public class Map {
         }
 
         return order;
-    }
+    }*/
 
     void generateMap() {
         ArrayList<Vector2Int> loop;
