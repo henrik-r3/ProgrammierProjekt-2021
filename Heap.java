@@ -9,13 +9,14 @@ public class Heap<T extends HeapItem<T>>{
     public int size() { return Count; }
 
     public Heap(int maxHeapSize) {
-        items = new ArrayList<>(maxHeapSize);
+        items = new ArrayList<T>(maxHeapSize);
         Count = 0;
     }
 
     public void Add(T item) {
         item.HeapIndex = Count;
-        items.set(Count, item);
+        //items.set(Count, item);
+        items.add(item);
         SortUp(item);
         Count++;
     }
@@ -23,9 +24,12 @@ public class Heap<T extends HeapItem<T>>{
     public T RemoveFirst() {
         T firstItem = items.get(0);
         Count--;
-        items.set(0, items.get(Count));
-        items.get(0).HeapIndex = 0;
-        SortDown(items.get(0));
+        items.set(0, items.get(Count));//put last to first place
+        items.get(0).HeapIndex = 0;    //resort heap
+        items.remove(Count);         //remove last place
+        if(items.size() > 0)
+            SortDown(items.get(0));
+
         return firstItem;
     }
 
@@ -35,7 +39,8 @@ public class Heap<T extends HeapItem<T>>{
     }
 
     public boolean Contains(T item) {
-        return item.equals(items.get(item.HeapIndex));
+        //return item.equals(items.get(item.HeapIndex));
+        return items.contains(item);
     }
 
     void SortDown(T item) {
