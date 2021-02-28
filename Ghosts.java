@@ -11,6 +11,7 @@ public class Ghosts{
     private boolean playing; 
     private boolean caught = false; 
     private Image skin;
+    private Image scared;
     private short color;
     private int numberGhosts = 0;
     private Vector2Int position, startposition = new Vector2Int(x, y);
@@ -18,22 +19,25 @@ public class Ghosts{
     private int followrange;  //muss in main noch deklariert werden
     private boolean powerberry = false;
 
-    public Ghost(int startx, int starty, int range, int colorselected ){
+    public Ghost(int startx, int starty, int range, String colorselected ){
        this.position.x = this.startposition.x = startx;
        this.position.y = this.startposition.y = starty;
        this.followrange = range;
        this.direction = Vector2Int.down;
        this.counter = 0;
-       if(colorselected == 0){
+       if(colorselected.equals("green")){
            this.skin = new ImageIcon("*/Bilder/greenGhost.png").getImage();
            color = 0;
-       }else if(colorselected == 1){
+       }else if(colorselected.equals("yellow")){
            this.skin = new ImageIcon("*/Bilder/yellowGhost.png").getImage();
            color = 1;
-       }else if(colorselected == 2){
+       }else if(colorselected.equals("red")){
            this.skin = new ImageIcon("*/Bilder/redGhost.png").getImage();
            color = 2;
+       }else if(colorselected.equals("pink")){
+           this.skin = new ImageIcon("*/Bilder/pinkGhost.png").getImage();
        }
+       this.scared = new ImageIcon("*/Bilder/scaredGhost.png").getImage();
        numberGhosts += 1;
     }
 
@@ -45,7 +49,8 @@ public class Ghosts{
                     Score.instance.eatsGhost();
                     this.position = startposition;
                 }
-                runfromPacman(this.position.x, this.position.y, this.color);
+                this.position = runfromPacman(this.position.x, this.position.y, this.color);
+                drawGhosts(scared, this.position.x, this.position.y);
 
             }else{
                 if(calculateDistance(this.position.x, this.position.y) < 2 ){
@@ -66,8 +71,9 @@ public class Ghosts{
 
                     } 
                 }
+                drawGhosts(this.skin, this.position.x, this.position.y);
             }
-            drawGhosts(this.skin, this.position.x, this.position.y);
+            
         }
     }
 
