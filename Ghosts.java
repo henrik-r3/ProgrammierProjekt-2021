@@ -2,8 +2,13 @@
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
+import org.graalvm.compiler.asm.amd64.AMD64BaseAssembler.VEXPrefixConfig;
+
+import jdk.internal.jshell.tool.resources.version;
+
 //Wie baut man Darkmode am Besten ein?
 //In die Gameobjecte implementieren
+//Verfolgungsalgorithmus verbessern
 
 public class Ghosts{
 
@@ -17,6 +22,7 @@ public class Ghosts{
     private Vector2Int direction;  
     private int followrange;  //muss in main noch deklariert werden
     private boolean powerberry = false;
+    private int counterpinkghost = 0;
 
     public Ghost(int startx, int starty, int range, String colorselected ){
        this.position.x = this.startposition.x = startx;
@@ -308,7 +314,39 @@ public class Ghosts{
     public Vector2Int pinkGhostMovement(Vector2Int oldposition){
         
         Vector2Int pacmanposition = new Vector2Int(Pacman.getposition);
+        int rnd = (int) (Math.random()*3);
+        
+        if(rnd == 0){
+            pacmanposition.x += 2;
+        }else if(rnd == 1){
+            pacmanposition.x -= 2;
+        }else if(rnd == 2){
+            pacmanposition.y += 2;
+        }else if(rnd == 3){
+            pacmanposition.y -= 2;
+        }
 
+        if(this.direction == Vector2Int.down){
+            
+            if(oldposition.y < pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+                this.direction = Vector2Int.down;
+            }else if(oldposition.x < pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                this.direction = Vector2Int.right;
+            }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
+                this.direction = Vector2Int.left;
+            }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up).Add(Vector2Int.left))
+                    || !Map.instance.IsCol(oldposition.Add(Vector2Int.up).Add(Vector2Int.right))
+                    || !Map.instance.IsCol(oldposition.Add(Vector2Int.up).Add(Vector2Int.up))){
+                    this.direction = Vector2Int.up;
+                }else{
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+                        this.direction = Vector2Int.down;
+                    }
+                }
+            }
+
+        }
         if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
             oldposition.x--;
         }else if(oldposition.x < pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
@@ -319,9 +357,14 @@ public class Ghosts{
             oldposition.y++;
         }else{
      
+            ///
 
         }
         
+        if(counterpinkghost > 3){
+            counterpinkghost = 0;
+        }
+        oldposition = oldposition.Add(direction);
         return oldposition;
     }
     
