@@ -13,13 +13,14 @@ public class Ghosts{
     private Image skin;
     private short color;
     private int numberGhosts = 0;
-    private Vector2Int position = new Vector2Int(x, y);
+    private Vector2Int position, startposition = new Vector2Int(x, y);
     private Vector2Int direction;  
     private int followrange;  //muss in main noch deklariert werden
+    private boolean powerberry = false;
 
     public Ghost(int startx, int starty, int range, int colorselected ){
-       this.position.x = startx;
-       this.position.y = starty;
+       this.position.x = this.startposition.x = startx;
+       this.position.y = this.startposition.y = starty;
        this.followrange = range;
        this.direction = Vector2Int.down;
        this.counter = 0;
@@ -37,24 +38,36 @@ public class Ghosts{
     }
 
     public void selectGhostmovement(){
+
         if(playing){
-            if(calculateDistance(this.position.x, this.position.y) < 2 ){
-                caught = true;
-            }else if(calculateDistance(this.position.x, this.position.y) <= followrange){
-                this.position = huntPacman(this.position.x, this.position.y, this.color);
-                drawGhosts(this.skin, this.position.x, this.position.y);
+            if(powerberry){
+                if(calculateDistance(this.position.x, this.position.y) < 2 ){
+                    Score.instance.eatsGhost();
+                    this.position = startposition;
+                }
+                runfromPacman(this.position.x, this.position.y, this.color);
+
             }else{
-                if(this.color == 0){
-                    this.position = greenGhostMovement(this.position);
-                    drawGhosts(this.skin, this.position.x, this.position.y);
-                }else if(this.color == 1){
-                    this.position = yellowGhostMovement(this.position);
-                    drawGhosts(this.skin, this.position.x, this.position.y);
-                }else if(this.color == 2){
-                    this.position = redGhostMovement(this.position);
-                    drawGhosts(this.skin, this.position.x, this.position.y);
-                } 
+                if(calculateDistance(this.position.x, this.position.y) < 2 ){
+                    caught = true;
+                }
+                if(calculateDistance(this.position.x, this.position.y) <= followrange){
+                    this.position = huntPacman(this.position.x, this.position.y, this.color);
+        
+                }else{
+                    if(this.color == 0){
+                        this.position = greenGhostMovement(this.position);
+
+                    }else if(this.color == 1){
+                        this.position = yellowGhostMovement(this.position);
+
+                    }else if(this.color == 2){
+                        this.position = redGhostMovement(this.position);
+
+                    } 
+                }
             }
+            drawGhosts(this.skin, this.position.x, this.position.y);
         }
     }
 
@@ -349,6 +362,32 @@ public class Ghosts{
         return ghostposition;
     }
 
+    public Vector2Int runfromPacman(int ghostx, int ghosty, short color){
+        Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
+        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition);
+
+        if(ghostposition.x > pacmanposition.x && Map.instance.IsCol(position.Add(Vector2Int.right))){
+            ghostposition.x++;
+        }else if(ghostposition.x < pacmanposition.x && Map.instance.IsCol(position.Add(Vector2Int.left))){
+            ghostposition.x--;
+        }else if(ghostposition.y > pacmanposition.y && Map.instance.IsCol(position.Add(Vector2Int.down))){
+            ghostposition.y++;
+        }else if(ghostposition.y < pacmanposition.y && Map.instance.IsCol(position.Add(Vector2Int.up))){
+            ghostposition.y--;
+        }else{
+            if(color == 0){
+                ghostposition = greenGhostMovement(ghostposition);
+            }else if(color == 1){
+                ghostposition = yellowGhostMovement(ghostposition);
+            }else if(color == 2){
+                ghostposition = greenGhostMovement(ghostposition);
+            }
+        }
+        return ghostposition;
+
+    }
+
+
     public boolean hasbeencaught(){
 
         if(caught){
@@ -362,6 +401,11 @@ public class Ghosts{
     public void gameactive(boolean isplaying){
 
         playing = isplaying;
+    }
+
+    public void powerberrystatus(boolean powerberryactive){
+
+        powerberry = powerberryactive;
     }
 
     public int getnumberGhosts(){
