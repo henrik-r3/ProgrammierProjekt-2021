@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import java.util.Vector;
+=======
+import jdk.tools.jlink.resources.plugins;
+>>>>>>> Stashed changes
 
 public class Vector2Int {
     public int x;
@@ -8,7 +12,9 @@ public class Vector2Int {
     public static Vector2Int right = new Vector2Int(1, 0);
     public static Vector2Int down = new Vector2Int(0, -1);
     public static Vector2Int left = new Vector2Int(-1, 0);
+    public static Vector2Int[] dirs = {up, right, down, left};
 
+    public Vector2Int(){}
     public Vector2Int(int x, int y){
         this.x = x;
         this.y = y;
