@@ -16,7 +16,9 @@ public class Map {
         Arrays.fill(map, Tile.empty);
 
         Random rnd = new Random();//use one random object to make controll over seed possible
-        generateMap(rnd);
+        System.out.println("generate Map");
+        generateMap(rnd, 5);
+        System.out.println("finished generation");
         
         /*
         //TEST
@@ -67,30 +69,62 @@ public class Map {
         return order;
     }*/
 
-    void generateMap(Random rnd) {
-        Vector2Int startPos = new Vector2Int(1, 1);
+    void generateMap(Random rnd, int minLength) {
+        Vector2Int startPos = new Vector2Int(5, 5);
         Vector2Int pos = startPos;
+        int loopLength = 0;
+        SetTile(pos, Tile.food);
         boolean closed = false;
         while(!closed){
             AStar.Grid grid = new AStar.Grid();
             ArrayList<Vector2Int> possibleDirs = new ArrayList<Vector2Int>();
+            ArrayList<Integer> possibleLength = new ArrayList<Integer>();
             for(int d = 0; d < Vector2Int.dirs.length; d++) {
                 Vector2Int nPos = pos.Add(Vector2Int.dirs[d].Mul(2));//dirs*2 to have a pathlike structure
                 if(nPos.equals(startPos))//if next Pos is start Pos
-                {
-                    closed = true;
-                    break;
+                {   
+                    if(loopLength >= minLength){
+                        closed = true;
+                        break;
+                    }else
+                        continue;
                 }
                 if(!inBounds(nPos))//do not us out of bounds
                     continue;
+                if(IsCol(nPos))
+                    continue;
 
-                if(AStar.FindPath(nPos, startPos, grid) != null)
+                Vector2Int[] path = AStar.FindPath(nPos, startPos, grid);
+                if(path != null){
                     possibleDirs.add(nPos);
+                    possibleLength.add(path.length);
+                }else
+                    System.out.println(Vector2Int.dirs[d] + " is not reachable");
+                    
             }
 
-            Vector2Int nPos = possibleDirs.get(rnd.nextInt(possibleDirs.size()));//choos next dir at random
-            SetTile(nPos, Tile.wall);
-            SetTile(pos.Add(pos.Add(nPos.Mul(-1).Mul(0.5))), Tile.wall);//set intermediate wall
+            if(possibleDirs.size() == 0)
+            {
+                System.out.println("THERE IS NO WAY OUT! ARRGGGGHHH!!");
+                break;
+            }
+
+            if(!closed){
+
+                //TODO: choose not at random, but rather by most length gain
+                Vector2Int nPos = possibleDirs.get(rnd.nextInt(possibleDirs.size()));//choos next dir at random
+                SetTile(nPos, Tile.wall);
+                SetTile(pos.Add(nPos.Add(pos.Mul(-1)).Mul(0.5)), Tile.wall);//set intermediate wall at pos + (npos-pos)/2
+                pos = nPos;
+                printMap();
+                System.out.println();
+                loopLength++;
+            }else{
+                Vector2Int nPos = startPos;
+                SetTile(nPos, Tile.wall);
+                SetTile(pos.Add(nPos.Add(pos.Mul(-1)).Mul(0.5)), Tile.wall);//set intermediate wall at pos + (npos-pos)/2
+            }
+            
         }
         //TODO: generate connections within
         //TODO: invert map -> using walls as path
@@ -107,7 +141,8 @@ public class Map {
                     System.out.print(tile.ordinal() + " | ");
             }
             System.out.println();
-        }    
+        }
+        System.out.println(); 
     }
 
 }
