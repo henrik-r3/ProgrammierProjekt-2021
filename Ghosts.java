@@ -77,7 +77,6 @@ public class Ghosts{
 
         if(this.direction.equals(Vector2Int.down)){
 
-
            if(possibilities == 0){
                this.direction = Vector2Int.up;
 
