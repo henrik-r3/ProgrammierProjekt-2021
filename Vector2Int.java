@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 public class Vector2Int {
     public int x;
     public int y;
@@ -28,5 +30,19 @@ public class Vector2Int {
     @Override
     public boolean equals(Vector2Int other){
         return (x == other.x) && (y == other.y);
+    }
+
+    @Override
+    public Vector2Int invert(Vector2Int other){
+        if(other.x = -1){
+            return new Vector2Int(1,0);
+        }else if(other.x = 1){
+            return new Vector2Int(-1, 0);
+        }else if(other.y = -1){
+            return new Vector2Int(0, 1);
+        }else if(other.y = 1){
+            return new Vector2Int(0, -1);
+        }
+
     }
 }
