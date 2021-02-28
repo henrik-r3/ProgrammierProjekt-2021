@@ -49,6 +49,10 @@ public class Pacman implements ActionListener{
             if(!Map.instance.IsCol(position.Add(direction))){
                 position = position.Add(direction);
             }
+
+            if(Map.instance.IsFood(position)){
+                Score.instance.eatsFood();
+            }
             drawPacman();
         }
     }
