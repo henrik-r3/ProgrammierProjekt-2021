@@ -28,7 +28,10 @@ public class Vector2Int {
     }
 
     @Override
-    public boolean equals(Vector2Int other){
+    public boolean equals(Object oj){
+        if(oj.getClass() != this.getClass())
+            return false;
+        Vector2Int other = (Vector2Int)oj;
         return (x == other.x) && (y == other.y);
     }
 
