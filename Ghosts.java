@@ -1,10 +1,8 @@
 
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
-
 import org.graalvm.compiler.asm.amd64.AMD64BaseAssembler.VEXPrefixConfig;
-
-import jdk.internal.jshell.tool.resources.version;
+import org.graalvm.compiler.lir.util.GenericValueMap;
 
 //Wie baut man Darkmode am Besten ein?
 //In die Gameobjecte implementieren
@@ -22,7 +20,6 @@ public class Ghosts{
     private Vector2Int direction;  
     private int followrange;  //muss in main noch deklariert werden
     private boolean powerberry = false;
-    private int counterpinkghost = 0;
 
     public Ghost(int startx, int starty, int range, String colorselected ){
        this.position.x = this.startposition.x = startx;
@@ -342,28 +339,84 @@ public class Ghosts{
                 }else{
                     if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
                         this.direction = Vector2Int.down;
+                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                        this.direction = Vector2Int.right;
+                    }else{
+                        this.direction= Vector2Int.left;
                     }
                 }
             }
 
-        }
-        if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
-            oldposition.x--;
-        }else if(oldposition.x < pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
-            oldposition.x++;
-        }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
-            oldposition.y--;
-        }else if(oldposition.y < pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
-            oldposition.y++;
-        }else{
-     
-            ///
+        }else if(this.direction == Vector2Int.up){
+            if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                this.direction = Vector2Int.up;
+            }else if(oldposition.x < pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                this.direction = Vector2Int.right;
+            }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
+                this.direction = Vector2Int.left;
+            }else if(oldposition.y < pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down).Add(Vector2Int.left))
+                    || !Map.instance.IsCol(oldposition.Add(Vector2Int.down).Add(Vector2Int.right))
+                    || !Map.instance.IsCol(oldposition.Add(Vector2Int.down).Add(Vector2Int.down))){
+                    this.direction = Vector2Int.down;
+                }else{
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                        this.direction = Vector2Int.up;
+                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                        this.direction = Vector2Int.right;
+                    }else{
+                        this.direction= Vector2Int.left;
+                    }
+                }
+            }
 
+        }else if(this.direction== Vector2Int.right){
+            if(oldposition.x < pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                this.direction = Vector2Int.right;
+            }else if(oldposition.y < pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+                this.direction = Vector2Int.down;
+            }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                this.direction = Vector2Int.up;
+            }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left).Add(Vector2Int.left))
+                    || !Map.instance.IsCol(oldposition.Add(Vector2Int.left).Add(Vector2Int.up))
+                    || !Map.instance.IsCol(oldposition.Add(Vector2Int.left).Add(Vector2Int.down))){
+                    this.direction = Vector2Int.left;                     
+                }else{
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                        this.direction = Vector2Int.right;
+                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                        this.direction = Vector2Int.up;
+                    }else{
+                        this.direction = Vector2Int.down;
+                    }
+                }    
+            }
+
+        }else if(this.direction== Vector2Int.left){
+            if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
+                this.direction = Vector2Int.left;
+            }else if(oldposition.y < pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+                this.direction = Vector2Int.down;
+            }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                this.direction = Vector2Int.up;
+            }else if(oldposition.x < pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right).Add(Vector2Int.right))
+                    || !Map.instance.IsCol(oldposition.Add(Vector2Int.right).Add(Vector2Int.up))
+                    || !Map.instance.IsCol(oldposition.Add(Vector2Int.right).Add(Vector2Int.down))){
+                    this.direction = Vector2Int.right;                     
+                }else{
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
+                        this.direction = Vector2Int.left;
+                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                        this.direction = Vector2Int.up;
+                    }else{
+                        this.direction = Vector2Int.down;
+                    }
+                }    
+            }
         }
         
-        if(counterpinkghost > 3){
-            counterpinkghost = 0;
-        }
         oldposition = oldposition.Add(direction);
         return oldposition;
     }
