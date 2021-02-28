@@ -1,9 +1,3 @@
-<<<<<<< Updated upstream
-import java.util.Vector;
-=======
-import jdk.tools.jlink.resources.plugins;
->>>>>>> Stashed changes
-
 public class Vector2Int {
     public int x;
     public int y;
