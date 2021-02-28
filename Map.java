@@ -42,6 +42,7 @@ public class Map {
             SetTile(pos, Tile.empty);
             return true;
         }
+        return false;
     }
 
 
