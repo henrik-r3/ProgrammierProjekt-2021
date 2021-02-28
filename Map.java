@@ -11,7 +11,9 @@ public class Map {
 
     public Map(Vector2Int size){
         this.size = size;
+        instance = this;
         map = new Tile[size.x * size.y];
+        Arrays.fill(map, Tile.empty);
 
         Random rnd = new Random();//use one random object to make controll over seed possible
         generateMap(rnd);
@@ -34,8 +36,6 @@ public class Map {
         }*/
 
         printMap();
-
-        instance = this;
     }
 
     public void SetTile(Vector2Int pos, Tile tile){ map[pos.x + pos.y * size.x] = tile; }
