@@ -132,7 +132,8 @@ public class AStar {
 
             //target is reached
             if (currentNode == targetNode)
-                return (Vector2Int[])Retrace(startNode, targetNode).toArray();
+                return Retrace(startNode, targetNode).toArray(new Vector2Int[0]);
+                
 
             openSet = currentNode.Close(grid, targetNode.pos, openSet, closedSet);
         }
