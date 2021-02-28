@@ -13,9 +13,12 @@ public class Map {
         this.size = size;
         instance = this;
         map = new Tile[size.x * size.y];
+        Arrays.fill(map, Tile.empty);
+
         Random rnd = new Random();//use one random object to make controll over seed possible
         generateMap(rnd);
         
+        /*
         //TEST
         int[] mapI = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -30,7 +33,7 @@ public class Map {
                     };
         for (int i = 0; i < mapI.length; i++) {
             map[i] = Tile.values()[mapI[i]];
-        }
+        }*/
 
         printMap();
     }
@@ -89,8 +92,6 @@ public class Map {
             SetTile(nPos, Tile.wall);
             SetTile(pos.Add(pos.Add(nPos.Mul(-1).Mul(0.5))), Tile.wall);//set intermediate wall
         }
-        //generate connections within
-
         //TODO: generate connections within
         //TODO: invert map -> using walls as path
     }
