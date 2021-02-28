@@ -2,9 +2,7 @@
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import org.graalvm.compiler.asm.amd64.AMD64BaseAssembler.VEXPrefixConfig;
-import org.graalvm.compiler.lir.util.GenericValueMap;
 
-//Wie baut man Darkmode am Besten ein?
 //In die Gameobjecte implementieren
 //Verfolgungsalgorithmus verbessern
 
