@@ -12,7 +12,7 @@ public class Ghosts{
     private boolean caught = false; 
     private Image skin;
     private Image scared;
-    private short color;
+    private String color;
     private int numberGhosts = 0;
     private Vector2Int position, startposition = new Vector2Int(x, y);
     private Vector2Int direction;  
@@ -27,15 +27,16 @@ public class Ghosts{
        this.counter = 0;
        if(colorselected.equals("green")){
            this.skin = new ImageIcon("*/Bilder/greenGhost.png").getImage();
-           color = 0;
+           this.color = colorselected;
        }else if(colorselected.equals("yellow")){
            this.skin = new ImageIcon("*/Bilder/yellowGhost.png").getImage();
-           color = 1;
+           this.color = colorselected;
        }else if(colorselected.equals("red")){
            this.skin = new ImageIcon("*/Bilder/redGhost.png").getImage();
-           color = 2;
+           this.color = colorselected;
        }else if(colorselected.equals("pink")){
            this.skin = new ImageIcon("*/Bilder/pinkGhost.png").getImage();
+           this.color = colorselected;
        }
        this.scared = new ImageIcon("*/Bilder/scaredGhost.png").getImage();
        numberGhosts += 1;
@@ -60,16 +61,19 @@ public class Ghosts{
                     this.position = huntPacman(this.position.x, this.position.y, this.color);
         
                 }else{
-                    if(this.color == 0){
+                    if(this.color.equals("green")){
                         this.position = greenGhostMovement(this.position);
 
-                    }else if(this.color == 1){
+                    }else if(this.color.equals("yellow")){
                         this.position = yellowGhostMovement(this.position);
 
-                    }else if(this.color == 2){
+                    }else if(this.color.equals("red")){
                         this.position = redGhostMovement(this.position);
 
-                    } 
+                    }else if(this.color.equals("pink")){
+                        this.position = pinkGhostMovement(this.position);
+
+                    }
                 }
                 drawGhosts(this.skin, this.position.x, this.position.y);
             }
@@ -310,6 +314,11 @@ public class Ghosts{
 
         return oldposition;
     }
+
+    public Vector2Int pinkGhostMovement(Vector2Int oldposition){
+                                                                                          ///ajfkbskhbdskjgvhbsgjihbsajgvb
+        return oldposition;
+    }
     
     public int determinepossiblities(Vector2Int currentposition){
         int possibilities = 0;
@@ -343,7 +352,7 @@ public class Ghosts{
         return Math.abs(packmanposition.x - ghostposition.x) + Math.abs(pacmanposition.y - ghostposition.y);         
     }
 
-    public Vector2Int huntPacman(int ghostx, int ghosty, short color){
+    public Vector2Int huntPacman(int ghostx, int ghosty, String color){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
         Vector2Int pacmanposition = new Vector2Int(Pacman.getposition);
 
@@ -356,18 +365,20 @@ public class Ghosts{
         }else if(ghostposition.y < pacmanposition.y && Map.instance.IsCol(position.Add(Vector2Int.down))){
             ghostposition.y++;
         }else{
-            if(color == 0){
+            if(color.equals("green")){
                 ghostposition = greenGhostMovement(ghostposition);
-            }else if(color == 1){
+            }else if(color.equals("yellow")){
                 ghostposition = yellowGhostMovement(ghostposition);
-            }else if(color == 2){
+            }else if(color.equals("red")){
                 ghostposition = greenGhostMovement(ghostposition);
+            }else if(color.equals("pink")){
+                ghostposition = pinkGhostMovement(ghostposition);
             }
         }
         return ghostposition;
     }
 
-    public Vector2Int runfromPacman(int ghostx, int ghosty, short color){
+    public Vector2Int runfromPacman(int ghostx, int ghosty, String color){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
         Vector2Int pacmanposition = new Vector2Int(Pacman.getposition);
 
@@ -380,12 +391,14 @@ public class Ghosts{
         }else if(ghostposition.y < pacmanposition.y && Map.instance.IsCol(position.Add(Vector2Int.up))){
             ghostposition.y--;
         }else{
-            if(color == 0){
+            if(color.equals("green")){
                 ghostposition = greenGhostMovement(ghostposition);
-            }else if(color == 1){
+            }else if(color.equals("yellow")){
                 ghostposition = yellowGhostMovement(ghostposition);
-            }else if(color == 2){
+            }else if(color.equals("red")){
                 ghostposition = greenGhostMovement(ghostposition);
+            }else if(color.equals("pink")){
+                ghostposition = pinkGhostMovement(ghostposition);
             }
         }
         return ghostposition;
