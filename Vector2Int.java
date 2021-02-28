@@ -34,13 +34,13 @@ public class Vector2Int {
 
     @Override
     public Vector2Int invert(Vector2Int other){
-        if(other.x = -1){
+        if(other.x == -1){
             return new Vector2Int(1,0);
-        }else if(other.x = 1){
+        }else if(other.x == 1){
             return new Vector2Int(-1, 0);
-        }else if(other.y = -1){
+        }else if(other.y == -1){
             return new Vector2Int(0, 1);
-        }else if(other.y = 1){
+        }else if(other.y == 1){
             return new Vector2Int(0, -1);
         }
 
