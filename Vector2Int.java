@@ -22,6 +22,19 @@ public class Vector2Int {
         return new Vector2Int((int)Math.floor(k*x), (int)Math.floor(k*y));
     }
 
+    public Vector2Int invert(Vector2Int other){
+        if(other.x == -1){
+            return new Vector2Int(1,0);
+        }else if(other.x == 1){
+            return new Vector2Int(-1, 0);
+        }else if(other.y == -1){
+            return new Vector2Int(0, 1);
+        }else if(other.y == 1){
+            return new Vector2Int(0, -1);
+        }
+        return new Vector2Int();
+    }
+
     @Override
     public String toString() {
         return "(" + x + " ; " + y + ")";
@@ -33,19 +46,5 @@ public class Vector2Int {
             return false;
         Vector2Int other = (Vector2Int)oj;
         return (x == other.x) && (y == other.y);
-    }
-
-    @Override
-    public Vector2Int invert(Vector2Int other){
-        if(other.x == -1){
-            return new Vector2Int(1,0);
-        }else if(other.x == 1){
-            return new Vector2Int(-1, 0);
-        }else if(other.y == -1){
-            return new Vector2Int(0, 1);
-        }else if(other.y == 1){
-            return new Vector2Int(0, -1);
-        }
-
     }
 }
