@@ -13,7 +13,8 @@ public class Map {
         this.size = size;
         instance = this;
         map = new Tile[size.x * size.y];
-        //TODO generate map
+        Random rnd = new Random();//use one random object to make controll over seed possible
+        generateMap(rnd);
         
         //TEST
         int[] mapI = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -63,13 +64,35 @@ public class Map {
         return order;
     }*/
 
-    void generateMap() {
-        ArrayList<Vector2Int> loop;
+    void generateMap(Random rnd) {
+        Vector2Int startPos = new Vector2Int(1, 1);
+        Vector2Int pos = startPos;
         boolean closed = false;
         while(!closed){
+            AStar.Grid grid = new AStar.Grid();
+            ArrayList<Vector2Int> possibleDirs = new ArrayList<Vector2Int>();
+            for(int d = 0; d < Vector2Int.dirs.length; d++) {
+                Vector2Int nPos = pos.Add(Vector2Int.dirs[d].Mul(2));//dirs*2 to have a pathlike structure
+                if(nPos.equals(startPos))//if next Pos is start Pos
+                {
+                    closed = true;
+                    break;
+                }
+                if(!inBounds(nPos))//do not us out of bounds
+                    continue;
 
+                if(AStar.FindPath(nPos, startPos, grid) != null)
+                    possibleDirs.add(nPos);
+            }
+
+            Vector2Int nPos = possibleDirs.get(rnd.nextInt(possibleDirs.size()));//choos next dir at random
+            SetTile(nPos, Tile.wall);
+            SetTile(pos.Add(pos.Add(nPos.Mul(-1).Mul(0.5))), Tile.wall);//set intermediate wall
         }
         //generate connections within
+
+        //TODO: generate connections within
+        //TODO: invert map -> using walls as path
     }
 
 
