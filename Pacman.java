@@ -69,7 +69,7 @@ public class Pacman implements ActionListener{
     public void calculatelives(){
 
         Boolean caught = Ghosts.hasbeencaught;
-        if(caught){
+        if(Boolean.TRUE.equals(caught)){
 
             this.remaininglives--;
             this.position.x = this.startposition.x;
