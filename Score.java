@@ -2,7 +2,7 @@ public class Score{
 
     private int scoreval;
     
-    public Userscore(){
+    public void Userscore(){
         scoreval = 0;
     }
 

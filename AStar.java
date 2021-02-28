@@ -1,7 +1,8 @@
-import java.awt.List;
+import java.util.ArrayList;
+import java.util.HashSet;
 
-public static class AStar {
-    public class Grid
+public class AStar {
+    public static class Grid
     {
         public Node[] grid;
         public Vector2Int size;
@@ -22,17 +23,17 @@ public static class AStar {
                 }
         }
 
-        public bool InBounds(Vector2Int pos) { return pos.x >= 0 && pos.x < size.x && pos.y >= 0 && pos.y < size.y; }
+        public boolean InBounds(Vector2Int pos) { return pos.x >= 0 && pos.x < size.x && pos.y >= 0 && pos.y < size.y; }
         public int Index(Vector2Int pos) { return pos.x + pos.y * size.x; }
         public Node get(Vector2Int pos) { return grid[Index(pos)]; }
     }
 
 
 
-    public class Node extends HeapItem<Node>
+    public static class Node extends HeapItem<Node>
     {
         public Vector2Int pos;
-        public bool walkable;
+        public boolean walkable;
 
         public Node parent;
 
@@ -41,13 +42,13 @@ public static class AStar {
         public int f_cost() { return g_cost + h_cost; }//g_cost + h_cost
         public int HeapIndex;
 
-        public Node(Vector2Int pos, bool walkable)
+        public Node(Vector2Int pos, boolean walkable)
         {
             this.pos = pos;
             this.walkable = walkable;
 
-            g_cost = Integer.MaxValue;
-            h_cost = Integer.MaxValue;
+            g_cost = Integer.MAX_VALUE;
+            h_cost = Integer.MAX_VALUE;
         }
 
         public Heap<Node> UpdateCosts(Node initiator, Vector2Int targetPos, Heap<Node> openSet)
@@ -71,33 +72,33 @@ public static class AStar {
         public Heap<Node> Close(Grid grid, Vector2Int targetPos, Heap<Node> openSet, HashSet<Node> closedSet)
         {
             //update all neighbour's costs
-            List<Node> neighbours = GetNeighbours(grid);
-            for(int n = 0; n < neighbours.getSize(); n++)
+            ArrayList<Node> neighbours = GetNeighbours(grid);
+            for(int n = 0; n < neighbours.size(); n++)
             {
-                if (!neighbours[n].walkable || closedSet.Contains(neighbours[n]))
+                if (!neighbours.get(n).walkable || closedSet.contains(neighbours.get(n)))
                     continue;
 
-                openSet = neighbours[n].UpdateCosts(this, targetPos, openSet);
+                openSet = neighbours.get(n).UpdateCosts(this, targetPos, openSet);
             }
             return openSet;
         }
 
-        public List<Node> GetNeighbours(Grid grid)
+        public ArrayList<Node> GetNeighbours(Grid grid)
         {
-            List<Node> neighbours = new List<Node>();
+            ArrayList<Node> neighbours = new ArrayList<Node>();
 
             for (int x = -1; x <= 1; x++)
                 for (int y = -1; y <= 1; y++)
                 {
                     //if (x == 0 && y == 0)//not the center -> 8 surounding cells
 
-                    if ((x + y == 0) || Mathf.Abs(x + y) == 2)//if point is in the center or the corners, then skip -> just uses 4 orthogonal adjacent cells
+                    if ((x + y == 0) || Math.abs(x + y) == 2)//if point is in the center or the corners, then skip -> just uses 4 orthogonal adjacent cells
                         continue;
 
                     Vector2Int Npos = pos.Add(new Vector2Int(x, y));
 
                     if (grid.InBounds(Npos))//if neighbour exists
-                        neighbours.Add(grid.get(Npos));
+                        neighbours.add(grid.get(Npos));
                 }
 
             return neighbours;
@@ -105,19 +106,14 @@ public static class AStar {
 
         @Override
         public int compareTo(Node other) {
-            int compare = compare(f_cost(), other.f_cost());
+            int compare = f_cost() - other.f_cost();
             if(compare == 0) {
-                compare = compare(h_cost, other.h_cost);
+                compare = h_cost - other.h_cost;
             }
             return -compare;//get positive if it is smaller -> smaller -> nearer -> better
         }
     }
 
-
-    public static Vector2Int[] FindPath(Vector2Int start, Vector2Int target, Tilemap tilemap, Tilemap collision) {
-        Grid grid = new Grid(tilemap, collision);
-        return FindPath(start, target, grid);
-    }
 
     public static Vector2Int[] FindPath(Vector2Int start, Vector2Int target, Grid grid)
     {
@@ -128,15 +124,15 @@ public static class AStar {
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add(startNode);
 
-        while (openSet.getSize() > 0)
+        while (openSet.size() > 0)
         {   
             //Selects the next currentNode from the openSet, that has the lowest cost
             Node currentNode = openSet.RemoveFirst();
-            closedSet.Add(currentNode);
+            closedSet.add(currentNode);
 
             //target is reached
             if (currentNode == targetNode)
-                return Retrace(startNode, targetNode).ToArray();
+                return (Vector2Int[])Retrace(startNode, targetNode).toArray();
 
             openSet = currentNode.Close(grid, targetNode.pos, openSet, closedSet);
         }
@@ -145,24 +141,34 @@ public static class AStar {
         return null;
     }
 
-    static List<Vector2Int> Retrace(Node startNode, Node endNode)
+    static ArrayList<Vector2Int> Retrace(Node startNode, Node endNode)
     {
-        List<Vector2Int> path = new List<Vector2Int>();
+        ArrayList<Vector2Int> path = new ArrayList<Vector2Int>();
         Node currentNode = endNode;
 
         while(currentNode != startNode)
         {
-            path.Add(currentNode.pos);
+            path.add(currentNode.pos);
             currentNode = currentNode.parent;
         }
 
-        path.Reverse();
+        //reverse path
+        int i = 0;
+        while(true){
+            if(2*i >= path.size())
+                break;
+            Vector2Int front = path.get(i);
+            path.set(i, path.get(path.size()-1-i));
+            path.set(path.size()-1-i, front);
+            i++;
+        }
+
         return path;
     }
 
     static int GetDistance(Vector2Int a, Vector2Int b)
     {
-        Vector2Int dist = new Vector2Int(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y));
+        Vector2Int dist = new Vector2Int(Math.abs(a.x - b.x), Math.abs(a.y - b.y));
         if (dist.x < dist.y)
             return 14 * dist.x + 10 * (dist.y - dist.x);
         else

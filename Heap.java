@@ -1,28 +1,31 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Heap<T extends HeapItem<T>>{
 
-    public T[] items;
+    public List<T> items;
     private int Count;
 
-    public int getSize() { return Count; }
+    public int size() { return Count; }
 
     public Heap(int maxHeapSize) {
-        items = new T[maxHeapSize];
+        items = new ArrayList<>(maxHeapSize);
         Count = 0;
     }
 
     public void Add(T item) {
         item.HeapIndex = Count;
-        items[Count] = item;
+        items.set(Count, item);
         SortUp(item);
         Count++;
     }
 
     public T RemoveFirst() {
-        T firstItem = items[0];
+        T firstItem = items.get(0);
         Count--;
-        items[0] = items[Count];
-        items[0].HeapIndex = 0;
-        SortDown(items[0]);
+        items.set(0, items.get(Count));
+        items.get(0).HeapIndex = 0;
+        SortDown(items.get(0));
         return firstItem;
     }
 
@@ -31,8 +34,8 @@ public class Heap<T extends HeapItem<T>>{
         SortDown(item);
     }
 
-    public bool Contains(T item) {
-        return Equals(items[item.HeapIndex], item);
+    public boolean Contains(T item) {
+        return item.equals(items.get(item.HeapIndex));
     }
 
     void SortDown(T item) {
@@ -45,11 +48,11 @@ public class Heap<T extends HeapItem<T>>{
                 swapIndex = childIndexLeft;
 
                 if (childIndexRight < Count)
-                    if (items[childIndexLeft].CompareTo(items[childIndexRight]) < 0)
+                    if (items.get(childIndexLeft).compareTo(items.get(childIndexRight)) < 0)
                         swapIndex = childIndexRight;
 
-                if (item.CompareTo(items[swapIndex]) < 0)
-                    Swap(item, items[swapIndex]);
+                if (item.compareTo(items.get(swapIndex)) < 0)
+                    Swap(item, items.get(swapIndex));
                 else
                     return;
             }
@@ -62,8 +65,8 @@ public class Heap<T extends HeapItem<T>>{
         int parentIndex = (item.HeapIndex - 1) / 2;
 
         while (true) {
-            T parentItem = items[parentIndex];
-            if (item.CompareTo(parentItem) > 0)
+            T parentItem = items.get(parentIndex);
+            if (item.compareTo(parentItem) > 0)
                 Swap(item, parentItem);
             else
                 break;
@@ -73,14 +76,10 @@ public class Heap<T extends HeapItem<T>>{
     }
 
     void Swap(T itemA, T itemB) {
-        items[itemA.HeapIndex] = itemB;
-        items[itemB.HeapIndex] = itemA;
+        items.set(itemA.HeapIndex, itemB);
+        items.set(itemB.HeapIndex, itemA);
         int itemAIndex = itemA.HeapIndex;
         itemA.HeapIndex = itemB.HeapIndex;
         itemB.HeapIndex = itemAIndex;
     }
-}
-
-public class HeapItem<T> extends Comparable<T> {
-    int HeapIndex;
 }

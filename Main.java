@@ -15,7 +15,7 @@ public class Main {
         frame.add(drawP);
 
         GameObject[] initGOs = {};
-        Game game = new Game(frame, initGOs);
+        new Game(frame, initGOs);
     }
     
 }
