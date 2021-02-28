@@ -2,7 +2,9 @@
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
-
+// Pinken Geist einarbeiten?
+//Wie baut man Darkmode am Besten ein?
+//In die Gameobjecte implementieren
 
 public class Ghosts{
 
