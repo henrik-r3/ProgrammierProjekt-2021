@@ -23,6 +23,22 @@ public class AStar {
                 }
         }
 
+        public Grid(Vector2Int smallerSize)//load only half the size
+        {
+            size = smallerSize;
+
+            grid = new Node[size.x * size.y];
+
+            for(int x = 0; x < size.x; x++){
+                for(int y = 0; y < size.y; y++)
+                {   
+                    Vector2Int pos = new Vector2Int(x, y);
+                    boolean walkable = !Map.instance.IsCol(pos.Mul(2).Add(new Vector2Int(1, 1)));//check collision at pos*2 + 1
+                    grid[Index(pos)] = new Node(pos, walkable);
+                }
+            }
+        }
+
         public boolean InBounds(Vector2Int pos) { return pos.x >= 0 && pos.x < size.x && pos.y >= 0 && pos.y < size.y; }
         public int Index(Vector2Int pos) { return pos.x + pos.y * size.x; }
         public Node get(Vector2Int pos) { return grid[Index(pos)]; }

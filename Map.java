@@ -10,6 +10,8 @@ public class Map {
     Tile[] map;
 
     public Map(Vector2Int size){
+        size.x = (size.x/2)*2+1;//make size.x odd
+        size.y = (size.y/2)*2+1;//make size.y odd -> get a border
         this.size = size;
         instance = this;
         map = new Tile[size.x * size.y];
@@ -70,18 +72,19 @@ public class Map {
     }*/
 
     void generateMap(Random rnd, int minLength) {
-        Vector2Int startPos = new Vector2Int(5, 5);
+        Vector2Int startPos = new Vector2Int(rnd.nextInt(size.x/2)*2+1, rnd.nextInt(size.y/2)*2+1);//get a random odd stating pos
         Vector2Int pos = startPos;
         int loopLength = 0;
         SetTile(pos, Tile.food);
+
         boolean closed = false;
         while(!closed){
-            AStar.Grid grid = new AStar.Grid();
+            AStar.Grid grid = new AStar.Grid(size.Mul(0.5));
             ArrayList<Vector2Int> possibleDirs = new ArrayList<Vector2Int>();
             ArrayList<Integer> possibleLength = new ArrayList<Integer>();
             for(int d = 0; d < Vector2Int.dirs.length; d++) {
                 Vector2Int nPos = pos.Add(Vector2Int.dirs[d].Mul(2));//dirs*2 to have a pathlike structure
-                if(nPos.equals(startPos))//if next Pos is start Pos
+                if(nPos.equals(startPos))//if next Pos is start Pos -> loop is about to close
                 {   
                     if(loopLength >= minLength){
                         closed = true;
@@ -94,7 +97,7 @@ public class Map {
                 if(IsCol(nPos))
                     continue;
 
-                Vector2Int[] path = AStar.FindPath(nPos, startPos, grid);
+                Vector2Int[] path = AStar.FindPath(nPos.Mul(0.5), startPos.Mul(0.5), grid);
                 if(path != null){
                     possibleDirs.add(nPos);
                     possibleLength.add(path.length);
@@ -103,9 +106,10 @@ public class Map {
                     
             }
 
-            if(possibleDirs.size() == 0)
+            if(possibleDirs.size() == 0 && !closed)
             {
                 System.out.println("THERE IS NO WAY OUT! ARRGGGGHHH!!");
+                System.out.println(loopLength);
                 break;
             }
 
