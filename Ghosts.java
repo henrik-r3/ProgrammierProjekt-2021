@@ -1,13 +1,10 @@
 
 import java.awt.Graphics;
 import java.util.Map;
-import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import org.graalvm.compiler.asm.amd64.AMD64BaseAssembler.VEXPrefixConfig;
 
 //In die Gameobjecte implementieren
-//Verfolgungsalgorithmus verbessern
 
 public class Ghosts{
 
