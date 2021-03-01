@@ -2,7 +2,7 @@
 import java.awt.Graphics;
 import java.util.Map;
 import javax.swing.ImageIcon;
-import org.graalvm.compiler.asm.amd64.AMD64BaseAssembler.VEXPrefixConfig;
+//import org.graalvm.compiler.asm.amd64.AMD64BaseAssembler.VEXPrefixConfig;
 
 //In die Gameobjecte implementieren
 
@@ -91,17 +91,29 @@ public class Ghosts{
                this.direction = Vector2Int.up;
 
            }else if(possibilities == 1){
-                this.direction = Vector2Int.down;
+               if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                    this.direction = Vector2Int.down;
+               }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                    this.direction = Vector2Int.left;
+               }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                   this.direction = Vector2Int.right;
+               }else{
+                   this.direction = Vector2Int.up;
+               }
 
            }else if(possibilities == 2){
                 rand = (int) (Math.Random() * possibilities - 1);
-                if(rand == 0){
+                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
                     this.direction = Vector2Int.down;
-                }else if(rand == 1){
-                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                }else{
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
                         this.direction = Vector2Int.right;
-                    }else{
+                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
                         this.direction = Vector2Int.left;
+                    }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                        this.direction = Vector2Int.down;
+                    }else{
+                        this.direction = Vector2Int.up;
                     }
                 }
 
@@ -125,19 +137,32 @@ public class Ghosts{
                 this.direction = Vector2Int.down;
 
             }else if(possibilities == 1){
-                this.direction = Vector2Int.up;
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                     this.direction = Vector2Int.up;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                     this.direction = Vector2Int.left;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                    this.direction = Vector2Int.right;
+                }else{
+                    this.direction = Vector2Int.down;
+                }
 
             }else if(possibilities == 2){
-                rand = (int) (Math.Random() * possibilities - 1); 
-                if(rand == 0){
-                 this.direction = Vector2Int.up;
-                }else if(rand == 1){
-                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
-                     this.direction = Vector2Int.right;
+                rand = (int) (Math.Random() * possibilities - 1);
+                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                    this.direction = Vector2Int.up;
+                }else{
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                        this.direction = Vector2Int.right;
+                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                        this.direction = Vector2Int.left;
+                    }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                        this.direction = Vector2Int.up;
                     }else{
-                     this.direction = Vector2Int.left;
+                        this.direction = Vector2Int.down;
                     }
                 }
+                
 
             }else if(possibilities == 3){
                 rand = (int) (Math.Random() * possibilities - 1);
@@ -158,17 +183,29 @@ public class Ghosts{
                 this.direction = Vector2Int.right;
 
             }else if(possibilities == 1){
-                this.direction = Vector2Int.left;
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                     this.direction = Vector2Int.left;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                     this.direction = Vector2Int.up;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                    this.direction = Vector2Int.down;
+                }else{
+                    this.direction = Vector2Int.right;
+                }
 
             }else if(possibilities == 2){
                 rand = (int) (Math.Random() * possibilities - 1);
-                if(rand == 0){
-                 this.direction = Vector2Int.left;
-                }else if(rand == 1){
-                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
-                     this.direction = Vector2Int.up;
+                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                    this.direction = Vector2Int.left;
+                }else{
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                        this.direction = Vector2Int.up;
+                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                        this.direction = Vector2Int.down;
+                    }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                        this.direction = Vector2Int.left;
                     }else{
-                     this.direction = Vector2Int.down;
+                        this.direction = Vector2Int.right;
                     }
                 }
 
@@ -189,17 +226,29 @@ public class Ghosts{
                 this.direction = Vector2Int.left;
 
             }else if(possibilities == 1){
-                this.direction = Vector2Int.right;
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                     this.direction = Vector2Int.right;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                     this.direction = Vector2Int.up;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                    this.direction = Vector2Int.down;
+                }else{
+                    this.direction = Vector2Int.left;
+                }
 
             }else if(possibilities == 2){
                 rand = (int) (Math.Random() * possibilities - 1);
-                if(rand == 0){
-                 this.direction = Vector2Int.right;
-                }else if(rand == 1){
-                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
-                     this.direction = Vector2Int.up;
+                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                    this.direction = Vector2Int.right;
+                }else{
+                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                        this.direction = Vector2Int.up;
+                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                        this.direction = Vector2Int.down;
+                    }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                        this.direction = Vector2Int.right;
                     }else{
-                     this.direction = Vector2Int.down;
+                        this.direction = Vector2Int.left;
                     }
                 }
 
@@ -219,7 +268,7 @@ public class Ghosts{
         oldposition = oldposition.Add(direction);
         return oldposition;
     }
-    
+
     
     public Vector2Int yellowGhostMovement(Vector2Int oldposition){
         int rnd;
@@ -331,7 +380,7 @@ public class Ghosts{
             }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
             }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
-                if(cangoup(oldposition)){
+                if(cangoup(oldposition)){                                                                               //nicht nötig, er kann ja eh hochgehen
                     this.direction = Vector2Int.up;
                 }else{
                     if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
