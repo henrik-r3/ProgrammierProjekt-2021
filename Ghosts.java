@@ -128,7 +128,7 @@ public class Ghosts{
                 this.direction = Vector2Int.up;
 
             }else if(possibilities == 2){
-                rand = (int) (Math.Random() * possibilities - 1);
+                rand = (int) (Math.Random() * possibilities - 1); 
                 if(rand == 0){
                  this.direction = Vector2Int.up;
                 }else if(rand == 1){
@@ -219,6 +219,7 @@ public class Ghosts{
         oldposition = oldposition.Add(direction);
         return oldposition;
     }
+    
     
     public Vector2Int yellowGhostMovement(Vector2Int oldposition){
         int rnd;
