@@ -379,8 +379,8 @@ public class Ghosts{
                 this.direction = Vector2Int.right;
             }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
-            }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
-                if(cangoup(oldposition)){                                                                               //nicht nötig, er kann ja eh hochgehen
+            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                if(cangoup(oldposition)){                                                                               
                     this.direction = Vector2Int.up;
                 }else{
                     if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
@@ -400,7 +400,7 @@ public class Ghosts{
                 this.direction = Vector2Int.right;
             }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
-            }else if(oldposition.y < pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
                 if(cangodown(oldposition)){
                     this.direction = Vector2Int.down;
                 }else{
@@ -421,7 +421,7 @@ public class Ghosts{
                 this.direction = Vector2Int.down;
             }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
                 this.direction = Vector2Int.up;
-            }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
+            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 if(cangoleft(oldposition)){
                     this.direction = Vector2Int.left;                     
                 }else{
@@ -442,7 +442,7 @@ public class Ghosts{
                 this.direction = Vector2Int.down;
             }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
                 this.direction = Vector2Int.up;
-            }else if(oldposition.x < pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
                 if(cangoright(oldposition)){
                     this.direction = Vector2Int.right;                     
                 }else{
