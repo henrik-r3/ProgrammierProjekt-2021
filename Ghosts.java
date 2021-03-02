@@ -2,7 +2,7 @@
 import java.awt.Graphics;
 import java.util.Map;
 import javax.swing.ImageIcon;
-//import org.graalvm.compiler.asm.amd64.AMD64BaseAssembler.VEXPrefixConfig;
+import org.graalvm.compiler.asm.amd64.AMD64BaseAssembler.VEXPrefixConfig;
 
 //In die Gameobjecte implementieren
 
