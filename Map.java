@@ -45,7 +45,7 @@ public class Map {
     public void SetTile(Vector2Int pos, Tile tile){ map[pos.x + pos.y * size.x] = tile; }
     public Tile GetTile(Vector2Int pos){ return map[pos.x + pos.y * size.x]; }
     public boolean IsCol  (Vector2Int pos){ return GetTile(pos).equals(Tile.wall); }
-    public boolean EatFood(Vector2Int pos){
+    public boolean IsFood(Vector2Int pos){
         if(GetTile(pos).equals(Tile.food)){
             SetTile(pos, Tile.empty);
             return true;
