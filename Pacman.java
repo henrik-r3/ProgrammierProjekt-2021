@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
+import java.awt.event.*;
 
 
 public class Pacman implements ActionListener{
@@ -26,7 +27,7 @@ public class Pacman implements ActionListener{
     }
 
     public class Movement extends KeyAdapter{
-        public void keypressed(KeyEvent e){
+        public void keyspressed(KeyEvent e){
             int key = e.getKeyCode(); 
             if(playing){
                 if(key == KeyEvent.VK_UP){

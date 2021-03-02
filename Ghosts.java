@@ -14,7 +14,7 @@ public class Ghosts{
     private Image scared;
     private String color;
     private int numberGhosts = 0;
-    private Vector2Int position, startposition = new Vector2Int(x, y);
+    private Vector2Int position, startposition = new Vector2Int( x,  y);
     private Vector2Int direction;  
     private int followrange;  //muss in main noch deklariert werden
     private boolean powerberry = false;
@@ -24,7 +24,6 @@ public class Ghosts{
        this.position.y = this.startposition.y = starty;
        this.followrange = range;
        this.direction = Vector2Int.down;
-       this.counter = 0;
        if(colorselected.equals("green")){
            this.skin = new ImageIcon("*/Bilder/greenGhost.png").getImage();
            this.color = colorselected;
