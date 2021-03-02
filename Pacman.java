@@ -15,14 +15,14 @@ public class Pacman implements ActionListener{
     private int remaininglives;
 
     public Pacman(int startx, int starty, int lives){
-        this.position.x = this.startposition.x = startx;
-        this.position.y = this.startposition.y = starty;
-        this.direction = Vector2Int.down;
-        this.remaininglives = lives;
-        this.imgup = new ImageIcon("*/Bilder/PacUp.gif").getImage();
-        this.imgdown = new ImageIcon("*/Bilder/PacDown.gif").getImage();
-        this.imgleft = new ImageIcon("*/Bilder/PacLeft.gif").getImage();
-        this.imgright = new ImageIcon("*/Bilder/PacRight.gif").getImage(); 
+        position.x = startposition.x = startx;
+        position.y = startposition.y = starty;
+        direction = Vector2Int.down;
+        remaininglives = lives;
+        imgup = new ImageIcon("*/Bilder/PacUp.gif").getImage();
+        imgdown = new ImageIcon("*/Bilder/PacDown.gif").getImage();
+        imgleft = new ImageIcon("*/Bilder/PacLeft.gif").getImage();
+        imgright = new ImageIcon("*/Bilder/PacRight.gif").getImage(); 
     }
 
     public class Movement extends KeyAdapter{
@@ -30,13 +30,13 @@ public class Pacman implements ActionListener{
             int key = e.getKeyCode(); 
             if(playing){
                 if(key == KeyEvent.VK_UP){
-                    this.direction = Vector2Int.up;
+                    direction = Vector2Int.up;
                 }else if(key == KeyEvent.VK_DOWN){
-                    this.direction = Vector2Int.down;     
+                    direction = Vector2Int.down;     
                 }else if(key == KeyEvent.VK_LEFT){
-                    this.direction = Vector2Int.left;     
+                    direction = Vector2Int.left;     
                 }else if(key == KeyEvent.VK_RIGHT){
-                    this.direction = Vector2Int.right; 
+                    direction = Vector2Int.right; 
                 }else if(key == KeyEvent.VK_ESCAPE){
                     //Stop the timer, der muss noch implementiert werden
                 }
@@ -59,14 +59,14 @@ public class Pacman implements ActionListener{
 
     public void drawPacman(){
         Graphics g = new Graphics();
-        if(this.direction.equals(Vector2Int.down)){
-            g.drawImage(this.imgdown, this.position.x, this.position.y, null);
-        }else if(this.direction.equals(Vector2Int.up)){
-            g.drawImage(this.imgup, this.position.x, this.position.y, null);
-        }else if(this.direction.equals(Vector2Int.left)){
-            g.drawImage(this.imgleft, this.position.x, this.position.y, null);
-        }else if(this.direction.equals(Vector2Int.right)){
-            g.drawImage(this.imgright, this.position.x, this.position.y, null);
+        if(direction.equals(Vector2Int.down)){
+            g.drawImage(imgdown, position.x, position.y, null);
+        }else if(direction.equals(Vector2Int.up)){
+            g.drawImage(imgup, position.x, position.y, null);
+        }else if(direction.equals(Vector2Int.left)){
+            g.drawImage(imgleft, position.x, position.y, null);
+        }else if(direction.equals(Vector2Int.right)){
+            g.drawImage(imgright, position.x, position.y, null);
         }
     }
 
@@ -75,11 +75,11 @@ public class Pacman implements ActionListener{
         Boolean caught = Ghosts.hasbeencaught;
         if(Boolean.TRUE.equals(caught)){
 
-            this.remaininglives--;
-            this.position.x = this.startposition.x;
-            this.position.y = this.startposition.y;
+            remaininglives--;
+            position.x = startposition.x;
+            position.y = startposition.y;
         }
-        if(this.remaininglives < 1){
+        if(remaininglives < 1){
             //stop timer, Score screen
         }else{
             drawlives();
@@ -99,7 +99,7 @@ public class Pacman implements ActionListener{
 
     public Vector2Int getposition(){
 
-        return this.position;
+        return position;
     }
 
     public void gameactive(boolean isplaying){
