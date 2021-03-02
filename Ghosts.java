@@ -524,8 +524,7 @@ public class Ghosts{
 
     public Vector2Int runfromPacman(int ghostx, int ghosty, String color){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
-        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition);
-
+        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition());
         if(ghostposition.x > pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.right)) && cangoright(ghostposition)){
             ghostposition.x++;
         }else if(ghostposition.x < pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.left)) && cangoleft(ghostposition)){
@@ -590,7 +589,7 @@ public class Ghosts{
     }
 
     public boolean hasbeencaught(){
-
+        
         if(caught){
             caught = false;
             return true;
