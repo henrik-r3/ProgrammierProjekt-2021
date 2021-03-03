@@ -14,7 +14,7 @@ public class DrawPanel extends JPanel{
 
 
         //test
-        g.setColor(Color.yellow);
-        g.fillOval(getWidth()/2-50, getHeight()/2-50, 100, 100);
+        //g.setColor(Color.yellow);
+        //g.fillOval(getWidth()/2-50, getHeight()/2-50, 100, 100);
     }
 }

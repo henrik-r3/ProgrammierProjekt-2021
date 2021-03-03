@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class AStar {
+    static float compareSign = -1;//-1 => smaller is better => gets the shortest path;
+                                  // 1 => bigger is better => gets the longest path;
+
     public static class Grid
     {
         public Node[] grid;
@@ -126,7 +129,7 @@ public class AStar {
             if(compare == 0) {
                 compare = h_cost - other.h_cost;
             }
-            return -compare;//get positive if it is smaller -> smaller -> nearer -> better
+            return compare * (int)Math.signum(compareSign);//get positive if it is better according to the compareSign
         }
     }
 

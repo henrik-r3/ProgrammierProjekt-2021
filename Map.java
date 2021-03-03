@@ -18,28 +18,9 @@ public class Map {
         Arrays.fill(map, Tile.empty);
 
         Random rnd = new Random();//use one random object to make controll over seed possible
-        System.out.println("generate Map");
-        generateMap(rnd, 5);
-        System.out.println("finished generation");
-        
-        /*
-        //TEST
-        int[] mapI = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                       1, 0, 2, 2, 0, 0, 0, 0, 0, 1,
-                       1, 0, 2, 2, 0, 0, 0, 0, 0, 1,
-                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                       1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                       1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-                    };
-        for (int i = 0; i < mapI.length; i++) {
-            map[i] = Tile.values()[mapI[i]];
-        }*/
+        generateMap(rnd, 20);
 
-        printMap();
+        //printMap();
     }
 
     public void SetTile(Vector2Int pos, Tile tile){ map[pos.x + pos.y * size.x] = tile; }
@@ -72,6 +53,8 @@ public class Map {
     }*/
 
     void generateMap(Random rnd, int minLength) {
+        AStar.compareSign = 1;//get the longest path instead of the shortest
+
         Vector2Int startPos = new Vector2Int(rnd.nextInt(size.x/2)*2+1, rnd.nextInt(size.y/2)*2+1);//get a random odd stating pos
         Vector2Int pos = startPos;
         int loopLength = 0;
@@ -82,6 +65,7 @@ public class Map {
             AStar.Grid grid = new AStar.Grid(size.Mul(0.5));
             ArrayList<Vector2Int> possibleDirs = new ArrayList<Vector2Int>();
             ArrayList<Integer> possibleLength = new ArrayList<Integer>();
+            boolean closingPossible = false;
             for(int d = 0; d < Vector2Int.dirs.length; d++) {
                 Vector2Int nPos = pos.Add(Vector2Int.dirs[d].Mul(2));//dirs*2 to have a pathlike structure
                 if(nPos.equals(startPos))//if next Pos is start Pos -> loop is about to close
@@ -89,8 +73,11 @@ public class Map {
                     if(loopLength >= minLength){
                         closed = true;
                         break;
-                    }else
+                    }else{
+                        closingPossible = true;
                         continue;
+                    }
+                        
                 }
                 if(!inBounds(nPos))//do not us out of bounds
                     continue;
@@ -101,12 +88,18 @@ public class Map {
                 if(path != null){
                     possibleDirs.add(nPos);
                     possibleLength.add(path.length);
-                }else
-                    System.out.println(Vector2Int.dirs[d] + " is not reachable");
+                }//else
+                    //System.out.println(Vector2Int.dirs[d] + " is not reachable");
                     
             }
 
-            if(possibleDirs.size() == 0 && !closed)
+            if(closingPossible && possibleDirs.size() == 0) {//prevent it from dying
+                closed = true;
+                System.out.println("fuck, its the last option...");
+            }
+                
+
+            if(possibleDirs.size() == 0 && !closed && !closingPossible)
             {
                 System.out.println("THERE IS NO WAY OUT! ARRGGGGHHH!!");
                 System.out.println(loopLength);
@@ -114,24 +107,57 @@ public class Map {
             }
 
             if(!closed){
+                
+                //choose not at random, but rather by most length gain
+                int max = 0;
+                for(int i = 1; i < possibleLength.size(); i++){
+                    if(possibleLength.get(max) < possibleLength.get(i))
+                        max = i;
+                }
+                Vector2Int nPos = possibleDirs.get(max);//choose dir with most length
+                
 
-                //TODO: choose not at random, but rather by most length gain
-                Vector2Int nPos = possibleDirs.get(rnd.nextInt(possibleDirs.size()));//choos next dir at random
+
+                //Vector2Int nPos = possibleDirs.get(rnd.nextInt(possibleDirs.size()));//choose next dir at random
+
                 SetTile(nPos, Tile.wall);
                 SetTile(pos.Add(nPos.Add(pos.Mul(-1)).Mul(0.5)), Tile.wall);//set intermediate wall at pos + (npos-pos)/2
                 pos = nPos;
-                printMap();
-                System.out.println();
+                //printMap();
+                //System.out.println();
                 loopLength++;
             }else{
                 Vector2Int nPos = startPos;
                 SetTile(nPos, Tile.wall);
-                SetTile(pos.Add(nPos.Add(pos.Mul(-1)).Mul(0.5)), Tile.wall);//set intermediate wall at pos + (npos-pos)/2
+                SetTile(pos.Add(nPos).Mul(0.5), Tile.wall);//set intermediate wall at (nPos+pos)/2
             }
             
         }
-        //TODO: generate connections within
-        //TODO: invert map -> using walls as path
+        
+        //generate connections within
+        double connectProb = 0.1;
+        for(int x = 0; x < Math.floor(size.x*0.5); x++)
+            for(int y = 0; y < Math.floor(size.y*0.5); y++){
+                pos = new Vector2Int(x*2+1, y*2+1);
+                if(IsCol(pos)){//if pos is path
+                    for(int d = 0; d < Vector2Int.dirs.length; d++){
+                        Vector2Int nPos = pos.Add(Vector2Int.dirs[d].Mul(2));
+                        if(inBounds(nPos))
+                            if(IsCol(nPos) && rnd.nextDouble() < connectProb)//just use certain percentage of possible connections
+                                SetTile(pos.Add(nPos).Mul(0.5), Tile.wall);//set intermediate wall at (nPos+pos)/2
+                    }
+                }
+            }
+
+
+        //invert map -> using walls as path
+        for(int i = 0; i < map.length; i++)
+            if(map[i] == Tile.empty)
+                map[i] = Tile.wall;
+            else if(map[i] == Tile.wall)
+                map[i] = Tile.empty;
+
+        AStar.compareSign = -1;//get shortest path for all other pathfinding queries
     }
 
 
