@@ -1,8 +1,7 @@
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.Map;
 import javax.swing.ImageIcon;
-import org.graalvm.compiler.asm.amd64.AMD64BaseAssembler.VEXPrefixConfig;
 
 //In die Gameobjecte implementieren
 
@@ -14,7 +13,7 @@ public class Ghosts{
     private Image scared;
     private String color;
     private int numberGhosts = 0;
-    private Vector2Int position, startposition = new Vector2Int( x,  y);
+    private Vector2Int position, startposition = new Vector2Int();
     private Vector2Int direction;  
     private int followrange;  //muss in main noch deklariert werden
     private boolean powerberry = false;
@@ -101,7 +100,7 @@ public class Ghosts{
                }
 
            }else if(possibilities == 2){
-                rand = (int) (Math.Random() * possibilities - 1);
+                rand = (int) (Math.random() * possibilities - 1);
                 if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
                     this.direction = Vector2Int.down;
                 }else{
@@ -117,7 +116,7 @@ public class Ghosts{
                 }
 
            }else if(possibilities == 3){
-                rand = (int) (Math.Random() * possibilities - 1);
+                rand = (int) (Math.random() * possibilities - 1);
                 if(rand == 0){
                     this.direction = Vector2Int.down;
                 }else if(rand == 1){
@@ -147,7 +146,7 @@ public class Ghosts{
                 }
 
             }else if(possibilities == 2){
-                rand = (int) (Math.Random() * possibilities - 1);
+                rand = (int) (Math.random() * possibilities - 1);
                 if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
                     this.direction = Vector2Int.up;
                 }else{
@@ -164,7 +163,7 @@ public class Ghosts{
                 
 
             }else if(possibilities == 3){
-                rand = (int) (Math.Random() * possibilities - 1);
+                rand = (int) (Math.random() * possibilities - 1);
                 if(rand == 0){
                  this.direction = Vector2Int.up;
                 }else if(rand == 1){
@@ -193,7 +192,7 @@ public class Ghosts{
                 }
 
             }else if(possibilities == 2){
-                rand = (int) (Math.Random() * possibilities - 1);
+                rand = (int) (Math.random() * possibilities - 1);
                 if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
                     this.direction = Vector2Int.left;
                 }else{
@@ -209,7 +208,7 @@ public class Ghosts{
                 }
 
             }else if(possibilities == 3){
-                rand = (int) (Math.Random() * possibilities - 1);
+                rand = (int) (Math.random() * possibilities - 1);
                 if(rand == 0){
                  this.direction = Vector2Int.left;
                 }else if(rand == 1){
@@ -236,7 +235,7 @@ public class Ghosts{
                 }
 
             }else if(possibilities == 2){
-                rand = (int) (Math.Random() * possibilities - 1);
+                rand = (int) (Math.random() * possibilities - 1);
                 if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
                     this.direction = Vector2Int.right;
                 }else{
@@ -252,7 +251,7 @@ public class Ghosts{
                 }
 
             }else if(possibilities == 3){
-                rand = (int) (Math.Random() * possibilities - 1);
+                rand = (int) (Math.random() * possibilities - 1);
                 if(rand == 0){
                  this.direction = Vector2Int.right;
                 }else if(rand == 1){
@@ -357,7 +356,7 @@ public class Ghosts{
 
     public Vector2Int pinkGhostMovement(Vector2Int oldposition){
         
-        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition);
+        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition());
         int rnd = (int) (Math.random()*3);
         
         if(rnd == 0){
@@ -480,21 +479,21 @@ public class Ghosts{
     }
 
     public void drawGhosts(Image skinImage, int posx, int posy){
-        Graphics g = new Graphics();
-        g.drawImage(skinImage,posx, posy);
+        Graphics g = new Graphics();    //Muss anders implementiert werden
+        g.drawImage(skinImage,posx, posy, null);
     }
 
     public int calculateDistance(int posx, int posy){
 
         Vector2Int ghostposition = new Vector2Int(posx, posy);
-        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition.x, Pacman.getposition.y);
+        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition());
 
-        return Math.abs(packmanposition.x - ghostposition.x) + Math.abs(pacmanposition.y - ghostposition.y);         
+        return Math.abs(pacmanposition.x - ghostposition.x) + Math.abs(pacmanposition.y - ghostposition.y);         
     }
 
     public Vector2Int huntPacman(int ghostx, int ghosty, String color){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
-        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition);
+        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition());
 
         if(ghostposition.x > pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.left))
             && cangoleft(ghostposition)){
