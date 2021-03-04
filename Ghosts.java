@@ -35,10 +35,22 @@ public class Ghosts extends GameObject{
            this.skin = new ImageIcon("Bilder/pinkGhost.png").getImage();
            this.color = colorselected;
        }
-       this.scared = new ImageIcon("*/Bilder/scaredGhost.png").getImage();
+       this.scared = new ImageIcon("Bilder/scaredGhost.png").getImage();
     }
 
 
+    long moveTimer = 300;
+    long timer = 0;
+
+    @Override
+    public void Update(long deltaTime){
+        timer += deltaTime;
+        if(timer >= moveTimer)
+        {   
+            timer = 0;
+            selectGhostmovement();
+        }
+    }
 
     public void selectGhostmovement(){
 
