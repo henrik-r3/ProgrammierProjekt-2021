@@ -11,7 +11,7 @@ public class Pacman extends GameObject{
     private Vector2Int startposition = new Vector2Int();
     private int remaininglives;
     private boolean caught = false;
-    public static Pacman instance;
+    public static Pacman pacinstance;
 
     
 
@@ -24,6 +24,7 @@ public class Pacman extends GameObject{
         imgdown = new ImageIcon("Bilder/PacDown.gif").getImage();
         imgleft = new ImageIcon("Bilder/PacLeft.gif").getImage();
         imgright = new ImageIcon("Bilder/PacRight.gif").getImage();
+        pacinstance = this;
     }
 
 

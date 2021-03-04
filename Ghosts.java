@@ -8,7 +8,6 @@ import javax.swing.ImageIcon;
 public class Ghosts extends GameObject{
 
     private boolean playing; 
-    private boolean caught = false; 
     private Image skin;
     private Image scared;
     private String color;
@@ -24,21 +23,22 @@ public class Ghosts extends GameObject{
        this.followrange = range;
        this.direction = Vector2Int.down;
        if(colorselected.equals("green")){
-           this.skin = new ImageIcon("*/Bilder/greenGhost.png").getImage();
+           this.skin = new ImageIcon("Bilder/greenGhost.png").getImage();
            this.color = colorselected;
        }else if(colorselected.equals("yellow")){
-           this.skin = new ImageIcon("*/Bilder/yellowGhost.png").getImage();
+           this.skin = new ImageIcon("Bilder/yellowGhost.png").getImage();
            this.color = colorselected;
        }else if(colorselected.equals("red")){
-           this.skin = new ImageIcon("*/Bilder/redGhost.png").getImage();
+           this.skin = new ImageIcon("Bilder/redGhost.png").getImage();
            this.color = colorselected;
        }else if(colorselected.equals("pink")){
-           this.skin = new ImageIcon("*/Bilder/pinkGhost.png").getImage();
+           this.skin = new ImageIcon("Bilder/pinkGhost.png").getImage();
            this.color = colorselected;
        }
        this.scared = new ImageIcon("*/Bilder/scaredGhost.png").getImage();
-       numberGhosts += 1;
     }
+
+
 
     public void selectGhostmovement(){
 
@@ -53,7 +53,7 @@ public class Ghosts extends GameObject{
 
             }else{
                 if(calculateDistance(this.position.x, this.position.y) < 2 ){
-                    caught = true;
+                    Pacman.pacinstance.hasbeencaught();
                 }
                 if(calculateDistance(this.position.x, this.position.y) <= followrange){
                     this.position = huntPacman(this.position.x, this.position.y, this.color);
@@ -357,7 +357,7 @@ public class Ghosts extends GameObject{
 
     public Vector2Int pinkGhostMovement(Vector2Int oldposition){
         
-        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition());
+        Vector2Int pacmanposition = Pacman.pacinstance.getposition();
         int rnd = (int) (Math.random()*3);
         
         if(rnd == 0){
@@ -480,21 +480,21 @@ public class Ghosts extends GameObject{
     }
 
     public void drawGhosts(Image skinImage, int posx, int posy){
-        Graphics g = new Graphics();    //Muss anders implementiert werden
-        g.drawImage(skinImage,posx, posy, null);
+        Vector2Int drawvector = new Vector2Int(posx, posy);
+        Game.instance.drawImage(skinImage, drawvector);
     }
 
     public int calculateDistance(int posx, int posy){
 
         Vector2Int ghostposition = new Vector2Int(posx, posy);
-        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition());
+        Vector2Int pacmanposition = Pacman.pacinstance.getposition();
 
         return Math.abs(pacmanposition.x - ghostposition.x) + Math.abs(pacmanposition.y - ghostposition.y);         
     }
 
     public Vector2Int huntPacman(int ghostx, int ghosty, String color){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
-        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition());
+        Vector2Int pacmanposition = Pacman.pacinstance.getposition();
 
         if(ghostposition.x > pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.left))
             && cangoleft(ghostposition)){
@@ -524,7 +524,7 @@ public class Ghosts extends GameObject{
 
     public Vector2Int runfromPacman(int ghostx, int ghosty, String color){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
-        Vector2Int pacmanposition = new Vector2Int(Pacman.getposition());
+        Vector2Int pacmanposition = Pacman.pacinstance.getposition();
         if(ghostposition.x > pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.right)) && cangoright(ghostposition)){
             ghostposition.x++;
         }else if(ghostposition.x < pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.left)) && cangoleft(ghostposition)){
@@ -586,16 +586,6 @@ public class Ghosts extends GameObject{
 
             return true;
         }  
-    }
-
-    public boolean hasbeencaught(){
-        
-        if(caught){
-            caught = false;
-            return true;
-        } else{
-            return caught;
-        }
     }
 
     public void gameactive(boolean isplaying){
