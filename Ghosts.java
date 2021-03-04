@@ -1,6 +1,4 @@
-
 import java.awt.*;
-import java.util.Map;
 import javax.swing.ImageIcon;
 
 //In die Gameobjecte implementieren
