@@ -4,7 +4,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.awt.event.*;
 
-public class Pacman extends GameObject implements ActionListener{
+public class Pacman extends GameObject{
 
     private Vector2Int direction; // Speichert die Richtung, in die sich der Pacman bewegt
     private Image imgup, imgdown, imgleft, imgright; // Pacman hat 4 Bilder für jede mögliche Richtung
@@ -100,9 +100,4 @@ public class Pacman extends GameObject implements ActionListener{
         return position;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-    
-    }
 }
