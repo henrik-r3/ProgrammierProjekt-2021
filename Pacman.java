@@ -12,7 +12,9 @@ public class Pacman extends GameObject implements ActionListener{
     private Vector2Int position = new Vector2Int(); // Position des Pacman
     private Vector2Int startposition = new Vector2Int();
     private int remaininglives;
+    private boolean caught = false;
     public static Pacman instance;
+
     
 
     public Pacman(int startx, int starty, int lives) {
@@ -62,9 +64,13 @@ public class Pacman extends GameObject implements ActionListener{
         }
     }
 
-    public void calculatelives() {
+    public void hasbeencaught(){
 
-        Boolean caught = Ghosts.hasbeencaught();
+        caught = true;
+    }
+
+    public void calculatelives() {
+        
         if (Boolean.TRUE.equals(caught)) {
 
             remaininglives--;
@@ -76,6 +82,7 @@ public class Pacman extends GameObject implements ActionListener{
         } else {
             drawlives();
         }
+        caught = false;
     }
 
     public void drawlives() {

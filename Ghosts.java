@@ -45,7 +45,7 @@ public class Ghosts extends GameObject{
         if(playing){
             if(powerberry){
                 if(calculateDistance(this.position.x, this.position.y) < 2 ){
-                    Score.instance.eatsGhost();
+                    Score.scoreinstance.eatsGhost();
                     this.position = startposition;
                 }
                 this.position = runfromPacman(this.position.x, this.position.y, this.color);
