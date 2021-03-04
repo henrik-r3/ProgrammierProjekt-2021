@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import javax.swing.JFrame;
 
 
@@ -11,6 +10,8 @@ public class Game{
 
     JFrame frame;
     private Graphics g;
+    private Vector2Int tileSize;
+
     public Input input = new Input();
     public Random rnd = new Random();
 
@@ -23,6 +24,7 @@ public class Game{
         gameObjects = new ArrayList<GameObject>();//add initial GameObjects
 
         new Map(new Vector2Int(20, 20));
+        tileSize = new Vector2Int(frame.getWidth() / Map.instance.size.x, frame.getHeight() / Map.instance.size.y);
 
         //add Gameobjects
         Vector2Int startPos = Map.instance.getRandomPos();
@@ -50,12 +52,15 @@ public class Game{
 
     private void drawMap(){
         drawing().setColor(Color.DARK_GRAY);
-        Vector2Int tileSize = new Vector2Int(frame.getWidth() / Map.instance.size.x, frame.getHeight() / Map.instance.size.y);
         for(int x = 0; x < Map.instance.size.x; x++)
             for(int y = 0; y < Map.instance.size.y; y++){
                 if(Map.instance.IsCol(new Vector2Int(x,y)))
                     drawing().fillRect(x*tileSize.x, y*tileSize.y, tileSize.x, tileSize.y);
             }
+    }
+
+    public void drawImage(Image img, Vector2Int pos){
+        g.drawImage(img, pos.x, pos.y, null);
     }
 
     public Graphics drawing(){
