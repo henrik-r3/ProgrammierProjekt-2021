@@ -27,7 +27,7 @@ public class Game{
 
         gameObjects = new ArrayList<GameObject>();//add initial GameObjects
 
-        new Map(new Vector2Int(30, 30));
+        new Map(new Vector2Int(15, 15));
         tileSize = new Vector2Int(frame.getWidth() / Map.instance.size.x, frame.getHeight() / Map.instance.size.y);
         frame.setSize(tileSize.x*Map.instance.size.x, tileSize.y*Map.instance.size.y+30);//+50 für die titelleiste
 

@@ -37,7 +37,7 @@ public class Ghosts extends GameObject{
     }
 
 
-    long moveTimer = 300;
+    long moveTimer = 400;
     long timer = 0;
 
     @Override
