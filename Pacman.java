@@ -21,17 +21,17 @@ public class Pacman extends GameObject implements ActionListener{
         position.y = startposition.y = starty;
         direction = Vector2Int.down;
         remaininglives = lives;
-        imgup = new ImageIcon("*/Bilder/PacUp.gif").getImage();
-        imgdown = new ImageIcon("*/Bilder/PacDown.gif").getImage();
-        imgleft = new ImageIcon("*/Bilder/PacLeft.gif").getImage();
-        imgright = new ImageIcon("*/Bilder/PacRight.gif").getImage();
+        imgup = new ImageIcon("Bilder/PacUp.gif").getImage();
+        imgdown = new ImageIcon("Bilder/PacDown.gif").getImage();
+        imgleft = new ImageIcon("Bilder/PacLeft.gif").getImage();
+        imgright = new ImageIcon("Bilder/PacRight.gif").getImage();
     }
 
     @Override
     public void Update(long deltaTime){
-        //calculatePosition();
-        //calculatelives();
-        Game.instance.drawImage(imgup, new Vector2Int(5, 5));
+        calculatePosition();
+        calculatelives();
+
     }
 
 
