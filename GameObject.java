@@ -5,5 +5,5 @@ public class GameObject {
     
     public void Update(long deltaTime) {}//exists for Overrides
 
-    public void Destroy() { Game.instance.RemoveGO(this); }
+    public void Destroy() { Game.instance.removeGO(this); }
 }
