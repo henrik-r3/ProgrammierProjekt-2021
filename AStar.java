@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class AStar {
-    static float compareSign = -1;//-1 => smaller is better => gets the shortest path;
-                                  // 1 => bigger is better => gets the longest path;
+    public static float compareSign = -1;//-1 => smaller is better => gets the shortest path;
+                                         // 1 => bigger is better => gets the longest path;
 
     public static class Grid
     {
