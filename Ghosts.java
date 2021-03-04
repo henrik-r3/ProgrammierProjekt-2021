@@ -12,7 +12,7 @@ public class Ghosts extends GameObject{
     private Image scared;
     private String color;
     private int numberGhosts = 0;
-    private Vector2Int position, startposition = new Vector2Int();
+    private Vector2Int position = new Vector2Int(), startposition = new Vector2Int();
     private Vector2Int direction;  
     private int followrange;  //muss in main noch deklariert werden
     private boolean powerberry = false;

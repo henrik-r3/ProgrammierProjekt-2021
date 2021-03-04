@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Random;
 import java.awt.*;
+
+import javax.imageio.plugins.tiff.FaxTIFFTagSet;
 import javax.swing.JFrame;
 
 
@@ -26,13 +28,17 @@ public class Game{
 
         gameObjects = new ArrayList<GameObject>();//add initial GameObjects
 
-        new Map(new Vector2Int(20, 20));
+        new Map(new Vector2Int(30, 30));
         tileSize = new Vector2Int(frame.getWidth() / Map.instance.size.x, frame.getHeight() / Map.instance.size.y);
+        frame.setSize(tileSize.x*Map.instance.size.x, tileSize.y*Map.instance.size.y);
 
         //add Gameobjects
         Vector2Int startPos = Map.instance.getRandomPos();
         gameObjects.add( new Pacman(startPos.x, startPos.y, 3) );
-        System.out.println(startPos);
+
+        startPos = Map.instance.getRandomPos();
+        gameObjects.add( new Ghosts(startPos.x, startPos.y, 5, "green"));
+
 
         //RUN THE GAME -----------------------------------------
         lastTime = System.currentTimeMillis();
@@ -72,7 +78,7 @@ public class Game{
     }
 
     public void drawImage(Image img, Vector2Int pos){
-        g.drawImage(img, pos.x*tileSize.x, pos.y*tileSize.y, frame);
+        g.drawImage(img, pos.x*tileSize.x + (tileSize.x-img.getWidth(frame))/2, pos.y*tileSize.y + (tileSize.y-img.getHeight(frame))/2, frame);
     }
 
     public Graphics drawing(){

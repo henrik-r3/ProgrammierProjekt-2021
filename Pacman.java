@@ -28,7 +28,7 @@ public class Pacman extends GameObject{
     }
 
 
-    long moveTimer = 100;
+    long moveTimer = 300;
     long timer = 0;
 
     @Override
