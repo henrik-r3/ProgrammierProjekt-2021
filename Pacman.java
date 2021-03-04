@@ -26,13 +26,23 @@ public class Pacman extends GameObject{
         imgright = new ImageIcon("Bilder/PacRight.gif").getImage();
     }
 
+
+    long moveTimer = 500;
+    long timer = 0;
+
     @Override
     public void Update(long deltaTime){
-        direction = Game.instance.input.direction;
-        direction.y = -direction.y;
-        
-        calculatePosition();
-        calculatelives();
+        direction.x = Game.instance.input.direction.x;
+        direction.y = -Game.instance.input.direction.y;
+
+        timer += deltaTime;
+        if(timer >= moveTimer)
+        {   
+            System.out.println("update");
+            timer = 0;
+            calculatePosition();
+            calculatelives();   
+        }
     }
 
 
