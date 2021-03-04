@@ -29,6 +29,8 @@ public class Pacman extends GameObject{
     @Override
     public void Update(long deltaTime){
         direction = Game.instance.input.direction;
+        direction.y = -direction.y;
+        
         calculatePosition();
         calculatelives();
     }
