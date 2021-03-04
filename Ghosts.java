@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import javax.swing.ImageIcon;
 
@@ -12,8 +13,9 @@ public class Ghosts extends GameObject{
     private int numberGhosts = 0;
     private Vector2Int position = new Vector2Int(), startposition = new Vector2Int();
     private Vector2Int direction;  
-    private int followrange;  //muss in main noch deklariert werden
+    private int followrange;  
     private boolean powerberry = false;
+    
 
     public Ghosts(int startx, int starty, int range, String colorselected ){
        this.position.x = this.startposition.x = startx;
@@ -34,10 +36,11 @@ public class Ghosts extends GameObject{
            this.color = colorselected;
        }
        this.scared = new ImageIcon("Bilder/scaredGhost.png").getImage();
+       Grid grid = new Grid();
     }
 
 
-    long moveTimer = 400;
+    long moveTimer = 300;
     long timer = 0;
 
     @Override
@@ -47,45 +50,48 @@ public class Ghosts extends GameObject{
         {   
             timer = 0;
             selectGhostmovement();
+
         }
-
-        if(powerberry)
-            drawGhosts(scared, this.position.x, this.position.y);
-        else
-            drawGhosts(this.skin, this.position.x, this.position.y);
-
     }
 
     public void selectGhostmovement(){
-        if(powerberry){
-            if(calculateDistance(this.position.x, this.position.y) < 2 ){
-                Score.scoreinstance.eatsGhost();
-                this.position = startposition;
-            }
-            this.position = runfromPacman(this.position.x, this.position.y, this.color);
-        }else{
-            if(calculateDistance(this.position.x, this.position.y) < 2 ){
-                Pacman.pacinstance.hasbeencaught();
-            }
-            if(calculateDistance(this.position.x, this.position.y) <= followrange){
-                this.position = huntPacman(this.position.x, this.position.y, this.color);
-    
-            }else{
-                if(this.color.equals("green")){
-                    this.position = greenGhostMovement(this.position);
 
-                }else if(this.color.equals("yellow")){
-                    this.position = yellowGhostMovement(this.position);
 
-                }else if(this.color.equals("red")){
-                    this.position = redGhostMovement(this.position);
-
-                }else if(this.color.equals("pink")){
-                    this.position = pinkGhostMovement(this.position);
-
+            if(powerberry){
+                if(calculateDistance(this.position.x, this.position.y) < 2 ){
+                    Score.scoreinstance.eatsGhost();
+                    this.position = startposition;
                 }
-            }     
-        }
+                this.position = runfromPacman(this.position.x, this.position.y, this.color);
+                drawGhosts(scared, this.position.x, this.position.y);
+
+            }else{
+                if(calculateDistance(this.position.x, this.position.y) < 2 ){
+                    Pacman.pacinstance.hasbeencaught();
+                }
+                if(calculateDistance(this.position.x, this.position.y) <= followrange){
+                    this.position = huntPacman(this.position.x, this.position.y, this.color);
+        
+                }else{
+                    if(this.color.equals("green")){
+                        this.position = greenGhostMovement(this.position);
+
+                    }else if(this.color.equals("yellow")){
+                        this.position = yellowGhostMovement(this.position);
+
+                    }else if(this.color.equals("red")){
+                        this.position = redGhostMovement(this.position);
+
+                    }else if(this.color.equals("pink")){
+                        this.position = pinkGhostMovement(this.position);
+
+                    }
+                }
+                
+                drawGhosts(this.skin, this.position.x, this.position.y);
+            }
+            
+        
     }
 
     public Vector2Int greenGhostMovement(Vector2Int oldposition){
@@ -503,8 +509,12 @@ public class Ghosts extends GameObject{
     public Vector2Int huntPacman(int ghostx, int ghosty, String color){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
         Vector2Int pacmanposition = Pacman.pacinstance.getposition();
+        Vector2Int[] gohere = AStar.FindPath(ghostposition, pacmanposition, grid);
 
-        if(ghostposition.x > pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.left))
+        ghostposition = gohere[0];
+
+
+       /* if(ghostposition.x > pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.left))
             && cangoleft(ghostposition)){
             ghostposition.x--;
         }else if(ghostposition.x < pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.right))
@@ -526,7 +536,8 @@ public class Ghosts extends GameObject{
             }else if(color.equals("pink")){
                 ghostposition = pinkGhostMovement(ghostposition);
             }
-        }
+        }*/
+
         return ghostposition;
     }
 
@@ -596,7 +607,7 @@ public class Ghosts extends GameObject{
         || !Map.instance.IsCol(checkfurther.Add(Vector2Int.down).Add(Vector2Int.right))){
 
             return true;
-        }
+        }  
         return false;
     }
 
