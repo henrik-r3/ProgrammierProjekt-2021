@@ -6,7 +6,6 @@ import java.awt.event.*;
 
 public class Pacman extends GameObject implements ActionListener{
 
-    private boolean playing; // muss aus Main class bestimmt werden
     private Vector2Int direction; // Speichert die Richtung, in die sich der Pacman bewegt
     private Image imgup, imgdown, imgleft, imgright; // Pacman hat 4 Bilder für jede mögliche Richtung
     private Vector2Int position = new Vector2Int(); // Position des Pacman
@@ -37,18 +36,18 @@ public class Pacman extends GameObject implements ActionListener{
 
 
     public void calculatePosition() {
-        if (playing) {
+       
             
-            if (!Map.instance.IsCol(position.Add(direction))) {
-                position = position.Add(direction);
-            }
-
-            if (Map.instance.IsFood(position)) {
-                Score.scoreinstance.eatsFood();
-            }
-            drawPacman();
-            
+        if (!Map.instance.IsCol(position.Add(direction))) {
+            position = position.Add(direction);
         }
+
+        if (Map.instance.IsFood(position)) {
+            Score.scoreinstance.eatsFood();
+        }
+        drawPacman();
+            
+        
     }
 
     public void drawPacman() {
