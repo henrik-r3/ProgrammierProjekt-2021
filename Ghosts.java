@@ -2,8 +2,6 @@
 import java.awt.*;
 import javax.swing.ImageIcon;
 
-//In die Gameobjecte implementieren
-
 public class Ghosts extends GameObject{
 
 
@@ -392,18 +390,20 @@ public class Ghosts extends GameObject{
                 this.direction = Vector2Int.right;
             }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
-            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
-                if(cangoup(oldposition)){                                                                               
+            }else if(oldposition.y > paymanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){                                                                            
                     this.direction = Vector2Int.up;
+            }else{
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+                    this.direction = Vector2Int.down;
+                 }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                    this.direction = Vector2Int.right;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
+                    this.direction= Vector2Int.left;
                 }else{
-                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
-                        this.direction = Vector2Int.down;
-                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
-                        this.direction = Vector2Int.right;
-                    }else{
-                        this.direction= Vector2Int.left;
-                    }
+                    this.direction = Vector2Int.down;
+                    this.position = startposition;
                 }
+                
             }
 
         }else if(this.direction == Vector2Int.up){
@@ -413,60 +413,68 @@ public class Ghosts extends GameObject{
                 this.direction = Vector2Int.right;
             }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
-            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
-                if(cangodown(oldposition)){
-                    this.direction = Vector2Int.down;
+            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                this.direction = Vector2Int.down;
+            }
+            else{
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                    this.direction = Vector2Int.up;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                    this.direction = Vector2Int.right;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
+                    this.direction= Vector2Int.left;
                 }else{
-                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
-                        this.direction = Vector2Int.up;
-                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
-                        this.direction = Vector2Int.right;
-                    }else{
-                        this.direction= Vector2Int.left;
-                    }
+                    this.direction = Vector2Int.down;
+                    this.position = startposition;
                 }
+                
             }
 
-        }else if(this.direction== Vector2Int.right){
+        }else if(this.direction == Vector2Int.right){
             if(oldposition.x < pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
                 this.direction = Vector2Int.right;
             }else if(oldposition.y < pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
                 this.direction = Vector2Int.down;
             }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
                 this.direction = Vector2Int.up;
-            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
-                if(cangoleft(oldposition)){
-                    this.direction = Vector2Int.left;                     
+            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                this.direction = Vector2Int.left;                     
+            }else{
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                    this.direction = Vector2Int.right;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                    this.direction = Vector2Int.up;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+                    this.direction = Vector2Int.down;
                 }else{
-                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
-                        this.direction = Vector2Int.right;
-                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
-                        this.direction = Vector2Int.up;
-                    }else{
-                        this.direction = Vector2Int.down;
-                    }
-                }    
+                    this.direction = Vector2Int.down;
+                    this.position = startposition;
+                }
+                    
             }
 
-        }else if(this.direction== Vector2Int.left){
+        }else if(this.direction == Vector2Int.left){
             if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
             }else if(oldposition.y < pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
                 this.direction = Vector2Int.down;
             }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
                 this.direction = Vector2Int.up;
-            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
-                if(cangoright(oldposition)){
-                    this.direction = Vector2Int.right;                     
+            }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+
+                this.direction = Vector2Int.right;                     
+            }else{
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
+                    this.direction = Vector2Int.left;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                    this.direction = Vector2Int.up;
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+                    this.direction = Vector2Int.down;
                 }else{
-                    if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
-                        this.direction = Vector2Int.left;
-                    }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
-                        this.direction = Vector2Int.up;
-                    }else{
-                        this.direction = Vector2Int.down;
-                    }
-                }    
+                    this.direction = Vector2Int.down;
+                    this.position = oldposition;
+                }
+                   
             }
         }
         
