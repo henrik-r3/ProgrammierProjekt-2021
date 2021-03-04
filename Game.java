@@ -15,7 +15,7 @@ public class Game{
     public Input input = new Input();
     public Random rnd = new Random();
 
-    long lastTime;
+    long lastTime = 0;
     private ArrayList<GameObject> gameObjects;//pool of all GameObjects
 
     public Game(JFrame frame){
@@ -39,11 +39,15 @@ public class Game{
         for(int g = gameObjects.size()-1; g >= 0; g--)//loop runs backwards to prevent error on deletion
             gameObjects.get(g).Start();
 
-
-        //TODO: pause the game
+        while(true){
+            frame.repaint();
+        }
     }
 
     public void UpdateGame(Graphics g){
+        if(lastTime == 0 || input.pause)
+            return;
+
         this.g = g;
 
         long currentTime = System.currentTimeMillis();
