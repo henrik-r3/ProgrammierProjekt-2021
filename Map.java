@@ -17,8 +17,7 @@ public class Map {
         map = new Tile[size.x * size.y];
         Arrays.fill(map, Tile.empty);
 
-        Random rnd = new Random();//use one random object to make controll over seed possible
-        generateMap(rnd, 20);
+        generateMap(Game.instance.rnd, 20);
 
         //printMap();
     }
@@ -161,7 +160,7 @@ public class Map {
     }
 
     public Vector2Int getRandomPos(){
-        Random rnd = new Random();
+        Random rnd = Game.instance.rnd;
         while(true){
             Vector2Int pos = new Vector2Int(rnd.nextInt(size.x), rnd.nextInt(size.y));
             if(!IsCol(pos))

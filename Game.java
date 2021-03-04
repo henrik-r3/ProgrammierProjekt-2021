@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Random;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JFrame;
@@ -12,6 +12,7 @@ public class Game{
     JFrame frame;
     private Graphics g;
     public Input input = new Input();
+    public Random rnd = new Random();
 
     private ArrayList<GameObject> gameObjects;//pool of all GameObjects
 
