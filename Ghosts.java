@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 public class Ghosts extends GameObject{
 
-    private boolean playing; 
+
     private Image skin;
     private Image scared;
     private String color;
@@ -54,7 +54,7 @@ public class Ghosts extends GameObject{
 
     public void selectGhostmovement(){
 
-        if(playing){
+
             if(powerberry){
                 if(calculateDistance(this.position.x, this.position.y) < 2 ){
                     Score.scoreinstance.eatsGhost();
@@ -89,7 +89,7 @@ public class Ghosts extends GameObject{
                 drawGhosts(this.skin, this.position.x, this.position.y);
             }
             
-        }
+        
     }
 
     public Vector2Int greenGhostMovement(Vector2Int oldposition){
@@ -600,10 +600,6 @@ public class Ghosts extends GameObject{
         }  
     }
 
-    public void gameactive(boolean isplaying){
-
-        playing = isplaying;
-    }
 
     public void powerberrystatus(boolean powerberryactive){
 
