@@ -5,7 +5,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.awt.event.*;
 
-public class Pacman implements ActionListener {
+public class Pacman extends GameObject implements ActionListener{
 
     private boolean playing; // muss aus Main class bestimmt werden
     private Vector2Int direction; // Speichert die Richtung, in die sich der Pacman bewegt
@@ -13,6 +13,7 @@ public class Pacman implements ActionListener {
     private Vector2Int position = new Vector2Int(); // Position des Pacman
     private Vector2Int startposition = new Vector2Int();
     private int remaininglives;
+    public static Pacman instance;
 
     public Pacman(int startx, int starty, int lives) {
         position.x = startposition.x = startx;
@@ -55,11 +56,12 @@ public class Pacman implements ActionListener {
                 Score.instance.eatsFood();
             }
             drawPacman();
+            
         }
     }
 
     public void drawPacman() {
-        Graphics g = new Graphics(); //Muss anders implementier werden, mit GRaphics Klasse rufen!
+        Graphics g = Game.instance.drawing(); //Muss anders implementier werden, mit GRaphics Klasse rufen!
         if (direction.equals(Vector2Int.down)) {
             g.drawImage(imgdown, position.x, position.y, null);
         } else if (direction.equals(Vector2Int.up)) {
@@ -110,7 +112,7 @@ public class Pacman implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-
+        /* TODO Auto-generated method stub
+        */
     }
 }

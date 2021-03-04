@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 
 //In die Gameobjecte implementieren
 
-public class Ghosts{
+public class Ghosts extends GameObject{
 
     private boolean playing; 
     private boolean caught = false; 
@@ -18,7 +18,7 @@ public class Ghosts{
     private int followrange;  //muss in main noch deklariert werden
     private boolean powerberry = false;
 
-    public Ghost(int startx, int starty, int range, String colorselected ){
+    public Ghosts(int startx, int starty, int range, String colorselected ){
        this.position.x = this.startposition.x = startx;
        this.position.y = this.startposition.y = starty;
        this.followrange = range;
@@ -73,6 +73,7 @@ public class Ghosts{
 
                     }
                 }
+                
                 drawGhosts(this.skin, this.position.x, this.position.y);
             }
             
