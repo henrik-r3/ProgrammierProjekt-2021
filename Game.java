@@ -15,13 +15,17 @@ public class Game{
 
     private ArrayList<GameObject> gameObjects;//pool of all GameObjects
 
-    public Game(JFrame frame, GameObject[] initialGameObjects){
+    public Game(JFrame frame){
         //INIT -------------------------------------------------
         instance = this;
         this.frame = frame;
-        gameObjects = new ArrayList<GameObject>(Arrays.asList(initialGameObjects));//add initial GameObjects
+        gameObjects = new ArrayList<GameObject>();//add initial GameObjects
 
         new Map(new Vector2Int(20, 20));
+
+        //add Gameobjects
+        Vector2Int startPos = Map.instance.getRandomPos();
+        gameObjects.add( new Pacman(startPos.x, startPos.y, 3) );
         
 
         //RUN THE GAME -----------------------------------------
