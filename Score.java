@@ -1,11 +1,11 @@
 public class Score{
 
     private int scoreval;
-    public static Score instance;
+    public static Score scoreinstance;
 
-    public Userscore(){
+    public Score(){
         scoreval = 0;
-        instance = this;
+        scoreinstance = this;
     }
 
     public void eatsFood(){
