@@ -29,9 +29,9 @@ public class Pacman extends GameObject implements ActionListener{
 
     @Override
     public void Update(long deltaTime){
-        calculatePosition();
-        calculatelives();
-
+        //calculatePosition();
+        //calculatelives();
+        Game.instance.drawImage(imgup, position);
     }
 
 
