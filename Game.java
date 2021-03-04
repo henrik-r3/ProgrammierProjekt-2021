@@ -21,6 +21,8 @@ public class Game{
         //INIT -------------------------------------------------
         instance = this;
         this.frame = frame;
+        frame.addKeyListener(input);
+
         gameObjects = new ArrayList<GameObject>();//add initial GameObjects
 
         new Map(new Vector2Int(20, 20));

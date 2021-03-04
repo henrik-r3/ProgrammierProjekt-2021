@@ -3,7 +3,8 @@ public class Input extends KeyAdapter {      //in Calculate Position einbauen
     public Vector2Int direction = Vector2Int.down;
     public boolean pause = false;
 
-    public void keyspressed(KeyEvent e) {
+    @Override
+    public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_UP) {
             direction = Vector2Int.up;
