@@ -7,6 +7,7 @@ public class Main {
         frame.setSize(600, 600);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+        //frame.setUndecorated(true);
         frame.setVisible(true);
         
         DrawPanel drawP = new DrawPanel();

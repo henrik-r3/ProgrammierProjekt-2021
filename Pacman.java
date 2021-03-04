@@ -27,22 +27,22 @@ public class Pacman extends GameObject{
     }
 
 
-    long moveTimer = 500;
+    long moveTimer = 100;
     long timer = 0;
 
     @Override
     public void Update(long deltaTime){
-        direction.x = Game.instance.input.direction.x;
-        direction.y = -Game.instance.input.direction.y;
+        direction = new Vector2Int(Game.instance.input.direction.x, -Game.instance.input.direction.y);
 
         timer += deltaTime;
         if(timer >= moveTimer)
         {   
-            System.out.println("update");
             timer = 0;
             calculatePosition();
             calculatelives();   
         }
+
+        drawPacman();
     }
 
 
@@ -55,17 +55,14 @@ public class Pacman extends GameObject{
 
         if (Map.instance.IsFood(position)) {
             Score.scoreinstance.eatsFood();
-        }
-        drawPacman();
-            
-        
+        }        
     }
 
     public void drawPacman() {
          
-        if (direction.equals(Vector2Int.down)) {
+        if (direction.equals(Vector2Int.up)) {
             Game.instance.drawImage(imgdown, position);
-        } else if (direction.equals(Vector2Int.up)) {
+        } else if (direction.equals(Vector2Int.down)) {
             Game.instance.drawImage(imgup, position);
         } else if (direction.equals(Vector2Int.left)) {
             Game.instance.drawImage(imgleft, position);

@@ -12,9 +12,6 @@ public class DrawPanel extends JPanel{
         g.setColor(BackgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-
-        //test
-        //g.setColor(Color.yellow);
-        //g.fillOval(getWidth()/2-50, getHeight()/2-50, 100, 100);
+        Game.instance.UpdateGame(g);
     }
 }

@@ -15,6 +15,7 @@ public class Game{
     public Input input = new Input();
     public Random rnd = new Random();
 
+    long lastTime;
     private ArrayList<GameObject> gameObjects;//pool of all GameObjects
 
     public Game(JFrame frame){
@@ -34,23 +35,28 @@ public class Game{
         System.out.println(startPos);
 
         //RUN THE GAME -----------------------------------------
-        long lastTime = System.currentTimeMillis();
+        lastTime = System.currentTimeMillis();
         for(int g = gameObjects.size()-1; g >= 0; g--)//loop runs backwards to prevent error on deletion
             gameObjects.get(g).Start();
 
-        while(!input.pause) {
-            g = frame.getGraphics();
 
-            long deltaTime = lastTime - System.currentTimeMillis();
-            lastTime += deltaTime;
-            
-            //Update all GameObjects
-            for(int g = gameObjects.size()-1; g >= 0; g--)//loop runs backwards to prevent error on deletion
-                gameObjects.get(g).Update(deltaTime);
-
-            drawMap();
-        }
+        //TODO: pause the game
     }
+
+    public void UpdateGame(Graphics g){
+        this.g = g;
+
+        long currentTime = System.currentTimeMillis();
+        long deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+        
+        //Update all GameObjects
+        for(int go = gameObjects.size()-1; go >= 0; go--)//loop runs backwards to prevent error on deletion
+            gameObjects.get(go).Update(deltaTime);
+
+        drawMap();
+    }
+
 
     private void drawMap(){
         drawing().setColor(Color.DARK_GRAY);
