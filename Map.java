@@ -160,6 +160,14 @@ public class Map {
         AStar.compareSign = -1;//get shortest path for all other pathfinding queries
     }
 
+    public Vector2Int getRandomPos(){
+        Random rnd = new Random();
+        while(true){
+            Vector2Int pos = new Vector2Int(rnd.nextInt(size.x), rnd.nextInt(size.y));
+            if(!IsCol(pos))
+                return pos;
+        }
+    }
 
     public void printMap(){
         for(int x = 0; x < size.x; x++){
