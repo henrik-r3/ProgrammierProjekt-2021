@@ -50,6 +50,12 @@ public class Ghosts extends GameObject{
             timer = 0;
             selectGhostmovement();
         }
+
+        if(powerberry)
+            drawGhosts(scared, this.position.x, this.position.y);
+        else
+            drawGhosts(this.skin, this.position.x, this.position.y);
+
     }
 
     public void selectGhostmovement(){
@@ -59,8 +65,6 @@ public class Ghosts extends GameObject{
                 this.position = startposition;
             }
             this.position = runfromPacman(this.position.x, this.position.y, this.color);
-            drawGhosts(scared, this.position.x, this.position.y);
-
         }else{
             if(calculateDistance(this.position.x, this.position.y) < 2 ){
                 Pacman.pacinstance.hasbeencaught();
@@ -82,9 +86,7 @@ public class Ghosts extends GameObject{
                     this.position = pinkGhostMovement(this.position);
 
                 }
-            }
-            
-            drawGhosts(this.skin, this.position.x, this.position.y);
+            }     
         }
     }
 
