@@ -106,7 +106,7 @@ public class Pacman extends GameObject{
 
     public Vector2Int getposition() {
 
-        return position;
+        return new Vector2Int(position.x , position.y);
     }
 
 }
