@@ -52,15 +52,15 @@ public class Pacman extends GameObject implements ActionListener{
     }
 
     public void drawPacman() {
-        Graphics g = Game.instance.drawing(); 
+         
         if (direction.equals(Vector2Int.down)) {
-            g.drawImage(imgdown, position.x, position.y, null);
+            Game.instance.drawImage(imgdown, position);
         } else if (direction.equals(Vector2Int.up)) {
-            g.drawImage(imgup, position.x, position.y, null);
+            Game.instance.drawImage(imgup, position);
         } else if (direction.equals(Vector2Int.left)) {
-            g.drawImage(imgleft, position.x, position.y, null);
+            Game.instance.drawImage(imgleft, position);
         } else if (direction.equals(Vector2Int.right)) {
-            g.drawImage(imgright, position.x, position.y, null);
+            Game.instance.drawImage(imgright, position);
         }
     }
 
