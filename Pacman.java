@@ -42,7 +42,7 @@ public class Pacman extends GameObject implements ActionListener{
             }
 
             if (Map.instance.IsFood(position)) {
-                Score.instance.eatsFood();
+                Score.scoreinstance.eatsFood();
             }
             drawPacman();
             
