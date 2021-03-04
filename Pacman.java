@@ -29,9 +29,9 @@ public class Pacman extends GameObject implements ActionListener{
 
     @Override
     public void Update(long deltaTime){
+        direction = Game.instance.input.direction;
         calculatePosition();
         calculatelives();
-
     }
 
 

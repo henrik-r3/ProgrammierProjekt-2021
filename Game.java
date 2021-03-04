@@ -29,7 +29,7 @@ public class Game{
         //add Gameobjects
         Vector2Int startPos = Map.instance.getRandomPos();
         gameObjects.add( new Pacman(startPos.x, startPos.y, 3) );
-        
+        System.out.println(startPos);
 
         //RUN THE GAME -----------------------------------------
         long lastTime = System.currentTimeMillis();
@@ -60,7 +60,7 @@ public class Game{
     }
 
     public void drawImage(Image img, Vector2Int pos){
-        g.drawImage(img, pos.x, pos.y, frame);
+        g.drawImage(img, pos.x*tileSize.x, pos.y*tileSize.y, frame);
     }
 
     public Graphics drawing(){
