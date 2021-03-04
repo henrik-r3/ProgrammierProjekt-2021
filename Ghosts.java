@@ -564,6 +564,7 @@ public class Ghosts extends GameObject{
 
             return true;
         }
+        return false;
     }
 
     public boolean cangoleft(Vector2Int checkfurther){
@@ -574,6 +575,7 @@ public class Ghosts extends GameObject{
 
             return true;
         }
+        return false;
     }
 
     public boolean cangoup(Vector2Int checkfurther){
@@ -584,6 +586,7 @@ public class Ghosts extends GameObject{
 
             return true;
         }
+        return false;
     }
 
     public boolean cangodown(Vector2Int checkfurther){
@@ -593,7 +596,8 @@ public class Ghosts extends GameObject{
         || !Map.instance.IsCol(checkfurther.Add(Vector2Int.down).Add(Vector2Int.right))){
 
             return true;
-        }  
+        }
+        return false;
     }
 
 
