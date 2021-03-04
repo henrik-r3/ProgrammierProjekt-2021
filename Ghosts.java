@@ -53,43 +53,39 @@ public class Ghosts extends GameObject{
     }
 
     public void selectGhostmovement(){
+        if(powerberry){
+            if(calculateDistance(this.position.x, this.position.y) < 2 ){
+                Score.scoreinstance.eatsGhost();
+                this.position = startposition;
+            }
+            this.position = runfromPacman(this.position.x, this.position.y, this.color);
+            drawGhosts(scared, this.position.x, this.position.y);
 
-
-            if(powerberry){
-                if(calculateDistance(this.position.x, this.position.y) < 2 ){
-                    Score.scoreinstance.eatsGhost();
-                    this.position = startposition;
-                }
-                this.position = runfromPacman(this.position.x, this.position.y, this.color);
-                drawGhosts(scared, this.position.x, this.position.y);
-
+        }else{
+            if(calculateDistance(this.position.x, this.position.y) < 2 ){
+                Pacman.pacinstance.hasbeencaught();
+            }
+            if(calculateDistance(this.position.x, this.position.y) <= followrange){
+                this.position = huntPacman(this.position.x, this.position.y, this.color);
+    
             }else{
-                if(calculateDistance(this.position.x, this.position.y) < 2 ){
-                    Pacman.pacinstance.hasbeencaught();
+                if(this.color.equals("green")){
+                    this.position = greenGhostMovement(this.position);
+
+                }else if(this.color.equals("yellow")){
+                    this.position = yellowGhostMovement(this.position);
+
+                }else if(this.color.equals("red")){
+                    this.position = redGhostMovement(this.position);
+
+                }else if(this.color.equals("pink")){
+                    this.position = pinkGhostMovement(this.position);
+
                 }
-                if(calculateDistance(this.position.x, this.position.y) <= followrange){
-                    this.position = huntPacman(this.position.x, this.position.y, this.color);
-        
-                }else{
-                    if(this.color.equals("green")){
-                        this.position = greenGhostMovement(this.position);
-
-                    }else if(this.color.equals("yellow")){
-                        this.position = yellowGhostMovement(this.position);
-
-                    }else if(this.color.equals("red")){
-                        this.position = redGhostMovement(this.position);
-
-                    }else if(this.color.equals("pink")){
-                        this.position = pinkGhostMovement(this.position);
-
-                    }
-                }
-                
-                drawGhosts(this.skin, this.position.x, this.position.y);
             }
             
-        
+            drawGhosts(this.skin, this.position.x, this.position.y);
+        }
     }
 
     public Vector2Int greenGhostMovement(Vector2Int oldposition){

@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.*;
 
-import javax.imageio.plugins.tiff.FaxTIFFTagSet;
 import javax.swing.JFrame;
 
 
