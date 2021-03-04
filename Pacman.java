@@ -1,7 +1,6 @@
 
 import java.awt.Graphics;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import java.awt.event.*;
 
@@ -14,6 +13,7 @@ public class Pacman extends GameObject implements ActionListener{
     private Vector2Int startposition = new Vector2Int();
     private int remaininglives;
     public static Pacman instance;
+    
 
     public Pacman(int startx, int starty, int lives) {
         position.x = startposition.x = startx;
@@ -26,24 +26,13 @@ public class Pacman extends GameObject implements ActionListener{
         imgright = new ImageIcon("*/Bilder/PacRight.gif").getImage();
     }
 
-    public class Movement extends KeyAdapter {      //in Calculate Position einbauen
-        public void keyspressed(KeyEvent e) {
-            int key = e.getKeyCode();
-            if (playing) {
-                if (key == KeyEvent.VK_UP) {
-                    direction = Vector2Int.up;
-                } else if (key == KeyEvent.VK_DOWN) {
-                    direction = Vector2Int.down;
-                } else if (key == KeyEvent.VK_LEFT) {
-                    direction = Vector2Int.left;
-                } else if (key == KeyEvent.VK_RIGHT) {
-                    direction = Vector2Int.right;
-                } else if (key == KeyEvent.VK_ESCAPE) {
-                    // Stop the timer, der muss noch implementiert werden
-                }
-            }
-        }
+    @Override
+    public void Update(long deltaTime){
+        calculatePosition();
+        calculatelives();
+
     }
+
 
     public void calculatePosition() {
         if (playing) {
@@ -61,7 +50,7 @@ public class Pacman extends GameObject implements ActionListener{
     }
 
     public void drawPacman() {
-        Graphics g = Game.instance.drawing(); //Muss anders implementier werden, mit GRaphics Klasse rufen!
+        Graphics g = Game.instance.drawing(); 
         if (direction.equals(Vector2Int.down)) {
             g.drawImage(imgdown, position.x, position.y, null);
         } else if (direction.equals(Vector2Int.up)) {
@@ -95,7 +84,7 @@ public class Pacman extends GameObject implements ActionListener{
 
         for (int i = 0; i < remaininglives; i++) {
 
-            Graphics g = new Graphics();
+            Graphics g = Game.instance.drawing();
             g.drawImage(heart, heart.getWidth(null) * i + 10, 300 - (heart.getHeight(null) + 10), null);
         }
     }
@@ -105,14 +94,9 @@ public class Pacman extends GameObject implements ActionListener{
         return position;
     }
 
-    public void gameactive(boolean isplaying) {
-
-        playing = isplaying;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        /* TODO Auto-generated method stub
-        */
+        // TODO Auto-generated method stub
+    
     }
 }
