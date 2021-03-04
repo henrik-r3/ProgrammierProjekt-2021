@@ -80,6 +80,10 @@ public class Game{
         g.drawImage(img, pos.x*tileSize.x + (tileSize.x-img.getWidth(frame))/2, pos.y*tileSize.y + (tileSize.y-img.getHeight(frame))/2, frame);
     }
 
+    public void drawPath(){
+        
+    }
+
     public Graphics drawing(){
         return g;
     }

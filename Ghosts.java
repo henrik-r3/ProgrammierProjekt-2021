@@ -15,7 +15,7 @@ public class Ghosts extends GameObject{
     private Vector2Int direction;  
     private int followrange;  
     private boolean powerberry = false;
-    
+    private AStar.Grid grid;
 
     public Ghosts(int startx, int starty, int range, String colorselected ){
        this.position.x = this.startposition.x = startx;
@@ -36,7 +36,7 @@ public class Ghosts extends GameObject{
            this.color = colorselected;
        }
        this.scared = new ImageIcon("Bilder/scaredGhost.png").getImage();
-       Grid grid = new Grid();
+       grid = new AStar.Grid();
     }
 
 
@@ -50,8 +50,12 @@ public class Ghosts extends GameObject{
         {   
             timer = 0;
             selectGhostmovement();
-
         }
+
+        if(powerberry)
+            drawGhosts(scared, this.position.x, this.position.y);
+        else
+            drawGhosts(this.skin, this.position.x, this.position.y);
     }
 
     public void selectGhostmovement(){
@@ -63,8 +67,6 @@ public class Ghosts extends GameObject{
                     this.position = startposition;
                 }
                 this.position = runfromPacman(this.position.x, this.position.y, this.color);
-                drawGhosts(scared, this.position.x, this.position.y);
-
             }else{
                 if(calculateDistance(this.position.x, this.position.y) < 2 ){
                     Pacman.pacinstance.hasbeencaught();
@@ -87,8 +89,6 @@ public class Ghosts extends GameObject{
 
                     }
                 }
-                
-                drawGhosts(this.skin, this.position.x, this.position.y);
             }
             
         

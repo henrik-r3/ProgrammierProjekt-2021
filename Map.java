@@ -133,6 +133,7 @@ public class Map {
             
         }
         
+
         //generate connections within
         double connectProb = 0.1;
         for(int x = 0; x < Math.floor(size.x*0.5); x++)
