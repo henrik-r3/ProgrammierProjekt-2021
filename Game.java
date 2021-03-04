@@ -11,7 +11,7 @@ public class Game{
 
     JFrame frame;
     private Graphics g;
-    boolean test = true;
+    public Input input = new Input();
 
     private ArrayList<GameObject> gameObjects;//pool of all GameObjects
 
@@ -29,8 +29,7 @@ public class Game{
         for(int g = gameObjects.size()-1; g >= 0; g--)//loop runs backwards to prevent error on deletion
             gameObjects.get(g).Start();
 
-        boolean run = true;
-        while(run) {
+        while(!input.pause) {
             g = frame.getGraphics();
 
             long deltaTime = lastTime - System.currentTimeMillis();
