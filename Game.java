@@ -60,7 +60,7 @@ public class Game{
     }
 
     public void drawImage(Image img, Vector2Int pos){
-        g.drawImage(img, pos.x, pos.y, null);
+        g.drawImage(img, pos.x, pos.y, frame);
     }
 
     public Graphics drawing(){
