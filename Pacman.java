@@ -99,8 +99,8 @@ public class Pacman extends GameObject{
 
         for (int i = 0; i < remaininglives; i++) {
 
-            Graphics g = Game.instance.drawing();
-            g.drawImage(heart, heart.getWidth(null) * i + 10, 300 - (heart.getHeight(null) + 10), null);
+            Game.instance.drawImage(heart, new Vector2Int(5 + i*22 , 975));
+            
         }
     }
 
