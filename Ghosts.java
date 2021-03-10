@@ -517,7 +517,7 @@ public class Ghosts extends GameObject{
     public Vector2Int huntPacman(int ghostx, int ghosty, String color){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
         Vector2Int pacmanposition = Pacman.pacinstance.getposition();
-        Vector2Int[] gohere = AStar.FindPath(ghostposition, pacmanposition, grid);
+        Vector2Int[] gohere = AStar.FindShortestPath(ghostposition, pacmanposition, grid);
 
         if(gohere.length == 0)
             return ghostposition;

@@ -52,8 +52,6 @@ public class Map {
     }*/
 
     void generateMap(Random rnd, int minLength) {
-        AStar.compareSign = 1;//get the longest path instead of the shortest
-
         Vector2Int startPos = new Vector2Int(rnd.nextInt(size.x/2)*2+1, rnd.nextInt(size.y/2)*2+1);//get a random odd stating pos
         Vector2Int pos = startPos;
         int loopLength = 0;
@@ -83,7 +81,7 @@ public class Map {
                 if(IsCol(nPos))
                     continue;
 
-                Vector2Int[] path = AStar.FindPath(nPos.Mul(0.5), startPos.Mul(0.5), grid);
+                Vector2Int[] path = AStar.FindLongestPath(nPos.Mul(0.5), startPos.Mul(0.5), grid);
                 if(path != null){
                     possibleDirs.add(nPos);
                     possibleLength.add(path.length);
@@ -156,8 +154,6 @@ public class Map {
                 map[i] = Tile.wall;
             else if(map[i] == Tile.wall)
                 map[i] = Tile.empty;
-
-        AStar.compareSign = -1;//get shortest path for all other pathfinding queries
     }
 
     public Vector2Int getRandomPos(){

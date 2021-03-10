@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class AStar {
-    public static float compareSign = -1;//-1 => smaller is better => gets the shortest path;
+    private static float compareSign = -1;//-1 => smaller is better => gets the shortest path;
                                          // 1 => bigger is better => gets the longest path;
 
     public static class Grid
@@ -134,8 +134,10 @@ public class AStar {
     }
 
 
-    public static Vector2Int[] FindPath(Vector2Int start, Vector2Int target, Grid grid)
-    {
+    public static Vector2Int[] FindShortestPath(Vector2Int start, Vector2Int target, Grid grid)
+    {   
+        compareSign = -1;
+
         Node startNode = grid.get(start);
         Node targetNode = grid.get(target);
 
@@ -150,23 +152,45 @@ public class AStar {
             closedSet.add(currentNode);
 
             //target is reached
-            if (currentNode == targetNode && compareSign < 0)
+            if (currentNode == targetNode)
                 return Retrace(startNode, targetNode).toArray(new Vector2Int[0]);
                 
 
             openSet = currentNode.Close(grid, targetNode.pos, openSet, closedSet);
         }
 
-        if(compareSign < 0)//if we seek the shortest path
-            //there is no way of getting there
-            return null;
-        else{//we seek the longest path
-            if(closedSet.contains(targetNode))//if we came to the target at least once
-                return Retrace(startNode, targetNode).toArray(new Vector2Int[0]);
-            else
-                return null;
-        }
+        //there is no way of getting there
+        return null;
     }
+
+    public static Vector2Int[] FindLongestPath(Vector2Int start, Vector2Int target, Grid grid)
+    {   
+        compareSign = 1;
+
+        Node startNode = grid.get(start);
+        Node targetNode = grid.get(target);
+
+        Heap<Node> openSet = new Heap<Node>(grid.size.x * grid.size.y);
+        HashSet<Node> closedSet = new HashSet<Node>();
+        openSet.Add(startNode);
+
+        while (openSet.size() > 0)
+        {   
+            //Selects the next currentNode from the openSet, that has the lowest cost
+            Node currentNode = openSet.RemoveFirst();
+            closedSet.add(currentNode);
+
+            openSet = currentNode.Close(grid, targetNode.pos, openSet, closedSet);
+        }
+
+        if(closedSet.contains(targetNode))//if we came to the target at least once
+        {   
+            return Retrace(startNode, targetNode).toArray(new Vector2Int[0]);
+        }
+        else
+            return null;
+    }
+
 
     static ArrayList<Vector2Int> Retrace(Node startNode, Node endNode)
     {

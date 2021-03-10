@@ -41,7 +41,6 @@ public class Game{
         gameObjects.add( new Ghosts(startPos.x, startPos.y, 5, "green"));
 
         goalPos = Map.instance.getRandomPos();//TEST
-        AStar.compareSign = 1;
 
         //RUN THE GAME -----------------------------------------
         lastTime = System.currentTimeMillis();
@@ -60,7 +59,7 @@ public class Game{
 
         this.g = g;
         drawMap();
-        drawPath(AStar.FindPath(Pacman.pacinstance.getposition(), goalPos, new AStar.Grid()));
+        drawPath(AStar.FindLongestPath(Pacman.pacinstance.getposition(), goalPos, new AStar.Grid()));
 
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime - lastTime;
