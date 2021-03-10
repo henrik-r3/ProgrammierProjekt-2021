@@ -137,7 +137,7 @@ public class AStar {
         compareSign = -1;
         return FindPath(start, target, grid);
     }
-    public static Vector2Int[] FindLongestPath(Vector2Int start, Vector2Int target, Grid grid){   
+    public static Vector2Int[] FindLongestPath(Vector2Int start, Vector2Int target, Grid grid){//not longest but maximal distance path
         compareSign = 1;
         return FindPath(start, target, grid);
     }

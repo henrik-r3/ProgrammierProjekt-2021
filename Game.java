@@ -53,7 +53,7 @@ public class Game{
     }
 
     private Vector2Int lastPos = new Vector2Int(0, 0);//TEST
-    private Vector2Int[] lastPath;
+    private Vector2Int[] lastPath;//TEST
 
     public void UpdateGame(Graphics g){
         if(lastTime == 0/* || input.pause*/)
