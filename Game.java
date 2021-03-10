@@ -50,21 +50,26 @@ public class Game{
     }
 
 
-    public void UpdateGame(Graphics g){
+    public void UpdateGame(){
         if(lastTime == 0 || input.pause)
             return;
-
-        this.g = g;
-        drawMap();
 
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime - lastTime;
         lastTime = currentTime;
 
-
         //Update all GameObjects
         for(int go = gameObjects.size()-1; go >= 0; go--)//loop runs backwards to prevent error on deletion
             gameObjects.get(go).Update(deltaTime);
+    }
+
+    public void DrawGame(Graphics g){
+        this.g = g;
+        drawMap();
+
+        //Draw all GameObjects
+        for(int go = gameObjects.size()-1; go >= 0; go--)//loop runs backwards to prevent error on deletion
+            gameObjects.get(go).Draw();
     }
 
 
