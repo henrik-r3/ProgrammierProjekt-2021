@@ -39,10 +39,18 @@ public class Pacman extends GameObject{
         {   
             timer = 0;
             calculatePosition();  
+            
+            calculatelives();
         }
 
-        calculatelives();
+    }
+
+    @Override
+    public void Draw(){
+
         drawPacman();
+        drawlives();
+
     }
 
 
@@ -86,9 +94,8 @@ public class Pacman extends GameObject{
         }
         if (remaininglives < 1) {
             // stop timer, Score screen
-        } else {
-            drawlives();
         }
+
         caught = false;
     }
 
