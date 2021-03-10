@@ -2,6 +2,8 @@ public class Vector2Int {
     public int x;
     public int y;
 
+    public static Vector2Int zero = new Vector2Int(0, 0);
+
     public static Vector2Int up = new Vector2Int(0, 1);
     public static Vector2Int right = new Vector2Int(1, 0);
     public static Vector2Int down = new Vector2Int(0, -1);

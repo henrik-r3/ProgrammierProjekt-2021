@@ -66,15 +66,15 @@ public class AStar {
             this.pos = pos;
             this.walkable = walkable;
 
-            g_cost = Integer.MAX_VALUE;
-            h_cost = Integer.MAX_VALUE;
+            g_cost = compareSign < 0 ? Integer.MAX_VALUE : Integer.MIN_VALUE;//compareSign = -1: use maxVal ...
+            h_cost = compareSign < 0 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
         }
 
         public Heap<Node> UpdateCosts(Node initiator, Vector2Int targetPos, Heap<Node> openSet)
         {
             //check if the initiator opens a new path, that is shorter and will lower the cost
             int newMoveCostToNeighb = initiator.g_cost + GetDistance(initiator.pos, pos);
-            if (newMoveCostToNeighb < g_cost || !openSet.Contains(this))
+            if ((int)Math.signum(compareSign)*(g_cost-newMoveCostToNeighb) < 0 || !openSet.Contains(this))//compareSign = -1: if(newMoveCostToNeighb < g_cost...        compareSign = 1: if(newMoveCostToNeighb > g_cost... 
             {
                 g_cost = newMoveCostToNeighb;
                 h_cost = GetDistance(pos, targetPos);
@@ -133,11 +133,17 @@ public class AStar {
         }
     }
 
-
-    public static Vector2Int[] FindShortestPath(Vector2Int start, Vector2Int target, Grid grid)
-    {   
+    public static Vector2Int[] FindShortestPath(Vector2Int start, Vector2Int target, Grid grid){
         compareSign = -1;
+        return FindPath(start, target, grid);
+    }
+    public static Vector2Int[] FindLongestPath(Vector2Int start, Vector2Int target, Grid grid){   
+        compareSign = 1;
+        return FindPath(start, target, grid);
+    }
 
+    private static Vector2Int[] FindPath(Vector2Int start, Vector2Int target, Grid grid)
+    {   
         Node startNode = grid.get(start);
         Node targetNode = grid.get(target);
 
@@ -162,35 +168,6 @@ public class AStar {
         //there is no way of getting there
         return null;
     }
-
-    public static Vector2Int[] FindLongestPath(Vector2Int start, Vector2Int target, Grid grid)
-    {   
-        compareSign = 1;
-
-        Node startNode = grid.get(start);
-        Node targetNode = grid.get(target);
-
-        Heap<Node> openSet = new Heap<Node>(grid.size.x * grid.size.y);
-        HashSet<Node> closedSet = new HashSet<Node>();
-        openSet.Add(startNode);
-
-        while (openSet.size() > 0)
-        {   
-            //Selects the next currentNode from the openSet, that has the lowest cost
-            Node currentNode = openSet.RemoveFirst();
-            closedSet.add(currentNode);
-
-            openSet = currentNode.Close(grid, targetNode.pos, openSet, closedSet);
-        }
-
-        if(closedSet.contains(targetNode))//if we came to the target at least once
-        {   
-            return Retrace(startNode, targetNode).toArray(new Vector2Int[0]);
-        }
-        else
-            return null;
-    }
-
 
     static ArrayList<Vector2Int> Retrace(Node startNode, Node endNode)
     {

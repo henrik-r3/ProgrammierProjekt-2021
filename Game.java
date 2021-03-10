@@ -19,7 +19,7 @@ public class Game{
     long lastTime = 0;
     private ArrayList<GameObject> gameObjects;//pool of all GameObjects
 
-    Vector2Int goalPos;//TEST
+    private Vector2Int goalPos;//TEST
 
     public Game(JFrame frame){
         //INIT -------------------------------------------------
@@ -37,8 +37,8 @@ public class Game{
         Vector2Int startPos = Map.instance.getRandomPos();
         gameObjects.add( new Pacman(startPos.x, startPos.y, 3) );
 
-        startPos = Map.instance.getRandomPos();
-        gameObjects.add( new Ghosts(startPos.x, startPos.y, 5, "green"));
+        //startPos = Map.instance.getRandomPos();
+        //gameObjects.add( new Ghosts(startPos.x, startPos.y, 5, "green"));
 
         goalPos = Map.instance.getRandomPos();//TEST
 
@@ -52,19 +52,31 @@ public class Game{
         }
     }
 
-    
+    private Vector2Int lastPos = new Vector2Int(0, 0);//TEST
+    private Vector2Int[] lastPath;
+
     public void UpdateGame(Graphics g){
-        if(lastTime == 0 || input.pause)
+        if(lastTime == 0/* || input.pause*/)
             return;
 
         this.g = g;
         drawMap();
-        drawPath(AStar.FindLongestPath(Pacman.pacinstance.getposition(), goalPos, new AStar.Grid()));
+
+        //TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+        if(!Pacman.pacinstance.getposition().equals(lastPos)){
+            lastPos = Pacman.pacinstance.getposition();
+            System.out.println("new path");
+            lastPath = AStar.FindLongestPath(lastPos, goalPos, new AStar.Grid());
+        }
+        if(lastPath != null){
+            drawPath(lastPath);
+        }
 
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime - lastTime;
         lastTime = currentTime;
-        
+
+
         //Update all GameObjects
         for(int go = gameObjects.size()-1; go >= 0; go--)//loop runs backwards to prevent error on deletion
             gameObjects.get(go).Update(deltaTime);
@@ -85,6 +97,7 @@ public class Game{
     }
 
     public void drawPath(Vector2Int[] path){
+        lastPath = path;
         drawing().setColor(Color.green);
         for(int i = 0; i < path.length; i++){
             drawing().fillRect(path[i].x*tileSize.x, path[i].y*tileSize.y, tileSize.x, tileSize.y);
