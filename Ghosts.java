@@ -531,31 +531,6 @@ public class Ghosts extends GameObject{
 
         ghostposition = gohere[0];
 
-
-       /* if(ghostposition.x > pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.left))
-            && cangoleft(ghostposition)){
-            ghostposition.x--;
-        }else if(ghostposition.x < pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.right))
-            && cangoright(ghostposition)){
-            ghostposition.x++;
-        }else if(ghostposition.y > pacmanposition.y && !Map.instance.IsCol(position.Add(Vector2Int.up))
-            && cangoup(ghostposition)){
-            ghostposition.y--;
-        }else if(ghostposition.y < pacmanposition.y && !Map.instance.IsCol(position.Add(Vector2Int.down))
-            && cangodown(ghostposition)){
-            ghostposition.y++;
-        }else{
-            if(color.equals("green")){
-                ghostposition = greenGhostMovement(ghostposition);
-            }else if(color.equals("yellow")){
-                ghostposition = yellowGhostMovement(ghostposition);
-            }else if(color.equals("red")){
-                ghostposition = greenGhostMovement(ghostposition);
-            }else if(color.equals("pink")){
-                ghostposition = pinkGhostMovement(ghostposition);
-            }
-        }*/
-
         return ghostposition;
     }
 
