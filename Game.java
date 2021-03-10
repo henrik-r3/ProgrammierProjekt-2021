@@ -19,6 +19,8 @@ public class Game{
     long lastTime = 0;
     private ArrayList<GameObject> gameObjects;//pool of all GameObjects
 
+    Vector2Int goalPos;//TEST
+
     public Game(JFrame frame){
         //INIT -------------------------------------------------
         instance = this;
@@ -38,6 +40,8 @@ public class Game{
         startPos = Map.instance.getRandomPos();
         gameObjects.add( new Ghosts(startPos.x, startPos.y, 5, "green"));
 
+        goalPos = Map.instance.getRandomPos();//TEST
+        AStar.compareSign = 1;
 
         //RUN THE GAME -----------------------------------------
         lastTime = System.currentTimeMillis();
@@ -49,12 +53,14 @@ public class Game{
         }
     }
 
+    
     public void UpdateGame(Graphics g){
         if(lastTime == 0 || input.pause)
             return;
 
         this.g = g;
         drawMap();
+        drawPath(AStar.FindPath(Pacman.pacinstance.getposition(), goalPos, new AStar.Grid()));
 
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime - lastTime;
@@ -79,8 +85,11 @@ public class Game{
         g.drawImage(img, pos.x*tileSize.x + (tileSize.x-img.getWidth(frame))/2, pos.y*tileSize.y + (tileSize.y-img.getHeight(frame))/2, frame);
     }
 
-    public void drawPath(){
-        
+    public void drawPath(Vector2Int[] path){
+        drawing().setColor(Color.green);
+        for(int i = 0; i < path.length; i++){
+            drawing().fillRect(path[i].x*tileSize.x, path[i].y*tileSize.y, tileSize.x, tileSize.y);
+        }
     }
 
     public Graphics drawing(){
