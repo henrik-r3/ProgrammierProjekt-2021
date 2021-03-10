@@ -150,15 +150,22 @@ public class AStar {
             closedSet.add(currentNode);
 
             //target is reached
-            if (currentNode == targetNode)
+            if (currentNode == targetNode && compareSign < 0)
                 return Retrace(startNode, targetNode).toArray(new Vector2Int[0]);
                 
 
             openSet = currentNode.Close(grid, targetNode.pos, openSet, closedSet);
         }
 
-        //there is no way of getting there
-        return null;
+        if(compareSign < 0)//if we seek the shortest path
+            //there is no way of getting there
+            return null;
+        else{//we seek the longest path
+            if(closedSet.contains(targetNode))//if we came to the target at least once
+                return Retrace(startNode, targetNode).toArray(new Vector2Int[0]);
+            else
+                return null;
+        }
     }
 
     static ArrayList<Vector2Int> Retrace(Node startNode, Node endNode)
