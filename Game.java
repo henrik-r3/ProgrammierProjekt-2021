@@ -63,7 +63,7 @@ public class Game{
         for(int go = gameObjects.size()-1; go >= 0; go--)//loop runs backwards to prevent error on deletion
             gameObjects.get(go).Update(deltaTime);
 
-        drawMap();
+        //drawMap();
     }
 
 

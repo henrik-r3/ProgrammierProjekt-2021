@@ -390,7 +390,7 @@ public class Ghosts extends GameObject{
                 this.direction = Vector2Int.right;
             }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
-            }else if(oldposition.y > paymanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){                                                                            
+            }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){                                                                            
                     this.direction = Vector2Int.up;
             }else{
                 if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
@@ -518,6 +518,9 @@ public class Ghosts extends GameObject{
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
         Vector2Int pacmanposition = Pacman.pacinstance.getposition();
         Vector2Int[] gohere = AStar.FindPath(ghostposition, pacmanposition, grid);
+
+        if(gohere.length == 0)
+            return ghostposition;
 
         ghostposition = gohere[0];
 

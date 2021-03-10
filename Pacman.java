@@ -39,10 +39,10 @@ public class Pacman extends GameObject{
         if(timer >= moveTimer)
         {   
             timer = 0;
-            calculatePosition();
-            calculatelives();   
+            calculatePosition();  
         }
 
+        calculatelives();
         drawPacman();
     }
 
@@ -95,11 +95,11 @@ public class Pacman extends GameObject{
 
     public void drawlives() {
 
-        Image heart = new ImageIcon("*/Bilder/Heart.png").getImage();
+        Image heart = new ImageIcon("Bilder/Heart.png").getImage();
 
         for (int i = 0; i < remaininglives; i++) {
 
-            Game.instance.drawImage(heart, new Vector2Int(1 + i , 25));
+            Game.instance.drawImage(heart, new Vector2Int(1 + i , 10));
             
         }
     }
