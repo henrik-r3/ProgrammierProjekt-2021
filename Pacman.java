@@ -99,7 +99,7 @@ public class Pacman extends GameObject{
 
         for (int i = 0; i < remaininglives; i++) {
 
-            Game.instance.drawImage(heart, new Vector2Int(1 + i , 10));
+            Game.instance.drawImage(heart, new Vector2Int(i , Map.instance.size.y-1));
             
         }
     }

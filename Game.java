@@ -54,6 +54,7 @@ public class Game{
             return;
 
         this.g = g;
+        drawMap();
 
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime - lastTime;
@@ -62,8 +63,6 @@ public class Game{
         //Update all GameObjects
         for(int go = gameObjects.size()-1; go >= 0; go--)//loop runs backwards to prevent error on deletion
             gameObjects.get(go).Update(deltaTime);
-
-        //drawMap();
     }
 
 
