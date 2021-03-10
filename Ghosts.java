@@ -529,6 +529,17 @@ public class Ghosts extends GameObject{
         if(gohere.length == 0)
             return ghostposition;
 
+
+        if(ghostposition.Add(Vector2Int.up) == gohere[0]){
+            this.direction = Vector2Int.up;
+        }else if(ghostposition.Add(Vector2Int.down) == gohere[0]){
+            this.direction = Vector2Int.down;
+        }else if(ghostposition.Add(Vector2Int.left) == gohere[0]){
+            this.direction = Vector2Int.left;
+        }else if(ghostposition.Add(Vector2Int.right) == gohere[0]){
+            this.direction = Vector2Int.right;
+        }
+
         ghostposition = gohere[0];
 
         return ghostposition;
