@@ -51,7 +51,7 @@ public class Game{
 
 
     public void UpdateGame(Graphics g){
-        if(lastTime == 0/* || input.pause*/)
+        if(lastTime == 0 || input.pause)
             return;
 
         this.g = g;
