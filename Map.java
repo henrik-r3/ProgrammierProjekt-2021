@@ -17,7 +17,7 @@ public class Map {
         map = new Tile[size.x * size.y];
         Arrays.fill(map, Tile.empty);
 
-        generateMap(Game.instance.rnd, 20);
+        //generateMap(Game.instance.rnd, 20);
 
         //printMap();
     }
@@ -51,7 +51,7 @@ public class Map {
         return order;
     }*/
 
-    void generateMap(Random rnd, int minLength) {
+    public void generateMap(Random rnd, int minLength) {
         Vector2Int startPos = new Vector2Int(rnd.nextInt(size.x/2)*2+1, rnd.nextInt(size.y/2)*2+1);//get a random odd stating pos
         Vector2Int pos = startPos;
         int loopLength = 0;
@@ -133,6 +133,7 @@ public class Map {
         
 
         //generate connections within
+        
         double connectProb = 0.1;
         for(int x = 0; x < Math.floor(size.x*0.5); x++)
             for(int y = 0; y < Math.floor(size.y*0.5); y++){

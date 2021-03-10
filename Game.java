@@ -32,6 +32,8 @@ public class Game{
         tileSize = new Vector2Int(frame.getWidth() / Map.instance.size.x, frame.getHeight() / Map.instance.size.y);
         frame.setSize(tileSize.x*Map.instance.size.x, tileSize.y*Map.instance.size.y+30);//+50 für die titelleiste
 
+        Map.instance.generateMap(rnd, 20);
+
         //add Gameobjects
         Vector2Int startPos = Map.instance.getRandomPos();
         gameObjects.add( new Pacman(startPos.x, startPos.y, 3) );
@@ -64,6 +66,8 @@ public class Game{
     }
 
     public void DrawGame(Graphics g){
+        if(lastTime == 0)
+            return;
         this.g = g;
         drawMap();
 
