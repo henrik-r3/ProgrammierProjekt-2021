@@ -50,10 +50,17 @@ public class Ghosts extends GameObject{
             selectGhostmovement();
         }
 
+    }
+
+    @Override
+    public void Draw(){
+
         if(powerberry)
             drawGhosts(scared, this.position.x, this.position.y);
         else
             drawGhosts(this.skin, this.position.x, this.position.y);
+
+
     }
 
     public void selectGhostmovement(){
