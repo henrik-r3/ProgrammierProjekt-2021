@@ -15,12 +15,17 @@ public class Score{
 
     public void eatsPowerBerry(){
 
-        scoreval+= 10;
+        scoreval+= 100;
+    }
+
+    public void ateallpowerberries(){
+
+        scoreval += 400;
     }
 
     public void eatsGhost(){
 
-        scoreval += 100;
+        scoreval += 200;
     }
 
     public int getScore(){

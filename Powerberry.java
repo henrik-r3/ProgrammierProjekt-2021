@@ -43,9 +43,7 @@ public class Powerberry extends GameObject{
                 isactive = false;
 
             }
-
         }
-
     }
 
     @Override
@@ -60,6 +58,9 @@ public class Powerberry extends GameObject{
             Destroy();
             Score.instance.eatsPowerBerry();
             isactive = true;
+            amountberries--;
+            if(amountberries == 0)
+                Score.instance.ateallpowerberries();
         }
 
     }
