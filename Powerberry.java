@@ -20,18 +20,30 @@ public class Powerberry extends GameObject{
     }
 
 
-    long moveTimer = 300;
+    long checkTimer = 300;
     long timer = 0;
+    long berryactive = 0;
+    long berrystop = 7000;
 
     @Override 
     public void Update(long deltaTime){
 
         timer += deltaTime;
-        if(timer >= moveTimer)
+        if(timer >= checkTimer)
         {   
             timer = 0;
             checkcollision();  
             Ghost.instance.powerberrystatus(isactive);
+        }
+
+        if(isactive){
+            berryactive += deltaTime;
+            if(berryactive > berrystop){
+
+                isactive = false;
+
+            }
+
         }
 
     }
@@ -47,13 +59,14 @@ public class Powerberry extends GameObject{
         if(berryposition == Pacman.instance.getposition()){
             Destroy();
             Score.instance.eatsPowerBerry();
+            isactive = true;
         }
 
     }
 
     public void drawpowerberry(){
 
-        Game.instance.drawImage(berry, pos);
+        Game.instance.drawImage(berry, berryposition);
     }
 
     public void setberrystatus(boolean activated){

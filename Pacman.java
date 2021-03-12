@@ -39,7 +39,6 @@ public class Pacman extends GameObject{
         {   
             timer = 0;
             calculatePosition();  
-            
             calculatelives();
         }
 
