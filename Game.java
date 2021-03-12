@@ -41,6 +41,10 @@ public class Game{
         startPos = Map.instance.getRandomPos();
         gameObjects.add( new Ghosts(startPos.x, startPos.y, 5, "green"));
 
+        startPos = Map.instance.getRandomPos();
+        gameObjects.add( new Powerberry(startPos.x, startPos.y));
+        
+
         //RUN THE GAME -----------------------------------------
         lastTime = System.currentTimeMillis();
         for(int g = gameObjects.size()-1; g >= 0; g--)//loop runs backwards to prevent error on deletion
