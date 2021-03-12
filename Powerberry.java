@@ -12,9 +12,9 @@ public class Powerberry extends GameObject{
     public static Powerberry berryinstance;
     
 
-    public Powerberry(int number){
-        amountberries = number;
-        berryposition = Map.instance.getRandomPos();
+    public Powerberry(int startx, int starty){
+        berryposition.x = startx;
+        berryposition.y = starty;
         berry = new ImageIcon("Bilder/Powerberry.png").getImage();
         berryinstance = this;
     }
@@ -68,6 +68,11 @@ public class Powerberry extends GameObject{
     public void drawpowerberry(){
 
         Game.instance.drawImage(berry, berryposition);
+    }
+
+    public void setamountberries(int number){
+
+        amountberries = number;
     }
 
     public void setberrystatus(boolean activated){
