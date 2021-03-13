@@ -1,5 +1,7 @@
 
 import java.awt.*;
+import java.security.KeyPair;
+
 import javax.swing.ImageIcon;
 
 public class Ghosts extends GameObject{
@@ -13,6 +15,7 @@ public class Ghosts extends GameObject{
     private Vector2Int direction;  
     private int followrange;  
     private boolean powerberry = false;
+    private int keephunting;
     private AStar.Grid grid;
 
     public Ghosts(int startx, int starty, int range, String colorselected ){
@@ -20,6 +23,7 @@ public class Ghosts extends GameObject{
        this.position.y = this.startposition.y = starty;
        this.followrange = range;
        this.direction = Vector2Int.down;
+       this.keephunting = 0;
        if(colorselected.equals("green")){
            this.skin = new ImageIcon("Bilder/greenGhost.png").getImage();
            this.color = colorselected;
@@ -79,7 +83,17 @@ public class Ghosts extends GameObject{
                 }
                 if(calculateDistance(this.position.x, this.position.y) <= followrange){
                     this.position = huntPacman(this.position.x, this.position.y, this.color);
+                    keephunting++;
         
+                }else if(keephunting != 0){
+                    if(keephunting > 5){
+                        keephunting = 0;
+                    }else{
+                        keephunting++;
+                        this.position = huntPacman(this.position.x, this.position.y, this.color);
+
+                    }
+
                 }else{
                     if(this.color.equals("green")){
                         this.position = greenGhostMovement(this.position);
