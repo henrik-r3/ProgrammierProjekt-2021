@@ -35,6 +35,7 @@ public class Ghosts extends GameObject{
        }
        this.scared = new ImageIcon("Bilder/scaredGhost.png").getImage();
        grid = new AStar.Grid();
+
     }
 
 

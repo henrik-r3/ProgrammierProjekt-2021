@@ -33,7 +33,7 @@ public class Powerberry extends GameObject{
         {   
             timer = 0;
             checkcollision();  
-            Ghost.instance.powerberrystatus(isactive);
+            Ghosts.instance.powerberrystatus(isactive);
         }
 
         if(isactive){
