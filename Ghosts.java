@@ -52,7 +52,9 @@ public class Ghosts extends GameObject{
         if(timer >= moveTimer)
         {   
             timer = 0;
+            powerberry = Pacman.pacinstance.gethunting();
             selectGhostmovement();
+
         }
 
     }
@@ -90,9 +92,9 @@ public class Ghosts extends GameObject{
                         keephunting = 0;
                     }else{
                         keephunting++;
-                        this.position = huntPacman(this.position.x, this.position.y, this.color);
 
                     }
+                    this.position = huntPacman(this.position.x, this.position.y, this.color);
 
                 }else{
                     if(this.color.equals("green")){
@@ -679,12 +681,6 @@ public class Ghosts extends GameObject{
             return true;
         }  
         return false;
-    }
-
-
-    public void powerberrystatus(boolean powerberryactive){
-
-        powerberry = powerberryactive;
     }
 
     public int getnumberGhosts(){

@@ -10,6 +10,7 @@ public class Pacman extends GameObject{
     private Vector2Int startposition = new Vector2Int();
     private int remaininglives;
     private boolean caught = false;
+    private boolean huntingghosts;
     public static Pacman pacinstance;
 
     
@@ -19,6 +20,7 @@ public class Pacman extends GameObject{
         position.y = startposition.y = starty;
         direction = Vector2Int.down;
         remaininglives = lives;
+        huntingghosts = false;
         imgup = new ImageIcon("Bilder/PacUp.gif").getImage();
         imgdown = new ImageIcon("Bilder/PacDown.gif").getImage();
         imgleft = new ImageIcon("Bilder/PacLeft.gif").getImage();
@@ -112,6 +114,17 @@ public class Pacman extends GameObject{
     public Vector2Int getposition() {
 
         return new Vector2Int(position.x , position.y);
+    }
+
+    public void sethunting(boolean activated){
+
+        huntingghosts = activated;
+
+    }
+
+    public boolean gethunting(){
+
+        return huntingghosts;
     }
 
 }

@@ -9,14 +9,12 @@ public class Powerberry extends GameObject{
     private Image berry;
     private int amountberries;
     private Vector2Int berryposition = new Vector2Int();
-    public static Powerberry berryinstance;
     
 
     public Powerberry(int startx, int starty){
         berryposition.x = startx;
         berryposition.y = starty;
         berry = new ImageIcon("Bilder/Powerberry.png").getImage();
-        berryinstance = this;
     }
 
 
@@ -33,7 +31,7 @@ public class Powerberry extends GameObject{
         {   
             timer = 0;
             checkcollision();  
-            Ghosts.instance.powerberrystatus(isactive);
+
         }
 
         if(isactive){
@@ -41,6 +39,7 @@ public class Powerberry extends GameObject{
             if(berryactive > berrystop){
 
                 isactive = false;
+                Pacman.pacinstance.sethunting(isactive);
 
             }
         }
@@ -54,13 +53,14 @@ public class Powerberry extends GameObject{
 
     public void checkcollision(){
 
-        if(berryposition == Pacman.instance.getposition()){
+        if(berryposition == Pacman.pacinstance.getposition()){
             Destroy();
-            Score.instance.eatsPowerBerry();
+            Score.scoreinstance.eatsPowerBerry();
             isactive = true;
+            Pacman.pacinstance.sethunting(isactive);
             amountberries--;
             if(amountberries == 0)
-                Score.instance.ateallpowerberries();
+                Score.scoreinstance.ateallpowerberries();
         }
 
     }
