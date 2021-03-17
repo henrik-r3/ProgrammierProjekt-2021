@@ -53,14 +53,22 @@ public class Map {
     }
 
 
-
     public void generateMap(Random rnd, int minLength){
+        
         Vector2Int start = new Vector2Int(5, 5);
-        dfs(start, start, -1, Tile.empty, rnd);
-        ConnectDeadEnd(start, Tile.empty, rnd);
+        dfs(start, start, -1, Tile.empty, Game.instance.rnd);
+        ConnectDeadEnd(start, Tile.empty, Game.instance.rnd);
     }
 
     public void dfs(Vector2Int pos, Vector2Int lastP, int lastD, Tile path, Random rnd) {
+        try{
+            Thread.sleep(10000 / size.x / size.y);//scale sleep by map size
+        }catch(Exception e){
+
+        }
+        Game.instance.frame.repaint();//draw map to show update
+
+
         //connect node to the one before
         SetTile(pos, path);
 
