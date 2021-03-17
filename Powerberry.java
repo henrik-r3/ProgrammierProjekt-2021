@@ -1,8 +1,6 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-import org.jcp.xml.dsig.internal.MacOutputStream;
-
 public class Powerberry extends GameObject{
 
     private boolean isactive = false;
@@ -40,24 +38,24 @@ public class Powerberry extends GameObject{
 
                 isactive = false;
                 Pacman.pacinstance.sethunting(isactive);
-
+                Destroy();
             }
         }
     }
 
     @Override
     public void Draw(){
-
-        drawpowerberry();
+        if(!isactive)
+            drawpowerberry();
     }
 
     public void checkcollision(){
 
-        if(berryposition == Pacman.pacinstance.getposition()){
-            Destroy();
+        if(berryposition.equals(Pacman.pacinstance.getposition())){
+            
             Score.scoreinstance.eatsPowerBerry();
             isactive = true;
-            Pacman.pacinstance.sethunting(isactive);
+            Pacman.pacinstance.sethunting(true);
             amountberries--;
             if(amountberries == 0)
                 Score.scoreinstance.ateallpowerberries();
