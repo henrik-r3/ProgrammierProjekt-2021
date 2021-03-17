@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import java.security.KeyPair;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 
@@ -16,6 +17,8 @@ public class Ghosts extends GameObject{
     private int followrange;  
     private boolean powerberry = false;
     private int keephunting;
+    private int keeprunning;
+    private int countchanges;
     private AStar.Grid grid;
 
     public Ghosts(int startx, int starty, int range, String colorselected ){
@@ -24,6 +27,8 @@ public class Ghosts extends GameObject{
        this.followrange = range;
        this.direction = Vector2Int.down;
        this.keephunting = 0;
+       this.countchanges = 0;
+       this.keeprunning = 0;
        if(colorselected.equals("green")){
            this.skin = new ImageIcon("Bilder/greenGhost.png").getImage();
            this.color = colorselected;
@@ -80,11 +85,13 @@ public class Ghosts extends GameObject{
                 }
                 this.position = runfromPacman(this.position.x, this.position.y, this.color);
             }else{
+                countchanges = 0;
+                keeprunning = 0;
                 if(calculateDistance(this.position.x, this.position.y) < 2 ){
                     Pacman.pacinstance.hasbeencaught();
                 }
                 if(calculateDistance(this.position.x, this.position.y) <= followrange){
-                    this.position = huntPacman(this.position.x, this.position.y, this.color);
+                    this.position = huntPacman(this.position.x, this.position.y);
                     keephunting++;
         
                 }else if(keephunting != 0){
@@ -94,7 +101,7 @@ public class Ghosts extends GameObject{
                         keephunting++;
 
                     }
-                    this.position = huntPacman(this.position.x, this.position.y, this.color);
+                    this.position = huntPacman(this.position.x, this.position.y);
 
                 }else{
                     if(this.color.equals("green")){
@@ -137,7 +144,7 @@ public class Ghosts extends GameObject{
                }
 
            }else if(possibilities == 2){
-                rand = (int) (Math.random() * possibilities - 1);
+                rand = (int) (Math.random() * 1);
                 if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
                     this.direction = Vector2Int.down;
                 }else{
@@ -295,6 +302,8 @@ public class Ghosts extends GameObject{
 
             }
         }
+
+        
         if(this.direction.equals(Vector2Int.right)){
             if(possibilities == 0){
                 this.direction = Vector2Int.left;
@@ -438,7 +447,7 @@ public class Ghosts extends GameObject{
 
     public Vector2Int redGhostMovement(Vector2Int oldposition){
 
-        oldposition = huntPacman(oldposition.x, oldposition.y, this.color);
+        oldposition = huntPacman(oldposition.x, oldposition.y);
 
         return oldposition;
     }
@@ -447,6 +456,7 @@ public class Ghosts extends GameObject{
         
         Vector2Int pacmanposition = Pacman.pacinstance.getposition();
         int rnd = (int) (Math.random()*3);
+        boolean althunt = false;
         
         if(rnd == 0){
             pacmanposition.x += 2;
@@ -467,17 +477,17 @@ public class Ghosts extends GameObject{
             }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
             }else{
-                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+
+                Vector2Int newposition = new Vector2Int(huntPacman(oldposition.x, oldposition.y));
+
+                if(oldposition.Add(Vector2Int.down).equals(newposition)){
                     this.direction = Vector2Int.down;
-                 }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                }else if(oldposition.Add(Vector2Int.right).equals(newposition)){
                     this.direction = Vector2Int.right;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
-                    this.direction= Vector2Int.left;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                }else if(oldposition.Add(Vector2Int.left).equals(newposition)){
+                    this.direction = Vector2Int.left;
+                }else if(oldposition.Add(Vector2Int.up).equals(newposition)){
                     this.direction = Vector2Int.up;
-                }else{
-                    this.direction = Vector2Int.down;
-                    this.position = startposition;
                 }
                 
             }
@@ -490,19 +500,18 @@ public class Ghosts extends GameObject{
             }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
             }else{
-                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
-                    this.direction = Vector2Int.up;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
-                    this.direction = Vector2Int.right;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
-                    this.direction= Vector2Int.left;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
-                    this.direction = Vector2Int.down;
-                }else{
-                    this.direction = Vector2Int.down;
-                    this.position = startposition;
-                }
                 
+                Vector2Int newposition = new Vector2Int(huntPacman(oldposition.x, oldposition.y));
+
+                if(oldposition.Add(Vector2Int.up).equals(newposition)){
+                    this.direction = Vector2Int.up;
+                }else if(oldposition.Add(Vector2Int.right).equals(newposition)){
+                    this.direction = Vector2Int.right;
+                }else if(oldposition.Add(Vector2Int.left).equals(newposition)){
+                    this.direction = Vector2Int.left;
+                }else if(oldposition.Add(Vector2Int.down).equals(newposition)){
+                    this.direction = Vector2Int.down;
+                }                
             }
 
         }else if(this.direction == Vector2Int.right){
@@ -513,17 +522,16 @@ public class Ghosts extends GameObject{
             }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
                 this.direction = Vector2Int.up;                    
             }else{
-                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
+                Vector2Int newposition = new Vector2Int(huntPacman(oldposition.x, oldposition.y));
+
+                if(oldposition.Add(Vector2Int.right).equals(newposition)){
                     this.direction = Vector2Int.right;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                }else if(oldposition.Add(Vector2Int.up).equals(newposition)){
                     this.direction = Vector2Int.up;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+                }else if(oldposition.Add(Vector2Int.down).equals(newposition)){
                     this.direction = Vector2Int.down;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
-                    this.direction = Vector2Int.left; 
-                }else{
-                    this.direction = Vector2Int.down;
-                    this.position = startposition;
+                }else if(oldposition.Add(Vector2Int.left).equals(newposition)){
+                    this.direction = Vector2Int.left;
                 }
                     
             }
@@ -536,17 +544,16 @@ public class Ghosts extends GameObject{
             }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
                 this.direction = Vector2Int.up;                   
             }else{
-                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
+                Vector2Int newposition = new Vector2Int(huntPacman(oldposition.x, oldposition.y));
+
+                if(oldposition.Add(Vector2Int.left).equals(newposition)){
                     this.direction = Vector2Int.left;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
+                }else if(oldposition.Add(Vector2Int.up).equals(newposition)){
                     this.direction = Vector2Int.up;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
+                }else if(oldposition.Add(Vector2Int.down).equals(newposition)){
                     this.direction = Vector2Int.down;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
-                    this.direction = Vector2Int.right;  
-                }else{
-                    this.direction = Vector2Int.down;
-                    this.position = oldposition;
+                }else if(oldposition.Add(Vector2Int.right).equals(newposition)){
+                    this.direction = Vector2Int.right;
                 }
                    
             }
@@ -589,7 +596,7 @@ public class Ghosts extends GameObject{
         return Math.abs(pacmanposition.x - ghostposition.x) + Math.abs(pacmanposition.y - ghostposition.y);         
     }
 
-    public Vector2Int huntPacman(int ghostx, int ghosty, String color){
+    public Vector2Int huntPacman(int ghostx, int ghosty){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
         Vector2Int pacmanposition = Pacman.pacinstance.getposition();
         Vector2Int[] gohere = AStar.FindShortestPath(ghostposition, pacmanposition, grid);
@@ -617,22 +624,48 @@ public class Ghosts extends GameObject{
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
         Vector2Int pacmanposition = Pacman.pacinstance.getposition();
 
-
-        if(ghostposition.x > pacmanposition.x || ghostposition.x == pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.right)) && cangoright(ghostposition)){
-            ghostposition.Add(Vector2Int.right);
-            direction = Vector2Int.right;
-        }else if(ghostposition.x < pacmanposition.x || ghostposition.x == pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.left)) && cangoleft(ghostposition)){
-            ghostposition.Add(Vector2Int.left);
-            direction = Vector2Int.left;
-        }else if(ghostposition.y > pacmanposition.y || ghostposition.y == pacmanposition.y && !Map.instance.IsCol(position.Add(Vector2Int.down)) && cangodown(ghostposition)){
-            ghostposition.Add(Vector2Int.down);
-            direction = Vector2Int.down;
-        }else if(ghostposition.y < pacmanposition.y || ghostposition.y == pacmanposition.y && !Map.instance.IsCol(position.Add(Vector2Int.up)) && cangoup(ghostposition)){
-            ghostposition.Add(Vector2Int.up);
-            direction = Vector2Int.up;
-        }else{
-            
+        if(countchanges > 3){
+            countchanges = 0;
+            keeprunning++;
+        }
+        if(keeprunning != 0){
+            if(keeprunning > 5){
+                keeprunning = 0;
+            }else{
+                keeprunning++;
+            }
             ghostposition = greenGhostMovement(ghostposition);
+        }else{
+
+            if(ghostposition.x > pacmanposition.x || ghostposition.x == pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.right)) && cangoright(ghostposition)){
+                ghostposition.Add(Vector2Int.right);
+                if(!direction.equals(Vector2Int.right)){
+                    countchanges++;
+                    direction = Vector2Int.right;
+                }
+            }else if(ghostposition.x < pacmanposition.x || ghostposition.x == pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.left)) && cangoleft(ghostposition)){
+                ghostposition.Add(Vector2Int.left);
+                if(!direction.equals(Vector2Int.left)){
+                    countchanges++;
+                    direction = Vector2Int.left;
+                }
+            }else if(ghostposition.y > pacmanposition.y || ghostposition.y == pacmanposition.y && !Map.instance.IsCol(position.Add(Vector2Int.down)) && cangodown(ghostposition)){
+                ghostposition.Add(Vector2Int.down);
+                if(!direction.equals(Vector2Int.down)){
+                    countchanges++;
+                    direction = Vector2Int.down;
+                }
+            }else if(ghostposition.y < pacmanposition.y || ghostposition.y == pacmanposition.y && !Map.instance.IsCol(position.Add(Vector2Int.up)) && cangoup(ghostposition)){
+               ghostposition.Add(Vector2Int.up);
+               if(!direction.equals(Vector2Int.up)){
+                countchanges++;
+                direction = Vector2Int.up;
+                }
+            }else{
+            
+                ghostposition = greenGhostMovement(ghostposition);
+                countchanges++;
+            }
         }
         
         return ghostposition;
