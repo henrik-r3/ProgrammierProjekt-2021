@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 //Handles GameObjects, causes Updates and Runs the Game in general (e.g. Pausing, etc.)
 public class Game{
     public static Game instance;
-    public int difficulty = 2;
+    public int difficulty = 1;
 
     JFrame frame;
     private Graphics g;
@@ -29,8 +29,6 @@ public class Game{
 
         gameObjects = new ArrayList<GameObject>();//add initial GameObjects
 
-        
-
         CreateGameFromDifficulty();
 
         //RUN THE GAME -----------------------------------------
@@ -50,7 +48,9 @@ public class Game{
 
         new Score();//creates a score object
 
+        System.out.println("afdgkdjhgnf");
         Map.instance.generateMap(rnd, Map.instance.size.x+Map.instance.size.y);     
+        System.out.println("kääpä");
 
         //add Gameobjects
         Vector2Int startPos = Map.instance.getRandomPos();
