@@ -628,16 +628,16 @@ public class Ghosts extends GameObject{
             }
             ghostposition = gohere[0];
         }else{
-            if(ghostposition.x > pacmanposition.x || ghostposition.x == pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.right)) && cangoright(ghostposition)){
+            if(ghostposition.x > pacmanposition.x /*|| ghostposition.x == pacmanposition.x*/ && !Map.instance.IsCol(position.Add(Vector2Int.right)) && cangoright(ghostposition)){
                 ghostposition.Add(Vector2Int.right);
                 direction = Vector2Int.right;
-            }else if(ghostposition.x < pacmanposition.x || ghostposition.x == pacmanposition.x && !Map.instance.IsCol(position.Add(Vector2Int.left)) && cangoleft(ghostposition)){
+            }else if(ghostposition.x < pacmanposition.x /*|| ghostposition.x == pacmanposition.x*/ && !Map.instance.IsCol(position.Add(Vector2Int.left)) && cangoleft(ghostposition)){
                 ghostposition.Add(Vector2Int.left);
                 direction = Vector2Int.left;
-            }else if(ghostposition.y > pacmanposition.y || ghostposition.y == pacmanposition.y && !Map.instance.IsCol(position.Add(Vector2Int.down)) && cangodown(ghostposition)){
+            }else if(ghostposition.y > pacmanposition.y /*|| ghostposition.y == pacmanposition.y*/ && !Map.instance.IsCol(position.Add(Vector2Int.down)) && cangodown(ghostposition)){
                 ghostposition.Add(Vector2Int.down);
                 direction = Vector2Int.down;
-            }else if(ghostposition.y < pacmanposition.y || ghostposition.y == pacmanposition.y && !Map.instance.IsCol(position.Add(Vector2Int.up)) && cangoup(ghostposition)){
+            }else if(ghostposition.y < pacmanposition.y /*|| ghostposition.y == pacmanposition.y*/ && !Map.instance.IsCol(position.Add(Vector2Int.up)) && cangoup(ghostposition)){
                 ghostposition.Add(Vector2Int.up);
                 direction = Vector2Int.up;
             }else{
