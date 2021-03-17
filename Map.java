@@ -56,13 +56,14 @@ public class Map {
     public void generateMap(Random rnd, int minLength){
         
         Vector2Int start = new Vector2Int(5, 5);
-        dfs(start, start, -1, Tile.empty, Game.instance.rnd);
+        IterativeDFS(start, rnd, 10000);
+        //dfs(start, start, -1, Tile.empty, Game.instance.rnd, 50000);
         ConnectDeadEnd(start, Tile.empty, Game.instance.rnd);
     }
 
-    public void dfs(Vector2Int pos, Vector2Int lastP, int lastD, Tile path, Random rnd) {
+    /*public void dfs(Vector2Int pos, Vector2Int lastP, int lastD, Tile path, Random rnd, int TimeConst) {
         try{
-            Thread.sleep(10000 / size.x / size.y);//scale sleep by map size
+            Thread.sleep(Math.max(1, TimeConst / (size.x * size.y)));//scale sleep by map size
         }catch(Exception e){
 
         }
@@ -93,14 +94,14 @@ public class Map {
             if (!IsCol(nPos))//if tile was visited before ...
                 continue;//... skip
 
-            dfs(nPos, pos, d, path, rnd);
+            dfs(nPos, pos, d, path, rnd, TimeConst);
             deadEnd = false;
         }
 
         if(deadEnd){
             ConnectDeadEnd(pos, path, rnd);//connect dead end to somwhere -> no dead ends  (not part of original DFS)
         }
-    }
+    }*/
 
     void ConnectDeadEnd(Vector2Int pos, Tile path, Random rnd){
         int[] order = Random_Order(rnd);
@@ -119,6 +120,56 @@ public class Map {
 
             SetTile(nWall, path);
             break;
+        }
+    }
+
+    void IterativeDFS(Vector2Int start, Random rnd, int TimeConst){
+        Stack<Vector2Int> posStack = new Stack<Vector2Int>();
+        Stack<Vector2Int> lastStack = new Stack<Vector2Int>();
+
+        posStack.add(start);
+        lastStack.add(start);
+
+        while(!posStack.empty()){
+            Vector2Int pos = posStack.pop();
+            Vector2Int lastP = lastStack.pop();
+
+
+            if (!IsCol(pos))//if tile was visited before ...
+                continue;//... skip
+
+            try{
+                Thread.sleep(Math.max(1, TimeConst / (size.x * size.y)));//scale sleep by map size
+            }catch(Exception e){
+            }
+            Game.instance.frame.repaint();//draw map to show update
+    
+            //connect node to the one before
+            SetTile(pos, Tile.empty);
+    
+            Vector2Int conWall = pos.Add(lastP.Add(pos.Mul(-1)).Mul(0.5));//pos + (lastP - pos) / 2
+            SetTile(conWall, Tile.empty);
+    
+            boolean deadEnd = true;
+    
+            int[] order = Random_Order(rnd);
+            for (int d = 0; d < Vector2Int.dirs.length; d++) {
+    
+                Vector2Int nPos = pos.Add(Vector2Int.dirs[order[d]].Mul(2));
+                if (!inBounds(nPos))//if tile is not on map ...
+                    continue;//... skip
+                
+                if (!IsCol(nPos))//if tile was visited before ...
+                    continue;//... skip
+    
+                posStack.add(nPos);
+                lastStack.add(pos);
+                deadEnd = false;
+            }
+    
+            if(deadEnd){
+                ConnectDeadEnd(pos, Tile.empty, rnd);//connect dead end to somwhere -> no dead ends  (not part of original DFS)
+            }
         }
     }
 

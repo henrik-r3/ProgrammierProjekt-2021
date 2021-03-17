@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 //Handles GameObjects, causes Updates and Runs the Game in general (e.g. Pausing, etc.)
 public class Game{
     public static Game instance;
-    public int difficulty = 10;
+    public int difficulty = 5;
 
     JFrame frame;
     private Graphics g;
@@ -44,7 +44,7 @@ public class Game{
     public void CreateGameFromDifficulty(){
         new Map(new Vector2Int(difficulty*3+10, difficulty*3+10));
         tileSize = new Vector2Int(frame.getWidth() / Map.instance.size.x, frame.getHeight() / Map.instance.size.y);
-        frame.setSize(tileSize.x*Map.instance.size.x, tileSize.y*Map.instance.size.y+30);//+50 für die titelleiste
+        frame.setSize(tileSize.x*Map.instance.size.x, tileSize.y*Map.instance.size.y+30);//+30 für die titelleiste
 
         new Score();//creates a score object
 
