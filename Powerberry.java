@@ -5,10 +5,11 @@ public class Powerberry extends GameObject{
 
     private boolean isactive = false;
     private Image berry;
-    private int amountberries;
+    public int amountberries;
     private Vector2Int berryposition = new Vector2Int();
     
 
+    //Powerberry wird erstellt an angegebener Position
     public Powerberry(int startx, int starty){
         berryposition.x = startx;
         berryposition.y = starty;
@@ -20,6 +21,7 @@ public class Powerberry extends GameObject{
     long timer = 0;
     long berryactive = 0;
     long berrystop = 7000;
+
 
     @Override 
     public void Update(long deltaTime){
@@ -73,13 +75,4 @@ public class Powerberry extends GameObject{
         amountberries = number;
     }
 
-    public void setberrystatus(boolean activated){
-
-        isactive = activated;
-    }
-
-    public boolean getberrystatus(){
-
-        return isactive;
-    }
 }
