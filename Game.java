@@ -21,8 +21,9 @@ public class Game{
     private ArrayList<GameObject> gameObjects;//pool of all GameObjects
 
 
-    public Game(JFrame frame){
+    public Game(JFrame frame, int difficulty){
         //INIT -------------------------------------------------
+        this.difficulty = difficulty;
         instance = this;
         this.frame = frame;
         frame.addKeyListener(input);

@@ -10,17 +10,6 @@ public class Main {
         //frame.setUndecorated(true);
         frame.setVisible(true);
 
-        
-        Object[] possibilities = {null};
-        /*int difficulty = (int)JOptionPane.showInputDialog(
-                    frame,
-                    "Wähle einen Schwierigkeitsgrad aus!\n"
-                    + "\"Gib dazu eine ganze Zahl ein.\""
-                    + "\"Je größer die Zahl, desto schwieriger.\"",
-                    "Schwierigkeitsgrad",
-                    JOptionPane.PLAIN_MESSAGE,
-                    icon,
-                    possibilities);*/
         String difficulty = JOptionPane.showInputDialog(
             frame,
             "Wähle einen Schwierigkeitsgrad aus!\n"
@@ -34,7 +23,7 @@ public class Main {
         drawP.setLocation(0, 0);
         frame.add(drawP);
 
-        new Game(frame);
+        new Game(frame, Math.abs(Integer.parseInt(difficulty)));
     }
     
 }
