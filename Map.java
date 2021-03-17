@@ -15,7 +15,8 @@ public class Map {
         this.size = size;
         instance = this;
         map = new Tile[size.x * size.y];
-        Arrays.fill(map, Tile.empty);
+        //Arrays.fill(map, Tile.empty);
+        Arrays.fill(map, Tile.wall);
 
         //generateMap(Game.instance.rnd, 20);
 
@@ -38,19 +39,91 @@ public class Map {
         return (pos.x >= 0 && pos.x < size.x) && (pos.y >= 0 && pos.y < size.y);
     }
 
-    /*
     static int[] Random_Order(Random rnd) {//Generates Random Order
         int[] order = new int[4];
-        ArrayList<Integer> available = Arrays.asList(0, 1, 2, 3);
+        ArrayList<Integer> available = new ArrayList<Integer>();
+        available.add(0); available.add(1); available.add(2); available.add(3);
         for (int i = 0; i < order.length; i++) {
-            int pick = rnd.NextInt(available.size());
+            int pick = rnd.nextInt(available.size());
             order[i] = available.get(pick);
             available.remove(pick);
         }
 
         return order;
-    }*/
+    }
 
+
+    public void generateMap(Random rnd, int minLength){
+        
+        Vector2Int start = new Vector2Int(5, 5);
+        dfs(start, start, -1, Tile.empty, Game.instance.rnd);
+        ConnectDeadEnd(start, Tile.empty, Game.instance.rnd);
+    }
+
+    public void dfs(Vector2Int pos, Vector2Int lastP, int lastD, Tile path, Random rnd) {
+        try{
+            Thread.sleep(10000 / size.x / size.y);//scale sleep by map size
+        }catch(Exception e){
+
+        }
+        Game.instance.frame.repaint();//draw map to show update
+
+
+        //connect node to the one before
+        SetTile(pos, path);
+
+        Vector2Int conWall = pos.Add(lastP.Add(pos.Mul(-1)).Mul(0.5));//pos + (lastP - pos) / 2
+        SetTile(conWall, path);
+
+        boolean deadEnd = true;
+
+        int[] order = Random_Order(rnd);
+        for (int d = 0; d < Vector2Int.dirs.length; d++) {
+            if(order[d] == lastD && d < Vector2Int.dirs.length-1){//if we've got lastD and it is not in the last pos
+                //swap this element with the last -> less straight paths
+                int swap = order[Vector2Int.dirs.length-1];
+                order[Vector2Int.dirs.length-1] = order[d];
+                order[d] = swap;
+            }
+
+            Vector2Int nPos = pos.Add(Vector2Int.dirs[order[d]].Mul(2));
+            if (!inBounds(nPos))//if tile is not on map ...
+                continue;//... skip
+            
+            if (!IsCol(nPos))//if tile was visited before ...
+                continue;//... skip
+
+            dfs(nPos, pos, d, path, rnd);
+            deadEnd = false;
+        }
+
+        if(deadEnd){
+            ConnectDeadEnd(pos, path, rnd);//connect dead end to somwhere -> no dead ends  (not part of original DFS)
+        }
+    }
+
+    void ConnectDeadEnd(Vector2Int pos, Tile path, Random rnd){
+        int[] order = Random_Order(rnd);
+        for (int d = 0; d < Vector2Int.dirs.length; d++) {
+            Vector2Int nPos = pos.Add(Vector2Int.dirs[order[d]].Mul(2));
+            
+            if (!inBounds(nPos))//if tile is not on map ...
+                continue;//... skip
+
+            if (IsCol(nPos))//if tile was not visited before ...
+                continue;//... skip
+
+            Vector2Int nWall = pos.Add(Vector2Int.dirs[order[d]]);
+            if(!IsCol(nWall))//if connection was already made
+                continue;
+
+            SetTile(nWall, path);
+            break;
+        }
+    }
+
+
+    /*
     public void generateMap(Random rnd, int minLength) {
         Vector2Int startPos = new Vector2Int(rnd.nextInt(size.x/2)*2+1, rnd.nextInt(size.y/2)*2+1);//get a random odd stating pos
         Vector2Int pos = startPos;
@@ -134,7 +207,7 @@ public class Map {
 
         //generate connections within
         
-        double connectProb = 0.1;
+        double connectProb = 0.15;
         for(int x = 0; x < Math.floor(size.x*0.5); x++)
             for(int y = 0; y < Math.floor(size.y*0.5); y++){
                 pos = new Vector2Int(x*2+1, y*2+1);
@@ -155,7 +228,7 @@ public class Map {
                 map[i] = Tile.wall;
             else if(map[i] == Tile.wall)
                 map[i] = Tile.empty;
-    }
+    }*/
 
     public Vector2Int getRandomPos(){
         Random rnd = Game.instance.rnd;

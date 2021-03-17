@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 //Handles GameObjects, causes Updates and Runs the Game in general (e.g. Pausing, etc.)
 public class Game{
     public static Game instance;
-    public int difficulty = 2;
+    public int difficulty = 10;
 
     JFrame frame;
     private Graphics g;
@@ -29,8 +29,6 @@ public class Game{
 
         gameObjects = new ArrayList<GameObject>();//add initial GameObjects
 
-        
-
         CreateGameFromDifficulty();
 
         //RUN THE GAME -----------------------------------------
@@ -44,13 +42,17 @@ public class Game{
     }
 
     public void CreateGameFromDifficulty(){
-        new Map(new Vector2Int(difficulty*5+10, difficulty*5+10));
+        new Map(new Vector2Int(difficulty*3+10, difficulty*3+10));
         tileSize = new Vector2Int(frame.getWidth() / Map.instance.size.x, frame.getHeight() / Map.instance.size.y);
         frame.setSize(tileSize.x*Map.instance.size.x, tileSize.y*Map.instance.size.y+30);//+50 für die titelleiste
 
         new Score();//creates a score object
 
+        //show animation of map generation
+        input.pause = true;
+        lastTime = 1;
         Map.instance.generateMap(rnd, Map.instance.size.x+Map.instance.size.y);     
+        input.pause = false;
 
         //add Gameobjects
         Vector2Int startPos = Map.instance.getRandomPos();
@@ -102,7 +104,7 @@ public class Game{
     }
 
 
-    private void drawMap(){
+    public void drawMap(){
         drawing().setColor(Color.DARK_GRAY);
         for(int x = 0; x < Map.instance.size.x; x++)
             for(int y = 0; y < Map.instance.size.y; y++){
