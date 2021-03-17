@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 //Handles GameObjects, causes Updates and Runs the Game in general (e.g. Pausing, etc.)
 public class Game{
     public static Game instance;
+    public int difficulty = 1;
 
     JFrame frame;
     private Graphics g;
@@ -34,18 +35,7 @@ public class Game{
 
         new Score();//creates a score object
 
-        Map.instance.generateMap(rnd, 20);
-
-        //add Gameobjects
-        Vector2Int startPos = Map.instance.getRandomPos();
-        gameObjects.add( new Pacman(startPos.x, startPos.y, 3) );
-
-        startPos = Map.instance.getRandomPos();
-        gameObjects.add( new Ghosts(startPos.x, startPos.y, 5, "green"));
-
-        startPos = Map.instance.getRandomPos();
-        gameObjects.add( new Powerberry(startPos.x, startPos.y));
-        
+        CreateGameFromDifficulty();
 
         //RUN THE GAME -----------------------------------------
         lastTime = System.currentTimeMillis();
@@ -55,6 +45,26 @@ public class Game{
         while(true){
             frame.repaint();
         }
+    }
+
+    public void CreateGameFromDifficulty(){
+
+        Map.instance.generateMap(rnd, 20);      
+
+        //add Gameobjects
+        Vector2Int startPos = Map.instance.getRandomPos();
+        gameObjects.add( new Pacman(startPos.x, startPos.y, 3) );
+
+        int GhostCount = difficulty * 2;
+        String[] ghostColors = {"green", "pink", "red", "yellow"};
+        for(int i = 0; i < GhostCount; i++)
+        {
+            startPos = Map.instance.getRandomPos();
+            gameObjects.add( new Ghosts(startPos.x, startPos.y, 5, ghostColors[rnd.nextInt(ghostColors.length)]));
+        }
+        
+        startPos = Map.instance.getRandomPos();
+        gameObjects.add( new Powerberry(startPos.x, startPos.y));
     }
 
 
