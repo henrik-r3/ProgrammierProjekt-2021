@@ -1,8 +1,5 @@
 
 import java.awt.*;
-import java.security.KeyPair;
-import java.util.Vector;
-
 import javax.swing.ImageIcon;
 
 public class Ghosts extends GameObject{
