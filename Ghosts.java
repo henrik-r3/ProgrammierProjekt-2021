@@ -475,7 +475,7 @@ public class Ghosts extends GameObject{
                 this.direction = Vector2Int.left;
             }else{
 
-                Vector2Int newposition = new Vector2Int(huntPacman(oldposition.x, oldposition.y));
+                Vector2Int newposition = huntPacman(oldposition.x, oldposition.y);
 
                 if(oldposition.Add(Vector2Int.down).equals(newposition)){
                     this.direction = Vector2Int.down;
@@ -498,7 +498,7 @@ public class Ghosts extends GameObject{
                 this.direction = Vector2Int.left;
             }else{
                 
-                Vector2Int newposition = new Vector2Int(huntPacman(oldposition.x, oldposition.y));
+                Vector2Int newposition = huntPacman(oldposition.x, oldposition.y);
 
                 if(oldposition.Add(Vector2Int.up).equals(newposition)){
                     this.direction = Vector2Int.up;
@@ -519,7 +519,7 @@ public class Ghosts extends GameObject{
             }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
                 this.direction = Vector2Int.up;                    
             }else{
-                Vector2Int newposition = new Vector2Int(huntPacman(oldposition.x, oldposition.y));
+                Vector2Int newposition = huntPacman(oldposition.x, oldposition.y);
 
                 if(oldposition.Add(Vector2Int.right).equals(newposition)){
                     this.direction = Vector2Int.right;
@@ -541,7 +541,7 @@ public class Ghosts extends GameObject{
             }else if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
                 this.direction = Vector2Int.up;                   
             }else{
-                Vector2Int newposition = new Vector2Int(huntPacman(oldposition.x, oldposition.y));
+                Vector2Int newposition = huntPacman(oldposition.x, oldposition.y);
 
                 if(oldposition.Add(Vector2Int.left).equals(newposition)){
                     this.direction = Vector2Int.left;
