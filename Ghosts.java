@@ -90,7 +90,7 @@ public class Ghosts extends GameObject{
                 if(calculateDistance(this.position.x, this.position.y) < 2 ){
                     Pacman.pacinstance.hasbeencaught();
                 }
-               /* if(calculateDistance(this.position.x, this.position.y) <= followrange){
+                if(calculateDistance(this.position.x, this.position.y) <= followrange){
                     this.position = huntPacman(this.position.x, this.position.y);
                     keephunting++;
         
@@ -103,7 +103,7 @@ public class Ghosts extends GameObject{
                     }
                     this.position = huntPacman(this.position.x, this.position.y);
 
-                }else{ */
+                }else{ 
                     if(this.color.equals("green")){
                         this.position = greenGhostMovement(this.position);
 
@@ -121,7 +121,7 @@ public class Ghosts extends GameObject{
             }
             
         
-   /* }*/
+    }
 
     public Vector2Int greenGhostMovement(Vector2Int oldposition){
         int rand = 0;
