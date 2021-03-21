@@ -80,26 +80,32 @@ public class Ghosts extends GameObject{
 
     public void selectGhostmovement(){
 
-
+            //Ist Powerberry aktiv, so rennen Geister weg
             if(powerberry){
                 keephunting = 0;
+                //Ist die Distanz zum Pacman 0, hat dieser den Geist gefressen, Punkte werden dem Spieler gegeben, Geist geht zum Start zurück
                 if(calculateDistance(this.position.x, this.position.y) < 1 ){
                     Score.scoreinstance.eatsGhost();
                     this.position = startposition;
                 }
                 this.position = runfromPacman(this.position.x, this.position.y, this.color);
+
+                //wenn Powerberry nicht aktiv ist
             }else{
                 countchanges = 0;
                 keeprunning = 0;
+                //Ist Geist direkt an Pacman dran, so stirbt der Pacman, Methode in Pacman-Klasse wird gerufen
                 if(calculateDistance(this.position.x, this.position.y) < 2 ){
                     Pacman.pacinstance.hasbeencaught();
                 }
+                //Gerät Pacman in die followrange (Reichweite), so rennt Geist dem Pacman hinterher, kepohunting wird aktiviert
                 if(calculateDistance(this.position.x, this.position.y) <= followrange){
                     this.position = huntPacman(this.position.x, this.position.y);
                     keephunting++;
-        
+                
+                    //Geist soll Pacman kurze Zeit lang (4 Zyklen) weiter hinterherlaufen
                 }else if(keephunting != 0){
-                    if(keephunting > 5){
+                    if(keephunting > 3){
                         keephunting = 0;
                     }else{
                         keephunting++;
@@ -107,6 +113,7 @@ public class Ghosts extends GameObject{
                     }
                     this.position = huntPacman(this.position.x, this.position.y);
 
+                    //Andernfalls wird das Verhalten des Geistes nach der Farbe des Geistes bestimmt
                 }else{ 
                     if(this.color.equals("green")){
                         this.position = greenGhostMovement(this.position);
@@ -130,15 +137,19 @@ public class Ghosts extends GameObject{
         
     }
 
-    public Vector2Int greenGhostMovement(Vector2Int oldposition){ //gründer Geist biegt immer zufällig ab
+    public Vector2Int greenGhostMovement(Vector2Int oldposition){ //grüner Geist biegt immer zufällig ab
         int rand = 0;
         int possibilities = determinepossiblities(oldposition);
 
+
+        //Geist bewegt sich nach unten
         if(this.direction.equals(Vector2Int.down)){
 
+            //Hat Gesit "keine" Möglichkeit, dreht er um
            if(possibilities == 0){
                this.direction = Vector2Int.up;
 
+               //Hat Geist 1 Möglichkeit wird geschaut, welche das ist und die Richtung geändert
            }else if(possibilities == 1){
                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                     this.direction = Vector2Int.down;
@@ -150,35 +161,46 @@ public class Ghosts extends GameObject{
                    this.direction = Vector2Int.up;
                }
 
+               //Geist hat 2 Möglichkeiten
            }else if(possibilities == 2){
                 rand = rnd.nextInt(possibilities);
+                //Eine Zufallszahl wurde gebildet. Ist diese 0, so versucht der Geist, weiter nach unten zu gehen
                 if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                     this.direction = Vector2Int.down;
                 }else{
+                    //Kann der Geist nicht nach unten gehen oder war die Zufallszahl nicht 0 so wird eine weitere Zufallszahl gebildet
                     rand = rnd.nextInt(2);
                     if(rand == 0){
+                        //Ist diese 0, so wird zuerst geschaut, ob der Geist nach rechts gehen kann
                         if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                             this.direction = Vector2Int.right;
+                            //kann der nicht nach rechts gehen, so wird die linke Seite überprüft und dann die Richtung nach unten
                         }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                             this.direction = Vector2Int.left;
                         }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                             this.direction = Vector2Int.down;
                         }else{
+                            //Geht aus irgendeinem Grund nichts (sollte nicht passieren), so dreht Geist um
                             this.direction = Vector2Int.up;
                         }    
                     }else{
+                        //Ist die Zufallszahl 1 so wird erst nach links statt nach recht überprüft
                         if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                             this.direction = Vector2Int.left;
+                            //dann wird nach links und nach unten überprüft
                         }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                             this.direction = Vector2Int.right;
                         }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                             this.direction = Vector2Int.down;
                         }else{
+                            //Zum Schluss wieder die Ausweichmöglichkeit, nach oben zu gehen
                             this.direction = Vector2Int.up;
                         }
                     }
                 }
 
+
+                //Hat der Geist 3 Möglichkeiten, so wird mithilfe einer Zufallszahl eine Richtung gewählt
            }else if(possibilities == 3){
                 rand = rnd.nextInt(possibilities);
                 if(rand == 0){
@@ -191,6 +213,7 @@ public class Ghosts extends GameObject{
 
            }
 
+           //Geist bewegt sich nach oben
         }else if(this.direction.equals(Vector2Int.up)){
             
            if(possibilities == 0){
@@ -248,6 +271,8 @@ public class Ghosts extends GameObject{
                 }
 
             }   
+
+            //Geist bewegt sich nach links
         }else if(this.direction.equals(Vector2Int.left)){
             if(possibilities == 0){
                 this.direction = Vector2Int.right;
@@ -303,6 +328,8 @@ public class Ghosts extends GameObject{
                 }
 
             }
+
+            //Geist bewegt sich nach rechts
         }else if(this.direction.equals(Vector2Int.right)){
             if(possibilities == 0){
                 this.direction = Vector2Int.left;
