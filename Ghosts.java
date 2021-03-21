@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Ghosts extends GameObject{
 
-
+    //Attribute der Geister
     private Image skin;
     private Image scared;
     private String color;
@@ -20,6 +20,7 @@ public class Ghosts extends GameObject{
     private int countchanges;
     private AStar.Grid grid;
 
+    //Konstruktor für Geister, bekommt Startposition, Reichweite und Farbe übergeben
     public Ghosts(int startx, int starty, int range, String colorselected ){
        this.position.x = this.startposition.x = startx;
        this.position.y = this.startposition.y = starty;
@@ -28,6 +29,7 @@ public class Ghosts extends GameObject{
        this.keephunting = 0;
        this.countchanges = 0;
        this.keeprunning = 0;
+       //Je nach angegebener Farbe bekommt der Geist ein anderes Aussehen
        if(colorselected.equals("green")){
            this.skin = new ImageIcon("Bilder/greenGhost.png").getImage();
            this.color = colorselected;
@@ -51,11 +53,12 @@ public class Ghosts extends GameObject{
     long timer = 0;
 
     @Override
-    public void Update(long deltaTime){
+    public void Update(long deltaTime){ //Updates der Geister erfolgen minimal lamngsamer (10 ms) als die des Pacman
         timer += deltaTime;
         if(timer >= moveTimer)
         {   
             timer = 0;
+            //wird überprüft, ob Geister gejagt werden und dann ausgewählt, wie sich Geister verhalten sollen
             powerberry = Pacman.pacinstance.gethunting();
             selectGhostmovement();
 
@@ -66,9 +69,10 @@ public class Ghosts extends GameObject{
     @Override
     public void Draw(){
 
+        //wenn Powerbeere aktiv ist wird Geist blau
         if(powerberry)
             drawGhosts(scared, this.position.x, this.position.y);
-        else
+        else //Ansonsten mit normalem Aussehen gezeichnet
             drawGhosts(this.skin, this.position.x, this.position.y);
 
 
@@ -119,11 +123,14 @@ public class Ghosts extends GameObject{
                     }
                 }
             }
-            
+            /*Bei dem Verhalten der Geister wurde jeweils nur eine Richtung vollständig asukommentiert
+                Sonst wurde nur die Reichtung, in die sich der Geist bewegt, notiert
+                Das Verhalten ist für die anderen Richtung identisch, nur dass die "Ausweichmöglichkeiten"oder Richtung geändert sind
+            */
         
     }
 
-    public Vector2Int greenGhostMovement(Vector2Int oldposition){
+    public Vector2Int greenGhostMovement(Vector2Int oldposition){ //gründer Geist biegt immer zufällig ab
         int rand = 0;
         int possibilities = determinepossiblities(oldposition);
 
@@ -133,11 +140,11 @@ public class Ghosts extends GameObject{
                this.direction = Vector2Int.up;
 
            }else if(possibilities == 1){
-               if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+               if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                     this.direction = Vector2Int.down;
-               }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+               }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                     this.direction = Vector2Int.left;
-               }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+               }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                    this.direction = Vector2Int.right;
                }else{
                    this.direction = Vector2Int.up;
@@ -145,26 +152,26 @@ public class Ghosts extends GameObject{
 
            }else if(possibilities == 2){
                 rand = rnd.nextInt(possibilities);
-                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                     this.direction = Vector2Int.down;
                 }else{
                     rand = rnd.nextInt(2);
                     if(rand == 0){
-                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                             this.direction = Vector2Int.right;
-                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                             this.direction = Vector2Int.left;
-                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                             this.direction = Vector2Int.down;
                         }else{
                             this.direction = Vector2Int.up;
                         }    
                     }else{
-                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                             this.direction = Vector2Int.left;
-                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                             this.direction = Vector2Int.right;
-                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                             this.direction = Vector2Int.down;
                         }else{
                             this.direction = Vector2Int.up;
@@ -190,11 +197,11 @@ public class Ghosts extends GameObject{
                 this.direction = Vector2Int.down;
 
             }else if(possibilities == 1){
-                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && furtherup(oldposition)){
                      this.direction = Vector2Int.up;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                      this.direction = Vector2Int.left;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                     this.direction = Vector2Int.right;
                 }else{
                     this.direction = Vector2Int.down;
@@ -202,26 +209,26 @@ public class Ghosts extends GameObject{
 
             }else if(possibilities == 2){
                 rand = rnd.nextInt(possibilities);
-                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && furtherup(oldposition)){
                     this.direction = Vector2Int.up;
                 }else{
                     rand = rnd.nextInt(2);
                     if(rand == 0){
-                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                             this.direction = Vector2Int.right;
-                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                             this.direction = Vector2Int.left;
-                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && furtherup(oldposition)){
                             this.direction = Vector2Int.up;
                         }else{
                             this.direction = Vector2Int.down;
                         }
                     }else{
-                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                             this.direction = Vector2Int.left;
-                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                             this.direction = Vector2Int.right;
-                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && furtherup(oldposition)){
                             this.direction = Vector2Int.up;
                         }else{
                             this.direction = Vector2Int.down;
@@ -246,11 +253,11 @@ public class Ghosts extends GameObject{
                 this.direction = Vector2Int.right;
 
             }else if(possibilities == 1){
-                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                      this.direction = Vector2Int.left;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && furtherup(oldposition)){
                      this.direction = Vector2Int.up;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                     this.direction = Vector2Int.down;
                 }else{
                     this.direction = Vector2Int.right;
@@ -258,26 +265,26 @@ public class Ghosts extends GameObject{
 
             }else if(possibilities == 2){
                 rand = rnd.nextInt(possibilities);
-                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                     this.direction = Vector2Int.left;
                 }else{
                     rand = rnd.nextInt(2);
                     if(rand == 0){
-                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && furtherup(oldposition)){
                             this.direction = Vector2Int.up;
-                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                             this.direction = Vector2Int.down;
-                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                             this.direction = Vector2Int.left;
                         }else{
                             this.direction = Vector2Int.right;
                         }
                     }else{
-                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                             this.direction = Vector2Int.down;
-                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && furtherup(oldposition)){
                             this.direction = Vector2Int.up;
-                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && cangoleft(oldposition)){
+                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.left)) && furtherleft(oldposition)){
                             this.direction = Vector2Int.left;
                         }else{
                             this.direction = Vector2Int.right;
@@ -301,11 +308,11 @@ public class Ghosts extends GameObject{
                 this.direction = Vector2Int.left;
 
             }else if(possibilities == 1){
-                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                      this.direction = Vector2Int.right;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && furtherup(oldposition)){
                      this.direction = Vector2Int.up;
-                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                     this.direction = Vector2Int.down;
                 }else{
                     this.direction = Vector2Int.left;
@@ -313,26 +320,26 @@ public class Ghosts extends GameObject{
 
             }else if(possibilities == 2){
                 rand = rnd.nextInt(possibilities);
-                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                if(rand == 0 && !Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                     this.direction = Vector2Int.right;
                 }else{
                     rand = rnd.nextInt(2);
                     if(rand == 0){
-                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && furtherup(oldposition)){
                             this.direction = Vector2Int.up;
-                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                             this.direction = Vector2Int.down;
-                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                             this.direction = Vector2Int.right;
                         }else{
                             this.direction = Vector2Int.left;
                         }
                     }else{
-                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && cangodown(oldposition)){
+                        if(!Map.instance.IsCol(oldposition.Add(Vector2Int.down)) && furtherdown(oldposition)){
                             this.direction = Vector2Int.down;
-                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && cangoup(oldposition)){
+                        }else if(!Map.instance.IsCol(oldposition.Add(Vector2Int.up)) && furtherup(oldposition)){
                             this.direction = Vector2Int.up;
-                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && cangoright(oldposition)){
+                        }else if (!Map.instance.IsCol(oldposition.Add(Vector2Int.right)) && furtherright(oldposition)){
                             this.direction = Vector2Int.right;
                         }else{
                             this.direction = Vector2Int.left;
@@ -358,28 +365,34 @@ public class Ghosts extends GameObject{
     }
 
     
-    public Vector2Int yellowGhostMovement(Vector2Int oldposition){
+    public Vector2Int yellowGhostMovement(Vector2Int oldposition){ //Gelber Geist ändert seine Richtung nur, wenn er gegen eine Wand läuft
         int rand;
         int possibilities = determinepossiblities(oldposition); 
 
+        //Geist geht aktuell runter 
         if (this.direction == Vector2Int.down && Map.instance.IsCol(this.position.Add(this.direction))){
             
+            //Gibt es "keine" Möglichkeit, dreht Geist um
             if(possibilities == 0){
                 direction = Vector2Int.up;   
             }else{
+                //Ansonsten wird aus den gegebenen Möglichkeiten eine Zufallszahl erstellt
                 rand = rnd.nextInt(possibilities);                    
                 if(rand == 0){
+                    //ist diese 0 versucht Geist rechts zu gehen
                     if(!Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
                         direction = Vector2Int.right;
                     }else{
+                        //geht dies nicht, geht er nach links
                         direction = Vector2Int.left;
                     }
                 }else{
+                    //wenn Geist mehr als 1 Möglichkeit hat und die Zufallszahl nicht 0 ist, geht er nach links
                     direction = Vector2Int.left;
                 }   
             }
 
-
+            //Geist geht gerade nach oben
         }else if (this.direction == Vector2Int.up && Map.instance.IsCol(this.position.Add(this.direction))){
 
             if(possibilities == 0){
@@ -397,7 +410,7 @@ public class Ghosts extends GameObject{
                 }   
             }
             
-
+            //GEist geht gerade nach links
         }else if (this.direction == Vector2Int.left && Map.instance.IsCol(this.position.Add(this.direction))){
 
             if(possibilities == 0){
@@ -415,7 +428,7 @@ public class Ghosts extends GameObject{
                 }          
             }
 
-
+            //Geist geht gerade nach rechts
         }else if (this.direction == Vector2Int.right && Map.instance.IsCol(this.position.Add(this.direction))){
             if(possibilities == 0){
                 direction = Vector2Int.left;   
@@ -437,18 +450,19 @@ public class Ghosts extends GameObject{
         return oldposition;
     }
 
-    public Vector2Int redGhostMovement(Vector2Int oldposition){
-
+    public Vector2Int redGhostMovement(Vector2Int oldposition){ //Roter Geist jagt Pacman permanent
+        
         oldposition = huntPacman(oldposition.x, oldposition.y);
 
         return oldposition;
     }
 
-    public Vector2Int pinkGhostMovement(Vector2Int oldposition){
+    public Vector2Int pinkGhostMovement(Vector2Int oldposition){ //Pinker Geist geht in die Nähe von Pacman
         
         Vector2Int pacmanposition = Pacman.pacinstance.getposition();
         int rand = rnd.nextInt(4);
         
+        //dazu wird die Position für Pacman mithilfe einer Zufallszahl manipuliert
         if(rand == 0){
             pacmanposition.x += 2;
         }else if(rand == 1){
@@ -459,18 +473,24 @@ public class Ghosts extends GameObject{
             pacmanposition.y -= 2;
         }
 
+
+        //Geist geht gerade nach unten
         if(this.direction == Vector2Int.down){
             
+            //Pacman ist unter ihm unter er kann nach unten gehen
             if(oldposition.y < pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.down))){
                 this.direction = Vector2Int.down;
+            //Pacman ist rechts von ihm und er kann nach rechts gehen
             }else if(oldposition.x < pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
                 this.direction = Vector2Int.right;
+            //Pacman ist links von ihm und er kann nach links gehen
             }else if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
             }else{
-
+                //Geht als dies nicht (Möglicherweise eine Sackgasse oder ein Bogen) wird das Jagdverhalten aktiviert
                 Vector2Int newposition = huntPacman(oldposition.x, oldposition.y);
 
+                //dann wird geguckt, wie sich die neue zu der alten Position verändert hat und die Richtung angegeben
                 if(oldposition.Add(Vector2Int.down).equals(newposition)){
                     this.direction = Vector2Int.down;
                 }else if(oldposition.Add(Vector2Int.right).equals(newposition)){
@@ -483,6 +503,7 @@ public class Ghosts extends GameObject{
                 
             }
 
+            //Geist geht gerade nach oben
         }else if(this.direction == Vector2Int.up){
             if(oldposition.y > pacmanposition.y && !Map.instance.IsCol(oldposition.Add(Vector2Int.up))){
                 this.direction = Vector2Int.up;
@@ -505,6 +526,7 @@ public class Ghosts extends GameObject{
                 }                
             }
 
+            //Geist geht gerade nach rechts
         }else if(this.direction == Vector2Int.right){
             if(oldposition.x < pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.right))){
                 this.direction = Vector2Int.right;
@@ -527,6 +549,7 @@ public class Ghosts extends GameObject{
                     
             }
 
+            //Geist geht gerade nach links
         }else if(this.direction == Vector2Int.left){
             if(oldposition.x > pacmanposition.x && !Map.instance.IsCol(oldposition.Add(Vector2Int.left))){
                 this.direction = Vector2Int.left;
@@ -550,11 +573,12 @@ public class Ghosts extends GameObject{
             }
         }
         
+        //Richtung wird zu Position addiert
         oldposition = oldposition.Add(direction);
         return oldposition;
     }
 
-    
+    //Die Anzahl an Möglichkeiten, die der Geist hat, wird berechnet
     public int determinepossiblities(Vector2Int currentposition){
         int possibilities = 0;
         
@@ -571,31 +595,37 @@ public class Ghosts extends GameObject{
             possibilities++;
         }
 
+        //Der Wert wird um 1 reduziert, da Geister nicht vom einen zum anderen in die entgegengesetzte Richtung laufen sollen
         return possibilities - 1;
     }
-
+    
+    //Geister werden gezeichnet
     public void drawGhosts(Image skinImage, int posx, int posy){
         Vector2Int drawvector = new Vector2Int(posx, posy);
         Game.instance.drawImage(skinImage, drawvector);
     }
 
+    //Distanz der Geister zu Pacman wird berechnet
     public int calculateDistance(int posx, int posy){
 
         Vector2Int ghostposition = new Vector2Int(posx, posy);
         Vector2Int pacmanposition = Pacman.pacinstance.getposition();
 
+        //Absoluter Wert der Distanz (nichtnegativ) wird zurückgegeben
         return Math.abs(pacmanposition.x - ghostposition.x) + Math.abs(pacmanposition.y - ghostposition.y);         
     }
 
+    //Verhalten wenn Pacman gejagt wird 
     public Vector2Int huntPacman(int ghostx, int ghosty){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
         Vector2Int pacmanposition = Pacman.pacinstance.getposition();
+        //dazu wird eine Funktion aus AStar aufgerufen, Position von Pacman und Geist werden übergeben
         Vector2Int[] gohere = AStar.FindShortestPath(ghostposition, pacmanposition, grid);
 
         if(gohere.length == 0)
             return ghostposition;
 
-
+        //Danach wird ein Abgleich mit der neuen Position gemacht, um Richtung zu bestimmen (willkürliche Veränderungen vermeiden)
         if(ghostposition.Add(Vector2Int.up) == gohere[0]){
             this.direction = Vector2Int.up;
         }else if(ghostposition.Add(Vector2Int.down) == gohere[0]){
@@ -611,10 +641,17 @@ public class Ghosts extends GameObject{
         return ghostposition;
     }
 
+    //Geister sollen vor Pacman weglaufen
     public Vector2Int runfromPacman(int ghostx, int ghosty, String color){
         Vector2Int ghostposition = new Vector2Int(ghostx, ghosty);
         Vector2Int pacmanposition = Pacman.pacinstance.getposition();
 
+        /*Es wird geguckt, wie oft der Geist seine Reichtung geändert hat
+            Hat der Geist seine Richtung mehr als 4 Mal geändert (countchanges), dann wird keeprunning aktiviert
+            Dadurch verhält sich der weglaufende Geist für 5 Itterationen wie der grüne Geist (läuft evtl nicht mehr weg)
+            das soll verhindern, dass der Geist in einer Ecke oder Schleife gefangen wird und sich dort nur hin und her bewegt
+            Das kann passieren, da der Geist versucht, die größtmögliche Distanz zum Pacman aufzubauen, was aber möglicherweise nicht möglich ist
+        */
         if(countchanges > 4){
             countchanges = 0;
             keeprunning++;
@@ -627,53 +664,59 @@ public class Ghosts extends GameObject{
             }
             ghostposition = greenGhostMovement(ghostposition);
         }else{
-
-            if(ghostposition.x > pacmanposition.x && !Map.instance.IsCol(ghostposition.Add(Vector2Int.right)) && cangoright(ghostposition)){
+            
+            //wenn Geist weiter rechts ist und rechts gehen kann
+            if(ghostposition.x > pacmanposition.x && !Map.instance.IsCol(ghostposition.Add(Vector2Int.right)) && furtherright(ghostposition)){
                 ghostposition = ghostposition.Add(Vector2Int.right);
                 if(!direction.equals(Vector2Int.right)){
                     countchanges++;
                     direction = Vector2Int.right;
                 }
-            }else if(ghostposition.x < pacmanposition.x && !Map.instance.IsCol(ghostposition.Add(Vector2Int.left)) && cangoleft(ghostposition)){
+                //wenn Geist weiter links ist und nach links gehen kann
+            }else if(ghostposition.x < pacmanposition.x && !Map.instance.IsCol(ghostposition.Add(Vector2Int.left)) && furtherleft(ghostposition)){
                 ghostposition = ghostposition.Add(Vector2Int.left);
                 if(!direction.equals(Vector2Int.left)){
                     countchanges++;
                     direction = Vector2Int.left;
                 }
-            }else if(ghostposition.y < pacmanposition.y && !Map.instance.IsCol(ghostposition.Add(Vector2Int.down)) && cangodown(ghostposition)){
+                //Wenn Geist weiter unten ist und nach unten gehen kann
+            }else if(ghostposition.y < pacmanposition.y && !Map.instance.IsCol(ghostposition.Add(Vector2Int.down)) && furtherdown(ghostposition)){
                 ghostposition = ghostposition.Add(Vector2Int.down);
                 if(!direction.equals(Vector2Int.down)){
                     countchanges++;
                     direction = Vector2Int.down;
                 }
-            }else if(ghostposition.y > pacmanposition.y && !Map.instance.IsCol(ghostposition.Add(Vector2Int.up)) && cangoup(ghostposition)){
+                //wenn Geist weiter oben ist und nach oben gehen kann
+            }else if(ghostposition.y > pacmanposition.y && !Map.instance.IsCol(ghostposition.Add(Vector2Int.up)) && furtherup(ghostposition)){
                 ghostposition = ghostposition.Add(Vector2Int.up);
                 if(!direction.equals(Vector2Int.up)){
                     countchanges++;
                     direction = Vector2Int.up;
                 }
+                //Wenn y identisch ist wird geguckt, ob er nach Oben oder unten gehen kann
             }else if(ghostposition.y == pacmanposition.y){
-                if(!Map.instance.IsCol(ghostposition.Add(Vector2Int.up)) && cangoup(ghostposition)){
+                if(!Map.instance.IsCol(ghostposition.Add(Vector2Int.up)) && furtherup(ghostposition)){
                     ghostposition = ghostposition.Add(Vector2Int.up);
                 if(!direction.equals(Vector2Int.up)){
                     countchanges++;
                     direction = Vector2Int.up;
                 }
-                }else if(!Map.instance.IsCol(ghostposition.Add(Vector2Int.down)) && cangodown(ghostposition)){
+                }else if(!Map.instance.IsCol(ghostposition.Add(Vector2Int.down)) && furtherdown(ghostposition)){
                     ghostposition = ghostposition.Add(Vector2Int.down);
                     if(!direction.equals(Vector2Int.down)){
                         countchanges++;
                         direction = Vector2Int.down;
                     }
                 }
+               //wenn x identisch ist, wird geguckt, ob er nach rechts oder links gehen kann
             }else if(ghostposition.x == pacmanposition.x){
-                if(!Map.instance.IsCol(ghostposition.Add(Vector2Int.left)) && cangoleft(ghostposition)){
+                if(!Map.instance.IsCol(ghostposition.Add(Vector2Int.left)) && furtherleft(ghostposition)){
                     ghostposition = ghostposition.Add(Vector2Int.left);
                 if(!direction.equals(Vector2Int.left)){
                     countchanges++;
                     direction = Vector2Int.left;
                 }
-                }else if(!Map.instance.IsCol(ghostposition.Add(Vector2Int.right)) && cangoright(ghostposition)){
+                }else if(!Map.instance.IsCol(ghostposition.Add(Vector2Int.right)) && furtherright(ghostposition)){
                     ghostposition = ghostposition.Add(Vector2Int.right);
                     if(!direction.equals(Vector2Int.right)){
                         countchanges++;
@@ -681,7 +724,8 @@ public class Ghosts extends GameObject{
                     }
                 }
             }else{
-            
+                
+                //Sollte nicht gehen (eigentlich asugeschlossen), dann verhalten wie der grüne Geist
                 ghostposition = greenGhostMovement(ghostposition);
                 countchanges++;
             }
@@ -691,7 +735,8 @@ public class Ghosts extends GameObject{
 
     }
 
-    public boolean cangoright(Vector2Int checkfurther){
+    //Wird überprüft, ob Geist weiter rechts gehen kann (oder ob Sackgasse)
+    public boolean furtherright(Vector2Int checkfurther){
 
         if (!Map.instance.IsCol(checkfurther.Add(Vector2Int.right).Add(Vector2Int.right)) 
         || !Map.instance.IsCol(checkfurther.Add(Vector2Int.right).Add(Vector2Int.up))                
@@ -702,7 +747,8 @@ public class Ghosts extends GameObject{
         return false;
     }
 
-    public boolean cangoleft(Vector2Int checkfurther){
+    //Wird überprüft, ob Geist weiter links gehen kann (oder ob Sackgasse)
+    public boolean furtherleft(Vector2Int checkfurther){
 
         if (!Map.instance.IsCol(checkfurther.Add(Vector2Int.left).Add(Vector2Int.left)) 
         || !Map.instance.IsCol(checkfurther.Add(Vector2Int.left).Add(Vector2Int.up))                
@@ -713,7 +759,8 @@ public class Ghosts extends GameObject{
         return false;
     }
 
-    public boolean cangoup(Vector2Int checkfurther){
+    //Wird überprüft, ob Geist weiter hoch gehen kann (oder ob Sackgasse)
+    public boolean furtherup(Vector2Int checkfurther){
         
         if (!Map.instance.IsCol(checkfurther.Add(Vector2Int.up).Add(Vector2Int.up)) 
         || !Map.instance.IsCol(checkfurther.Add(Vector2Int.up).Add(Vector2Int.left))                
@@ -724,7 +771,8 @@ public class Ghosts extends GameObject{
         return false;
     }
 
-    public boolean cangodown(Vector2Int checkfurther){
+    //Wird überprüft, ob Geist weiter runter gehen kann (oder ob Sackgasse)
+    public boolean furtherdown(Vector2Int checkfurther){
 
         if (!Map.instance.IsCol(checkfurther.Add(Vector2Int.down).Add(Vector2Int.down)) 
         || !Map.instance.IsCol(checkfurther.Add(Vector2Int.down).Add(Vector2Int.left))                
@@ -735,6 +783,8 @@ public class Ghosts extends GameObject{
         return false;
     }
 
+
+    //Anzahl an Geistern kann abgefragt werden
     public int getnumberGhosts(){
 
         return numberGhosts;
