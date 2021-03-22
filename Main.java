@@ -5,7 +5,7 @@ import java.awt.Color;
 public class Main {
     public static void main(String[] args) {
         JFrame frame = new JFrame("advanced Pacman");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1200, 1000);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
@@ -29,22 +29,24 @@ public class Main {
         //restart.setMargin(new Insets(2, 2, 2, 2));
         restart.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent evt){
+                Game.instance = null;
                 frame.dispose();
                 main(args);
             }
         });
         frame.add(restart);
-        restart.setVisible(false);
-
 
         DrawPanel drawP = new DrawPanel();
         drawP.setSize(frame.getSize());
         drawP.setLocation(0, 0);
         frame.add(drawP);
-        new Game(frame, Math.abs(Integer.parseInt(difficulty)));
 
-        restart.setVisible(true);
         
+        restart.setVisible(false);
+        new Game(frame, Math.abs(Integer.parseInt(difficulty)));
+        restart.setVisible(true);
     }
+
+    
     
 }
