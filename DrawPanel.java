@@ -12,7 +12,9 @@ public class DrawPanel extends JPanel{
         g.setColor(BackgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        Game.instance.DrawGame(g);
-        Game.instance.UpdateGame();
+        if(Game.instance != null){
+            Game.instance.DrawGame(g);
+            Game.instance.UpdateGame();
+        }
     }
 }
