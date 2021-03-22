@@ -67,8 +67,9 @@ public class Pacman extends GameObject{
             position = position.Add(direction);
         }
         //wenn Feld Essen ist
-        if (Map.instance.IsFood(position)) {
+        if (Map.instance.RemoveFood(position)) {
             Score.scoreinstance.eatsFood();//Score erhöhen
+
         }        
     }
 
@@ -99,6 +100,7 @@ public class Pacman extends GameObject{
             position.x = startposition.x;
             position.y = startposition.y;
         }
+        //wenn PAcman keine Leben hat wird Spiel beendet 
         if (remaininglives < 1) {
             // stop timer, Score screen
         }
