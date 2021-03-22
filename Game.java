@@ -1,13 +1,9 @@
 import java.util.ArrayList;
 import java.util.Random;
-import java.awt.event.*;
 import java.awt.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.event.*;
-import javax.swing.*;
 
 
 //Handles GameObjects, causes Updates and Runs the Game in general (e.g. Pausing, etc.)
