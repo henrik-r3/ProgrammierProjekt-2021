@@ -100,9 +100,11 @@ public class Pacman extends GameObject{
             position.x = startposition.x;
             position.y = startposition.y;
         }
-        //wenn PAcman keine Leben hat wird Spiel beendet 
+        //wenn Pacman keine Leben hat wird Spiel beendet 
         if (remaininglives < 1) {
-            // stop timer, Score screen
+            Destroy();
+            Game.instance.EndGame();
+            
         }
 
         caught = false; //Wieder auf falsch setzen
@@ -133,6 +135,11 @@ public class Pacman extends GameObject{
     public boolean gethunting(){
         //Abfragen ob Pacman jagt
         return huntingghosts;
+    }
+
+    public int Pacmanlives(){
+
+        return remaininglives;
     }
 
 }
