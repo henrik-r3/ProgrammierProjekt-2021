@@ -22,7 +22,7 @@ public class Main {
         
 
         //Add buttons for the End of the Game Game
-        JButton restart = new JButton("Neustart");
+        JButton restart = new JButton("Restart");
         restart.setBackground(Color.GREEN);
         restart.setBounds(frame.getWidth()/2-50, 400, 100, 40);
         restart.setForeground(Color.BLACK);
