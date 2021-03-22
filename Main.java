@@ -21,30 +21,12 @@ public class Main {
             JOptionPane.PLAIN_MESSAGE);
         
 
-        //Add buttons for the End of the Game Game
-        JButton restart = new JButton("Restart");
-        restart.setBackground(Color.GREEN);
-        restart.setBounds(frame.getWidth()/2-50, 400, 100, 40);
-        restart.setForeground(Color.BLACK);
-        //restart.setMargin(new Insets(2, 2, 2, 2));
-        restart.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
-                Game.instance = null;
-                frame.dispose();
-                main(args);
-            }
-        });
-        frame.add(restart);
-
         DrawPanel drawP = new DrawPanel();
         drawP.setSize(frame.getSize());
         drawP.setLocation(0, 0);
         frame.add(drawP);
-
-        
-        restart.setVisible(false);
+    
         new Game(frame, Math.abs(Integer.parseInt(difficulty)));
-        restart.setVisible(true);
     }
 
     

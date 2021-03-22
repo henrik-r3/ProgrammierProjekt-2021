@@ -61,7 +61,8 @@ public class Pacman extends GameObject{
 
 
     public void calculatePosition() {
-       
+        
+        
             //Solange keine Kollision mit Wand entsteht: Pacman in "direction" verschieben
         if (!Map.instance.IsCol(position.Add(direction))) {
             position = position.Add(direction);
