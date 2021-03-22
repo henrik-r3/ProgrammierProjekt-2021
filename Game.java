@@ -17,6 +17,7 @@ public class Game{
 
     public Input input = new Input();
     public Random rnd = new Random();
+    public boolean isRunning = true;
 
     long lastTime = 0;
     private ArrayList<GameObject> gameObjects;//pool of all GameObjects
@@ -85,7 +86,7 @@ public class Game{
 
 
     public void UpdateGame(){
-        if(lastTime == 0 || input.pause)
+        if(lastTime == 0 || input.pause || !isRunning)
             return;
 
         long currentTime = System.currentTimeMillis();
@@ -112,6 +113,9 @@ public class Game{
             gameObjects.get(go).Draw();
 
         Score.scoreinstance.drawScore();
+
+        if(!isRunning)
+            drawEnd();
     }
 
 
@@ -139,6 +143,25 @@ public class Game{
         }
     }
 
+    private void drawEnd(){
+        int fontSize = 90;
+        if(Pacman.pacinstance.Pacmanlives() > 0){//pacman wins
+            String text = "YOU WIN";
+            java.awt.Font font = new java.awt.Font("Consolas", java.awt.Font.PLAIN, fontSize);
+            Game.instance.drawing().setFont(font);
+            Game.instance.drawing().setColor(Color.YELLOW);
+            int width = drawing().getFontMetrics().stringWidth(text);
+            Game.instance.drawing().drawString(text, frame.getWidth()/2-width/2, 300);
+        }else{//pacman loses
+            String text = "GAME OVER";
+            java.awt.Font font = new java.awt.Font("Consolas", java.awt.Font.PLAIN, fontSize);
+            Game.instance.drawing().setFont(font);
+            Game.instance.drawing().setColor(Color.RED);
+            int width = drawing().getFontMetrics().stringWidth(text);
+            Game.instance.drawing().drawString(text, frame.getWidth()/2-width/2, 300);
+        }
+    }
+
     public Graphics drawing(){
         return g;
     }
@@ -150,7 +173,14 @@ public class Game{
 
 
     public void EndGame(){
-        System.out.println("The end");
+        isRunning = false;
+        if(Pacman.pacinstance.Pacmanlives() > 0){//pacman wins
+            //destroy all ghosts
+            for(int go = gameObjects.size()-1; go >= 0; go--)//loop runs backwards to prevent error on deletion
+                if(gameObjects.get(go).getClass() == Ghosts.class)    
+                    gameObjects.remove(go);
+        }else{//pacman loses
+        }
     }
 
 }
