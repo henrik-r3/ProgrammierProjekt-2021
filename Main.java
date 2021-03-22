@@ -28,11 +28,9 @@ public class Main {
         restart.setForeground(Color.BLACK);
         //restart.setMargin(new Insets(2, 2, 2, 2));
         restart.addActionListener(new ActionListener(){
-
             public void actionPerformed(ActionEvent evt){
                 main(args);
             }
-
         });
         frame.add(restart);
         restart.setVisible(false);
