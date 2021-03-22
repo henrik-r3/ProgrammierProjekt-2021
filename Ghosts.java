@@ -16,6 +16,7 @@ public class Ghosts extends GameObject{
     public Random rnd = new Random();
     private boolean powerberry = false;
     private int keephunting;
+    private int powerberrystepcounter;
     private int keeprunning;
     private int countchanges;
     private AStar.Grid grid;
@@ -49,7 +50,7 @@ public class Ghosts extends GameObject{
     }
 
 
-    long moveTimer = 350;
+    long moveTimer = 400;
     long timer = 0;
 
     @Override
@@ -61,6 +62,7 @@ public class Ghosts extends GameObject{
             //wird überprüft, ob Geister gejagt werden und dann ausgewählt, wie sich Geister verhalten sollen
             powerberry = Pacman.pacinstance.gethunting();
             selectGhostmovement();
+            powerberrystepcounter++;
 
         }
 
@@ -70,11 +72,20 @@ public class Ghosts extends GameObject{
     public void Draw(){
 
         //wenn Powerbeere aktiv ist wird Geist blau
-        if(powerberry)
-            drawGhosts(scared, this.position.x, this.position.y);
-        else //Ansonsten mit normalem Aussehen gezeichnet
+        if(powerberry){
+            if(powerberrystepcounter < 16){
+                drawGhosts(scared, this.position.x, this.position.y);
+            }else{
+                if(powerberrystepcounter%2 == 0){
+                    drawGhosts(this.skin, this.position.x, this.position.y);
+                }else{
+                    drawGhosts(scared, this.position.x, this.position.y);
+                }
+            } 
+        }else{ //Ansonsten mit normalem Aussehen gezeichnet
             drawGhosts(this.skin, this.position.x, this.position.y);
-
+            powerberrystepcounter = 0;
+        }    
 
     }
 

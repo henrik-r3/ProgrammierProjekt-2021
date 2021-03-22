@@ -1,9 +1,13 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.awt.event.*;
 import java.awt.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.event.*;
+import javax.swing.*;
 
 
 //Handles GameObjects, causes Updates and Runs the Game in general (e.g. Pausing, etc.)
@@ -173,6 +177,23 @@ public class Game{
 
 
     public void EndGame(){
+        JButton restart = new JButton("Neustart");
+        restart.setBackground(Color.GREEN);
+        restart.setBounds(frame.getWidth()/2 - 100 , 400, 50, 20);
+        restart.setForeground(Color.BLACK);
+        //restart.setMargin(new Insets(2, 2, 2, 2));
+        restart.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent evt){
+                restartbuttonAction(evt);
+            }
+
+        });
+        
+        frame.add(restart);
+
+
+
         isRunning = false;
         if(Pacman.pacinstance.Pacmanlives() > 0){//pacman wins
             //destroy all ghosts
@@ -181,6 +202,12 @@ public class Game{
                     gameObjects.remove(go);
         }else{//pacman loses
         }
+    }
+
+
+    public void restartbuttonAction(ActionEvent evt){
+
+            
     }
 
 }
