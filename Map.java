@@ -9,6 +9,8 @@ public class Map {
 
     Tile[] map;
 
+    int foodCount = 0;
+
     public Map(Vector2Int size){
         size.x = (size.x/2)*2+1;//make size.x odd
         size.y = (size.y/2)*2+1;//make size.y odd -> get a border
@@ -23,12 +25,19 @@ public class Map {
         //printMap();
     }
 
-    public void SetTile(Vector2Int pos, Tile tile){ map[pos.x + pos.y * size.x] = tile; }
+    public void SetTile(Vector2Int pos, Tile tile){ 
+        if(tile.equals(Tile.food))//food get added
+            foodCount++;
+
+        map[pos.x + pos.y * size.x] = tile; 
+    }
+
     public Tile GetTile(Vector2Int pos){ return map[pos.x + pos.y * size.x]; }
     public boolean IsCol  (Vector2Int pos){ return GetTile(pos).equals(Tile.wall); }
-    public boolean IsFood(Vector2Int pos){
+    public boolean RemoveFood(Vector2Int pos){
         if(GetTile(pos).equals(Tile.food)){
             SetTile(pos, Tile.empty);
+            foodCount--;
             return true;
         }
         return false;

@@ -144,4 +144,9 @@ public class Game{
         gameObjects.remove(go);
     }
 
+
+    public void EndGame(){
+        
+    }
+
 }
