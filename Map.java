@@ -28,6 +28,8 @@ public class Map {
     public void SetTile(Vector2Int pos, Tile tile){ 
         if(tile.equals(Tile.food))//food get added
             foodCount++;
+        if(GetTile(pos).equals(Tile.food))
+            foodCount--;
 
         map[pos.x + pos.y * size.x] = tile; 
     }
@@ -37,7 +39,6 @@ public class Map {
     public boolean RemoveFood(Vector2Int pos){
         if(GetTile(pos).equals(Tile.food)){
             SetTile(pos, Tile.empty);
-            foodCount--;
             return true;
         }
         return false;

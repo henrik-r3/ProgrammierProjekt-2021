@@ -95,6 +95,10 @@ public class Game{
         //Update all GameObjects
         for(int go = gameObjects.size()-1; go >= 0; go--)//loop runs backwards to prevent error on deletion
             gameObjects.get(go).Update(deltaTime);
+
+        //Test if Game ends
+        if(Map.instance.foodCount == 0)
+            EndGame();
     }
 
     public void DrawGame(Graphics g){
@@ -146,7 +150,7 @@ public class Game{
 
 
     public void EndGame(){
-        
+        System.out.println("The end");
     }
 
 }
