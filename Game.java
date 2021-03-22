@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.*;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 
@@ -20,6 +21,8 @@ public class Game{
     long lastTime = 0;
     private ArrayList<GameObject> gameObjects;//pool of all GameObjects
 
+    Image food;
+
 
     public Game(JFrame frame, int difficulty){
         //INIT -------------------------------------------------
@@ -27,6 +30,7 @@ public class Game{
         instance = this;
         this.frame = frame;
         frame.addKeyListener(input);
+        food = new ImageIcon("Bilder/Food.png").getImage();
 
         gameObjects = new ArrayList<GameObject>();//add initial GameObjects
 
@@ -102,6 +106,8 @@ public class Game{
         //Draw all GameObjects
         for(int go = gameObjects.size()-1; go >= 0; go--)//loop runs backwards to prevent error on deletion
             gameObjects.get(go).Draw();
+
+        Score.scoreinstance.drawScore();
     }
 
 
@@ -109,8 +115,12 @@ public class Game{
         drawing().setColor(Color.DARK_GRAY);
         for(int x = 0; x < Map.instance.size.x; x++)
             for(int y = 0; y < Map.instance.size.y; y++){
-                if(Map.instance.IsCol(new Vector2Int(x,y)))
+                Vector2Int pos = new Vector2Int(x,y);
+                if(Map.instance.IsCol(pos))
                     drawing().fillRect(x*tileSize.x, y*tileSize.y, tileSize.x, tileSize.y);
+                else if(Map.instance.GetTile(pos).equals(Map.Tile.food)){
+                    drawImage(food, pos);
+                }
             }
     }
 

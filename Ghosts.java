@@ -49,11 +49,11 @@ public class Ghosts extends GameObject{
     }
 
 
-    long moveTimer = 310;
+    long moveTimer = 350;
     long timer = 0;
 
     @Override
-    public void Update(long deltaTime){ //Updates der Geister erfolgen minimal lamngsamer (10 ms) als die des Pacman
+    public void Update(long deltaTime){ //Updates der Geister erfolgen minimal langsamer (50 ms) als die des Pacman
         timer += deltaTime;
         if(timer >= moveTimer)
         {   

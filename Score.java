@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public class Score{
 
     private int scoreval;
@@ -35,8 +37,15 @@ public class Score{
 
     //Wenn Methode gerufen wird, wird Score zurückgegeben
     public int getScore(){
-
         return scoreval;
+    }
+
+    public void drawScore(){
+        String score = Integer.toString(getScore());
+        java.awt.Font font = new java.awt.Font("Consolas", java.awt.Font.PLAIN, 35);
+        Game.instance.drawing().setFont(font);
+        Game.instance.drawing().setColor(Color.white);
+        Game.instance.drawing().drawString(score, 5, 35);
     }
 
 }

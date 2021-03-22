@@ -54,11 +54,29 @@ public class Map {
 
 
     public void generateMap(Random rnd, int minLength){
-        
+        Tile path = Tile.food;
+
         Vector2Int start = new Vector2Int(5, 5);
-        IterativeDFS(start, rnd, 10000);
+        IterativeDFS(start, path, rnd, 10000);
         //dfs(start, start, -1, Tile.empty, Game.instance.rnd, 50000);
-        ConnectDeadEnd(start, Tile.empty, Game.instance.rnd);
+        ConnectDeadEnd(start, path, Game.instance.rnd);
+
+        //generate additional connections in map
+        double connectProb = 0.05;
+        for(int x = 0; x < Math.floor(size.x*0.5); x++)
+            for(int y = 0; y < Math.floor(size.y*0.5); y++){
+                Vector2Int pos = new Vector2Int(x*2+1, y*2+1);
+                if(!IsCol(pos)){//if pos is path
+                    for(int d = 0; d < Vector2Int.dirs.length; d++){
+                        Vector2Int nPos = pos.Add(Vector2Int.dirs[d].Mul(2));
+                        if(inBounds(nPos)){
+                            Vector2Int intermediate = pos.Add(nPos).Mul(0.5);
+                            if(!IsCol(nPos) && IsCol(intermediate) && rnd.nextDouble() < connectProb)//just use certain percentage of possible connections
+                                SetTile(intermediate, path);//set intermediate path at (nPos+pos)/2
+                        }   
+                    }
+                }
+            }
     }
 
     /*public void dfs(Vector2Int pos, Vector2Int lastP, int lastD, Tile path, Random rnd, int TimeConst) {
@@ -123,7 +141,7 @@ public class Map {
         }
     }
 
-    void IterativeDFS(Vector2Int start, Random rnd, int TimeConst){
+    void IterativeDFS(Vector2Int start, Tile path, Random rnd, int TimeConst){
         Stack<Vector2Int> posStack = new Stack<Vector2Int>();
         Stack<Vector2Int> lastStack = new Stack<Vector2Int>();
 
@@ -145,10 +163,10 @@ public class Map {
             Game.instance.frame.repaint();//draw map to show update
     
             //connect node to the one before
-            SetTile(pos, Tile.empty);
+            SetTile(pos, path);
     
             Vector2Int conWall = pos.Add(lastP.Add(pos.Mul(-1)).Mul(0.5));//pos + (lastP - pos) / 2
-            SetTile(conWall, Tile.empty);
+            SetTile(conWall, path);
     
             boolean deadEnd = true;
     
@@ -168,7 +186,7 @@ public class Map {
             }
     
             if(deadEnd){
-                ConnectDeadEnd(pos, Tile.empty, rnd);//connect dead end to somwhere -> no dead ends  (not part of original DFS)
+                ConnectDeadEnd(pos, path, rnd);//connect dead end to somwhere -> no dead ends  (not part of original DFS)
             }
         }
     }
