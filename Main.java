@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.*;
+import java.awt.Color;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,12 +20,32 @@ public class Main {
             "Schwierigkeitsgrad",
             JOptionPane.PLAIN_MESSAGE);
         
+
+        //Add buttons for the End of the Game Game
+        JButton restart = new JButton("Neustart");
+        restart.setBackground(Color.GREEN);
+        restart.setBounds(frame.getWidth()/2-50, 400, 100, 40);
+        restart.setForeground(Color.BLACK);
+        //restart.setMargin(new Insets(2, 2, 2, 2));
+        restart.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent evt){
+                main(args);
+            }
+
+        });
+        frame.add(restart);
+        restart.setVisible(false);
+
+
         DrawPanel drawP = new DrawPanel();
         drawP.setSize(frame.getSize());
         drawP.setLocation(0, 0);
         frame.add(drawP);
-
         new Game(frame, Math.abs(Integer.parseInt(difficulty)));
+
+        restart.setVisible(true);
+        
     }
     
 }

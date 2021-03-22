@@ -46,7 +46,7 @@ public class Game{
         for(int g = gameObjects.size()-1; g >= 0; g--)//loop runs backwards to prevent error on deletion
             gameObjects.get(g).Start();
 
-        while(true){
+        while(isRunning){
             frame.repaint();
         }
     }
@@ -177,23 +177,6 @@ public class Game{
 
 
     public void EndGame(){
-        JButton restart = new JButton("Neustart");
-        restart.setBackground(Color.GREEN);
-        restart.setBounds(frame.getWidth()/2 - 100 , 400, 50, 20);
-        restart.setForeground(Color.BLACK);
-        //restart.setMargin(new Insets(2, 2, 2, 2));
-        restart.addActionListener(new ActionListener(){
-
-            public void actionPerformed(ActionEvent evt){
-                restartbuttonAction(evt);
-            }
-
-        });
-        
-        frame.add(restart);
-
-
-
         isRunning = false;
         if(Pacman.pacinstance.Pacmanlives() > 0){//pacman wins
             //destroy all ghosts
@@ -202,12 +185,6 @@ public class Game{
                     gameObjects.remove(go);
         }else{//pacman loses
         }
-    }
-
-
-    public void restartbuttonAction(ActionEvent evt){
-
-            
     }
 
 }

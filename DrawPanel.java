@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class DrawPanel extends JPanel{
+public class DrawPanel extends JPanel{   
     private static final long serialVersionUID = 1L;
 
     public Color BackgroundColor = Color.black;
