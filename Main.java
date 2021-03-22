@@ -29,6 +29,7 @@ public class Main {
         //restart.setMargin(new Insets(2, 2, 2, 2));
         restart.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent evt){
+                frame.dispose();
                 main(args);
             }
         });
