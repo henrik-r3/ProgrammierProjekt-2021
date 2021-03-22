@@ -40,6 +40,7 @@ public class Powerberry extends GameObject{
         //Beere soll 7 Sekunden lang anhalten
         if(isactive){
             berryactive += deltaTime;
+            isactive = true;
             if(berryactive > berrystop){
 
                 isactive = false;
