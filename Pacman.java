@@ -138,6 +138,8 @@ public class Pacman extends GameObject{
         return huntingghosts;
     }
 
+
+    //Gibt Leen des Pacman aus
     public int Pacmanlives(){
 
         return remaininglives;
