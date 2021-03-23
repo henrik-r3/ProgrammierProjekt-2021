@@ -13,7 +13,7 @@ public class Game{
 
     JFrame frame;
     private Graphics g;
-    private Vector2Int tileSize;
+    private int tileSize;
 
     public Input input = new Input();
     public Random rnd = new Random();
@@ -49,8 +49,8 @@ public class Game{
 
     public void CreateGameFromDifficulty(){
         new Map(new Vector2Int(difficulty*3+10, difficulty*3+10));
-        tileSize = new Vector2Int(frame.getWidth() / Map.instance.size.x, frame.getHeight() / Map.instance.size.y);
-        frame.setSize(tileSize.x*Map.instance.size.x, tileSize.y*Map.instance.size.y+30);//+30 für die titelleiste
+        tileSize = Math.min(frame.getWidth() / Map.instance.size.x, frame.getHeight() / Map.instance.size.y);
+        frame.setSize(tileSize*Map.instance.size.x + 20, tileSize*(Map.instance.size.y + 1)+25);//+30 für die titelleiste
 
         new Score();//creates a score object
 
@@ -125,7 +125,7 @@ public class Game{
             for(int y = 0; y < Map.instance.size.y; y++){
                 Vector2Int pos = new Vector2Int(x,y);
                 if(Map.instance.IsCol(pos))
-                    drawing().fillRect(x*tileSize.x, y*tileSize.y, tileSize.x, tileSize.y);
+                    drawing().fillRect(x*tileSize, y*tileSize, tileSize, tileSize);
                 else if(Map.instance.GetTile(pos).equals(Map.Tile.food)){
                     drawImage(food, pos);
                 }
@@ -133,13 +133,13 @@ public class Game{
     }
 
     public void drawImage(Image img, Vector2Int pos){
-        g.drawImage(img, pos.x*tileSize.x + (tileSize.x-img.getWidth(frame))/2, pos.y*tileSize.y + (tileSize.y-img.getHeight(frame))/2, frame);
+        g.drawImage(img, pos.x*tileSize + (tileSize-img.getWidth(frame))/2, pos.y*tileSize + (tileSize - img.getHeight(frame))/2, frame);
     }
 
     public void drawPath(Vector2Int[] path){
         drawing().setColor(Color.green);
         for(int i = 0; i < path.length; i++){
-            drawing().fillRect(path[i].x*tileSize.x, path[i].y*tileSize.y, tileSize.x, tileSize.y);
+            drawing().fillRect(path[i].x*tileSize, path[i].y*tileSize, tileSize, tileSize);
         }
     }
 

@@ -1,12 +1,12 @@
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.Color;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import java.awt.Toolkit;
 
 public class Main {
     public static void main(String[] args) {
         JFrame frame = new JFrame("advanced Pacman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200, 1000);
+        frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         //frame.setUndecorated(true);
