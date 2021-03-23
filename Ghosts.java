@@ -75,7 +75,7 @@ public class Ghosts extends GameObject{
 
         //wenn Powerbeere aktiv ist wird Geist blau
         if(powerberry){
-            if(powerberrystepcounter < ((int)moveTimer/7000) - blinks*2){
+            if(powerberrystepcounter < ((int)7000/moveTimer) - blinks*2){
                 drawGhosts(scared, this.position.x, this.position.y);
             }else{
                 if(powerberrystepcounter%2 == 0){
