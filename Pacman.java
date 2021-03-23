@@ -30,7 +30,7 @@ public class Pacman extends GameObject{
     }
 
 
-    long moveTimer = 300;
+    long moveTimer = 307;//prime number
     long timer = 0;
 
 
