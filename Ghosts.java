@@ -19,6 +19,7 @@ public class Ghosts extends GameObject{
     private int powerberrystepcounter;
     private int keeprunning;
     private int countchanges;
+    private int blinks;
     private AStar.Grid grid;
 
     //Konstruktor für Geister, bekommt Startposition, Reichweite und Farbe übergeben
@@ -30,6 +31,7 @@ public class Ghosts extends GameObject{
        this.keephunting = 0;
        this.countchanges = 0;
        this.keeprunning = 0;
+       this.blinks = 2;
        //Je nach angegebener Farbe bekommt der Geist ein anderes Aussehen
        if(colorselected.equals("green")){
            this.skin = new ImageIcon("Bilder/greenGhost.png").getImage();
@@ -73,7 +75,7 @@ public class Ghosts extends GameObject{
 
         //wenn Powerbeere aktiv ist wird Geist blau
         if(powerberry){
-            if(powerberrystepcounter < 16){
+            if(powerberrystepcounter < ((int)moveTimer/7000) - blinks*2){
                 drawGhosts(scared, this.position.x, this.position.y);
             }else{
                 if(powerberrystepcounter%2 == 0){
