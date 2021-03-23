@@ -179,6 +179,10 @@ public class Game{
             for(int go = gameObjects.size()-1; go >= 0; go--)//loop runs backwards to prevent error on deletion
                 if(gameObjects.get(go).getClass() == Ghosts.class)    
                     gameObjects.remove(go);
+
+            //Add points for live
+            Score.scoreinstance.hasHealth(Pacman.pacinstance.Pacmanlives());
+            
         }else{//pacman loses
         }
     }

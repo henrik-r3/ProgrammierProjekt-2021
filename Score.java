@@ -35,6 +35,10 @@ public class Score{
         scoreval += 200;
     }
 
+    public void hasHealth(int health){
+        scoreval += 300*health;
+    }
+
     //Wenn Methode gerufen wird, wird Score zurückgegeben
     public int getScore(){
         return scoreval;
