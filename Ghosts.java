@@ -51,7 +51,7 @@ public class Ghosts extends GameObject{
     }
 
 
-    long moveTimer = 401;//prime number
+    long moveTimer = 401;//prime number -> first common step at 123107 steps
     long timer = 0;
 
     @Override
