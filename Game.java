@@ -49,7 +49,7 @@ public class Game{
 
     public void CreateGameFromDifficulty(){
         new Map(new Vector2Int(difficulty*3+10, difficulty*3+10));
-        tileSize = Math.min(frame.getWidth() / Map.instance.size.x, frame.getHeight() / Map.instance.size.y);
+        tileSize = Math.min(frame.getWidth() / Map.instance.size.x, (frame.getHeight()-30) / Map.instance.size.y);
         frame.setSize(tileSize*Map.instance.size.x + 20, tileSize*(Map.instance.size.y + 1)+25);//+30 für die titelleiste
 
         new Score();//creates a score object
